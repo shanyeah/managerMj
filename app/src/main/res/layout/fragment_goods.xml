@@ -111,9 +111,18 @@
                         android:layout_width="0dp"
                         android:layout_weight="5"
                         android:layout_height="wrap_content"/>
+                    <com.imovie.mogic.car.view.ListContainer
+                        android:id="@+id/listcontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </com.imovie.mogic.car.view.ListContainer>
                 </LinearLayout>
             </LinearLayout>
         </com.imovie.mogic.widget.FlexibleFrameLayout>
     </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+    <include layout="@layout/view_carpop" />
+
+    <include layout="@layout/view_car" />
 
 </RelativeLayout>

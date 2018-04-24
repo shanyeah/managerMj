@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.manager.ScanPayManager;
 import com.imovie.mogic.base.universal_loading.YSBLoadingDialog;
+import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.adater.GoodsAdapter;
 import com.imovie.mogic.home.adater.GoodsTypeAdapter;
@@ -57,6 +58,7 @@ import java.util.List;
 public class BuyGoodsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static CarAdapter carAdapter;
     private String mParam1;
     private String mParam2;
     private PullToRefreshFrameLayout pull_content;

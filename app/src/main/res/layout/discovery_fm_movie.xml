@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:scrollbars="none" android:background="@drawable/item_button_default">
+        <RadioGroup
+            android:id="@+id/catalog_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/item_button_default">
+
+        </RadioGroup>
+    </HorizontalScrollView>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:scrollbars="none" android:background="@drawable/item_button_default">
+        <RadioGroup
+            android:id="@+id/area_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/item_button_default">
+
+        </RadioGroup>
+    </HorizontalScrollView>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:scrollbars="none" android:background="@drawable/item_button_default">
+        <RadioGroup
+            android:id="@+id/year_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/item_button_default">
+
+        </RadioGroup>
+    </HorizontalScrollView>
+    <com.imovie.mogic.widget.PageGridView
+        android:id="@+id/gvMovieList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:verticalSpacing="5dp"
+        android:gravity="center"
+        android:numColumns="3"
+        android:background="@color/white">
+    </com.imovie.mogic.widget.PageGridView>
+
+</LinearLayout>

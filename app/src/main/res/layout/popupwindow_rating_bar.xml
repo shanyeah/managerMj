@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#eeeeee">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvRatingStateOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="服务"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/T1"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvRatingStateOne"
+            android:numStars="5"
+            android:rating="5"
+            style="@style/foodRatingBar"/>
+        <TextView
+            android:id="@+id/tvRatingSorce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="5分"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/T1"/>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="拍照"
+        android:id="@+id/popupwindow_choose_picture_btn_takephoto"
+        android:background="@drawable/bg_click_white_orange"
+        android:textColor="#ff525252"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="14sp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="从手机相册中获取"
+        android:id="@+id/popupwindow_choose_picture_btn_choose"
+        android:background="@drawable/bg_click_white_orange"
+        android:textColor="#ff525252"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="14sp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="取消"
+        android:id="@+id/popupwindow_choose_picture_btn_cancel"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_click_gray_orange"
+        android:textColor="@color/white"
+        android:textSize="14sp"/>
+
+</LinearLayout>

@@ -1,0 +1,214 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ActionEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/T1</item>
+        <item name="android:textColorHint">@color/T2</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingLeft">10.0dip</item>
+        <item name="android:paddingRight">10.0dip</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="@android:style/Theme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme_MyDialog" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">stateUnchanged|adjustResize</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+    </style>
+
+    <style name="time_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <style name="Theme_TranslucentDlg" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">stateUnchanged|adjustResize</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
+    <style name="popupwindow_animation_style">
+
+    <item name="android:windowEnterAnimation">@anim/popupwindow_enter</item>
+    <item name="android:windowExitAnimation">@anim/popupwindow_exit</item>
+
+</style>
+    <style name="popupwindow_anim_top_style">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_top_in</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_top_out</item>
+    </style>
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/food_rating_bar_full</item>
+        <item name="android:minHeight">36dip</item>
+        <item name="android:maxHeight">36dip</item>
+    </style>
+    <style name="ratingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/food_rating_bar_full</item>
+        <item name="android:minHeight">26dip</item>
+        <item name="android:maxHeight">26dip</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+
+    <style name="weekName">
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ff000000</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DialogFullScreen" parent="DialogStyle"/>
+
+    <style name="DialogStyle" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="text_12_T2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T2</item>
+    </style>
+    <style name="text_12_T3">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/T3</item>
+    </style>
+    <style name="text_12_T7">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/T7</item>
+    </style>
+
+    <style name="text_14_T3">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T3</item>
+    </style>
+
+    <style name="text_14_T2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T2</item>
+    </style>
+
+    <style name="text_14_T1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T1</item>
+    </style>
+    <style name="text_14_T4">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T4</item>
+    </style>
+    <style name="text_16_T1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/T1</item>
+    </style>
+    <style name="text_16_T2">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/T2</item>
+    </style>
+    <style name="text_16_T3">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/T3</item>
+    </style>
+    <style name="text_16_T7">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/T7</item>
+    </style>
+
+    <style name="text_18_T1">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/T1</item>
+    </style>
+
+    <style name="text_12_white">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="text_14_white">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="text_16_white">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_18_white">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="text_18_T2">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/T2</item>
+    </style>
+
+    <style name="text_22_white">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="text_22_T1">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/T1</item>
+    </style>
+
+    <style name="text_14_T7">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T7</item>
+    </style>
+
+
+    <style name="text_16_T4">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/T4</item>
+    </style>
+
+    <style name="text_14_T5">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/T5</item>
+    </style>
+
+    <style name="text_16_T5">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/T5</item>
+    </style>
+
+</resources>

@@ -1,0 +1,179 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+    android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.imovie.mogic.widget.TitleBar>
+    <com.imovie.mogic.widget.PullToRefreshFrameLayout
+        android:id="@+id/pull_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar">
+        <com.imovie.mogic.widget.FlexibleFrameLayout
+            android:id="@+id/ff_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/rlCharge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                    <com.imovie.mogic.widget.HoopChartView
+                        android:id="@+id/hoopChartView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:text="收入汇总"
+                        android:textColor="@android:color/black" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+
+                <RelativeLayout
+                    android:id="@+id/rlMineOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_exercises"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/home_buy_goods0"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/iv_mine_exercises"
+                        android:layout_marginLeft="10dp"
+                        android:text="点餐收入"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvOrderMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T5"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+                <RelativeLayout
+                    android:id="@+id/rlMinePraise"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_password"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/home_appreciate0"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/iv_mine_password"
+                        android:layout_marginLeft="10dp"
+                        android:text="点赞收入"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvPraiseMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T5"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+
+                <RelativeLayout
+                    android:id="@+id/rlMineCharge"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_rank"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/mine_rank"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/iv_mine_rank"
+                        android:layout_marginLeft="10dp"
+                        android:text="充值收入"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvChargeMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T5"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+
+            </LinearLayout>
+        </com.imovie.mogic.widget.FlexibleFrameLayout>
+    </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+</RelativeLayout>

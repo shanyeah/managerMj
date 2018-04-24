@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_web_view_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/yaocaigou_success"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.imovie.mogic.widget.TitleBar
+                android:id="@+id/navigationbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            android:visibility="visible"/>
+
+        <com.imovie.mogic.webview.widget.YSBWebView
+            android:id="@+id/id_webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+
+</RelativeLayout>

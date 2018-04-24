@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.imovie.mogic"
+    android:versionCode="1"
+    android:versionName="1.0.10">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.flash" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <provider
+            android:authorities="${applicationId}.provider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <activity android:name=".home.WelcomeActivity"
+                  android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wxa45b848e02278018"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".home.MainActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".home.SelectTypeActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+        android:name=".home.checkUpdate.AutoUpdateActivity"
+        android:theme="@style/Theme_MyDialog"
+        android:launchMode="singleTask"/>
+        <activity
+            android:name=".home.DialogActivity"
+            android:theme="@style/Theme_MyDialog"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".login.RegisterActivity"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".login.SetLoginPasswordActivity"
+            android:label="@string/app_name"/>
+        <activity
+        android:name=".card.CardActivity"
+        android:launchMode="singleTop"
+        android:exported="true"
+        android:label="@string/app_name"/>
+        <activity
+            android:name=".card.MemberPayActivity"
+            android:launchMode="singleTop"
+            android:exported="true"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".card.MemberChargeActivity"
+            android:launchMode="singleTop"
+            android:exported="true"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".card.MemberUpgradeActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:label="@string/app_name"/>
+
+        <activity
+            android:name=".myRank.MovieDetailActivity"
+            android:label="@string/app_name"/>
+
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleInstance">
+
+
+        </activity>
+
+        <activity
+            android:name=".myRank.MineRankActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".myRank.MinePraiseActivity"
+            android:launchMode="singleTop"/>
+        <activity
+        android:name=".myRank.MineOrderActivity"
+        android:launchMode="singleTop"/>
+        <activity
+            android:name=".myRank.MineChargeActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".webview.activity.WebViewActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".card.ChargeSuccessActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".ScanPay.ChargeSuccessActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".ScanPay.zxing.activity.CaptureActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ScanPay.zxing.activity.BrowserActivity"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name=".myRank.MovieSelectActivity"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".mine.UpdateMyInfoActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.ResetPasswordActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.MyMovieActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.IncomeChargeActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.AutoScrollActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.SetingHallActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.MyIncomeActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.MyAttendActivity"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".mine.MapActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.attend.AttendMonthActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.attend.AttendAreaActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".mine.attend.AttendClockActivity"
+            android:launchMode="singleTop"/>
+
+
+        <receiver
+            android:name=".wxapi.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="${baidu_api_key}"/>
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+        </service>
+
+        <!-- 设置环信应用的appkey idengni#laidianbaobeta  正式1112170630178249#laidianbao  	1107171016115054#mjdj 1107171016115054#mjtest-->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="1107171016115054#mjdj" />
+        <!-- 声明sdk所需的service -->
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!-- 声明sdk所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

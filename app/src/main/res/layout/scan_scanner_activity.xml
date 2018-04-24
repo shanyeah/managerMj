@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/yaomaimaiScanCodeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.imovie.mogic.widget.TitleBar>
+    <!--  scanner sureface view  -->
+    <RelativeLayout
+        android:id="@+id/rl_camerasureface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleBar">
+
+        <!--  Camera 预览  -->
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <!--  四边形 -->
+        <com.imovie.mogic.ScanPay.view.ViewfinderStyle1
+            android:id="@+id/viewfinder_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true" />
+
+        <ImageView
+            android:id="@+id/viewfinder_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/scan_capture_bg" />
+
+        <ImageView
+            android:id="@+id/viewfinder_laser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/viewfinder_bg"
+            android:layout_alignRight="@id/viewfinder_bg"
+            android:layout_alignTop="@id/viewfinder_bg"
+            android:scaleType="fitXY"
+            android:src="@drawable/scan_capture_laser" />
+
+        <TextView
+            android:id="@+id/scanLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/scanlabel1"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="请将二维码对准扫码框"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+        <!--底部提示区-->
+        <RelativeLayout
+            android:id="@+id/rl_promptpanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/viewfinder_bg"
+            android:layout_marginTop="20dp"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/flashlight_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/transparent"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/flashlight_off"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="点击开启闪光灯"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

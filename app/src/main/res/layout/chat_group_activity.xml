@@ -1,0 +1,274 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="afterDescendants"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+
+    <com.imovie.mogic.widget.PullToRefreshFrameLayout
+        android:id="@+id/pull_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar">
+        <com.imovie.mogic.widget.FlexibleFrameLayout
+            android:id="@+id/ff_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title_bar"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/ll_ad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/BG7"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@color/BG7"/>
+                            <com.imovie.mogic.widget.RoundedImageView
+                                android:id="@+id/profile"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/person_default_profile"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"/>
+                        </RelativeLayout>
+
+
+                        <TextView
+                            android:id="@+id/tvNickName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="小米线"
+                            style="@style/text_18_white"/>
+                        <TextView
+                            android:id="@+id/tvUserId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:text="群ID:123456"
+                            style="@style/text_16_white"/>
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/L1"/>
+
+                    <RelativeLayout
+                        android:id="@+id/rlGroupMembers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/click_white_gray_no_stoke">
+
+                        <TextView
+                            android:id="@+id/tvAlbums"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="群成员"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableRight="@drawable/arrow_right_next"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentRight="true"
+                            android:paddingRight="5dp"
+                            android:text="更多"
+                            android:textColor="@color/T3"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <com.imovie.mogic.widget.NoScrollGridView
+                        android:id="@+id/gvVisitorList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:numColumns="8"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/L1"/>
+                    <RelativeLayout
+                        android:id="@+id/rlGroupCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/click_white_gray_no_stoke">
+
+                        <TextView
+                            android:id="@+id/tvGroupCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="二维码"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvNextState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableRight="@drawable/arrow_right_next"
+                            android:gravity="center_vertical"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:paddingRight="5dp"
+                            android:text=""
+                            android:textColor="@color/T3"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/ivGroupCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/tvNextState"
+                            android:layout_marginRight="15dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/mine_qr_code"/>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/L1"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+                        <TextView
+                            android:id="@+id/tvGroupStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="群标签"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+                        <com.imovie.mogic.widget.NoScrollGridView
+                            android:id="@+id/gvGroupStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/L1"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+                        <TextView
+                            android:id="@+id/tvAddressState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="群地点:"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvGroupAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="地点"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/L1"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+                        <TextView
+                            android:id="@+id/tvContentState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="群介绍:"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvGroupContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="吃货群"
+                            android:textColor="@color/T2"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+        </com.imovie.mogic.widget.FlexibleFrameLayout>
+    </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/llBtState"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btAttention"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="加入群组"
+            android:background="@drawable/click_white_gray_no_stoke"
+            style="@style/text_16_T1"/>
+        <Button
+            android:id="@+id/btSend"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="发消息"
+            android:background="@drawable/click_bg7_gray_no_stoke"
+            style="@style/text_16_white"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/L1"
+        android:layout_above="@+id/llBtState"/>
+
+</RelativeLayout>

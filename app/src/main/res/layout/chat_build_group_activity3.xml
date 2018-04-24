@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="afterDescendants"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+
+    <com.imovie.mogic.widget.PullToRefreshFrameLayout
+        android:id="@+id/pull_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar">
+        <com.imovie.mogic.widget.FlexibleFrameLayout
+            android:id="@+id/ff_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上伟精美头像，让你"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="脱颖而出"
+                        style="@style/text_14_T5"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivGroupUid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/set_up_group_picture2_xxhdpi" />
+
+                <Button
+                    android:id="@+id/btnBuildCrowd"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/select_bg7_bg1_r15"
+                    android:text="上传头像"
+                    style="@style/text_16_white"/>
+
+                <com.imovie.mogic.widget.ClearButtonEditText
+                    android:id="@+id/etGroupName"
+                    style="@style/ActionEditText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:cursorVisible="true"
+                    android:drawableRight="@drawable/login_clear"
+                    android:background="@drawable/bg_line_l7_r3"
+                    android:focusable="true"
+                    android:hint="填写群名称(2-10字)"
+                    android:imeOptions="actionNext"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColorHint="@color/T3"
+                    android:textCursorDrawable="@null" />
+                <com.imovie.mogic.widget.ClearButtonEditText
+                    android:id="@+id/etGroupContent"
+                    style="@style/ActionEditText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:cursorVisible="true"
+                    android:drawableRight="@drawable/login_clear"
+                    android:background="@drawable/bg_line_l7_r3"
+                    android:focusable="true"
+                    android:hint="填写群简介(15-300字)"
+                    android:imeOptions="actionNext"
+                    android:gravity="left"
+                    android:maxLength="300"
+                    android:textColorHint="@color/T3"
+                    android:textCursorDrawable="@null" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的群标签"
+                        style="@style/text_16_T2"
+                        android:layout_margin="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+
+        </LinearLayout>
+        </com.imovie.mogic.widget.FlexibleFrameLayout>
+    </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+</RelativeLayout>

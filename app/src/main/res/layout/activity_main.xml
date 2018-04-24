@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.imovie.mogic.home.MainActivity">
+
+    <View
+        android:id="@+id/view_main"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="54dp"
+        android:background="@color/L1" />
+
+    <LinearLayout
+        android:id="@+id/ll_fragment"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/view_main">
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:baselineAligned="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+        <!--首页-->
+        <RelativeLayout
+            android:id="@+id/layout_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/btn_home"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:background="@drawable/home_main_image"/>
+
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_home"
+                android:layout_centerHorizontal="true"
+                android:text="门店"
+                android:textSize="10sp"/>
+        </RelativeLayout>
+        <!--发现-->
+        <RelativeLayout
+            android:id="@+id/layout_discovery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/btn_discovery"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:background="@drawable/home_discovery"/>
+
+            <TextView
+                android:id="@+id/tv_discovery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_discovery"
+                android:layout_centerHorizontal="true"
+                android:text="报表"
+                android:textSize="10sp"/>
+
+        </RelativeLayout>
+        <!--商圈分享-->
+        <RelativeLayout
+            android:id="@+id/rl_home_game_hall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_home_game_hall"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:background="@drawable/home_game_hall"/>
+
+            <TextView
+                android:id="@+id/tv_hall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_home_game_hall"
+                android:layout_centerHorizontal="true"
+                android:text="充值"
+                android:textSize="10sp"/>
+
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_member"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/btn_member"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:background="@drawable/home_member"/>
+             <RelativeLayout
+                 android:layout_width="45dp"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true">
+                 <TextView
+                     android:id="@+id/unread_msg_number"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:background="@drawable/em_unread_count_bg"
+                     android:gravity="center"
+                     android:textColor="@android:color/white"
+                     android:layout_alignParentRight="true"
+                     android:textSize="10sp"
+                     android:visibility="invisible" />
+             </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tv_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/btn_member"
+                android:text="消息"
+                android:textSize="10sp"/>
+
+            </RelativeLayout>
+        <!--我的页面-->
+        <RelativeLayout
+            android:id="@+id/layout_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/btn_mine"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:background="@drawable/home_mine"/>
+
+            <TextView
+                android:id="@+id/tv_mine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/btn_mine"
+                android:gravity="center_horizontal"
+                android:text="我的"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/input_layer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/comment_et"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:paddingLeft="10dp"
+            android:layout_weight="14"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_line_l7_r3"
+            android:hint="回复"
+            android:paddingBottom="5dp"
+            style="@style/text_16_T2"/>
+
+        <Button
+            android:id="@+id/btSend"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="5"
+            android:background="@drawable/select_bg12_bg1_r4"
+            style="@style/text_16_white"
+            android:text="回复"
+            android:paddingBottom="5dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tvPraiseRanking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:text="1"
+        android:textColor="@color/T1"
+        android:textSize="14sp"/>
+
+    <com.imovie.mogic.widget.RoundedImageView
+        android:id="@+id/ivPhotoImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:layout_toRightOf="@+id/tvPraiseRanking"
+        android:scaleType="fitXY"
+        android:src="@drawable/person_default_profile"/>
+
+    <RelativeLayout
+        android:id="@+id/rlReviewState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/ivPhotoImage"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text=""
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/T1"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvMemberId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="3dp"
+            android:text="111"
+            android:textColor="@color/T3"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvRewardAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text=""
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:textColor="@color/T2"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/tvPraiseCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="3dp"
+            android:text="12"
+            android:textColor="@color/T2"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ivPhotoImage"
+        android:background="@color/L1"/>
+
+</RelativeLayout>

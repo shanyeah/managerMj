@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#00ffffff"
+        >
+    <RelativeLayout
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:background="@drawable/loading_dialog_background"
+            android:layout_centerInParent="true"
+            >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:src="@drawable/loading_dialog_character" />
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            style="@style/text_18_white"
+            android:text="链"/>
+        <ImageView
+                android:id="@+id/ysb_loading_dialog_circle"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/loading_dialog_circle"
+                />
+    </RelativeLayout>
+</RelativeLayout>

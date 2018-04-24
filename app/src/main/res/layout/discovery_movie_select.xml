@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.imovie.mogic.widget.TitleBar
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        </com.imovie.mogic.widget.TitleBar>
+
+
+
+            <TextView
+                android:id="@+id/tv_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_help_category_tv_bg"
+                android:drawableRight="@drawable/icon_down"
+                android:padding="12dp"
+                android:textColor="@color/content_color"
+                android:text="请选择网吧"
+                android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/tvRoomCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/shape_help_category_tv_bg"
+            android:drawableRight="@drawable/icon_down"
+            android:textColor="@color/content_color"
+            android:padding="12dp"
+            android:text="请选择包房"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/btSelectMovie"
+            android:layout_width="fill_parent"
+            android:layout_height="44.0dip"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_red_select"
+            android:text="确定"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</RelativeLayout>

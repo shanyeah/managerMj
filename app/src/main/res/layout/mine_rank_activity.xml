@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title_bar"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/listLine"
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:visibility="gone"
+                            android:background="@drawable/list_line_across3x" />
+
+                        <com.imovie.mogic.myRank.widget.PagerSlidingTabStrip
+                            android:id="@+id/pst_hall_tabTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@color/white"
+                            app:pstsDividerColor="@color/BG1"
+                            app:pstsIndicatorColor="@color/BG4"
+                            app:pstsIndicatorHeight="2dp"
+                            app:pstsShouldExpand="true"
+                            app:pstsTabBackground="@drawable/background_tab"
+                            app:pstsUnderlineHeight="2dp"
+                            app:selectedTabTextColor="@color/BG4" />
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/vpHallPager"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1.0"
+                            android:background="#ffffff"
+                            android:flipInterval="30"
+                            android:persistentDrawingCache="animation" />
+                    </LinearLayout>
+
+</RelativeLayout>

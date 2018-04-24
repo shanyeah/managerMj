@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffffff</color>
+    <color name="transp">#ffffffff</color>
+    <color name="background_tab_pressed">#88f4f4f4</color>
+    <color name="transparent">#00000000</color>
+    <color name="content_color">#666666</color>
+    <color name="white_normal">#ffffffff</color>
+    <color name="login_button_background">#71c297</color>
+
+    <color name="viewfinder_frame">#88ffffff</color>
+    <color name="viewfinder_laser">#88ffffff</color>
+    <color name="viewfinder_mask">#88ffffff</color>
+    <color name="possible_result_points">#88ffffff</color>
+    <color name="result_view">#88ffffff</color>
+
+    <color name="mis_actionbar_color">#21282C</color>
+
+    <color name="color_cancel_normal">#B6B6B6</color>
+    <color name="color_cancel_pre">#9FB6B6B6</color>
+    <color name="color_confirm_normal">#8F81BC</color>
+    <color name="color_confirm_pre">#9F8F81BC</color>
+
+    <color name="color_select_date_dialog_edit_text_bg_normal">#C6C0DC</color>
+    <color name="color_select_date_dialog_edit_text_bg_focus">#A68BFF</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="split_line">#11112233</color>
+    <color name="text1">#59B29C</color>
+    <color name="text2">#333333</color>
+
+    <color name="color1">#F0F0F0</color>
+    <color name="color2">#FFFFFF</color>
+    <color name="color3">#B0B0B0</color>
+    <color name="color4">#666666</color>
+    <color name="color5">#57C5E8</color>
+
+    <!-- Text -->
+    <color name="T1">#2f3132</color>
+    <color name="T2">#565a5c</color>
+    <color name="T3">#7c7c7d</color>
+    <color name="T4">#fd5c02</color>
+    <color name="T5">#fc894b</color>
+    <color name="T6">#00acff</color>
+    <color name="T7">#2c84f0</color>
+
+    <!-- background -->
+    <color name="BG1">#7c7c7d</color>
+    <color name="BG2">#e1e2e1</color>
+    <color name="BG3">#f5f6f5</color>
+    <color name="BG4">#fd5c02</color>
+    <color name="BG5">#fc894b</color>
+    <color name="BG6">#00acff</color>
+    <color name="BG7">#2c84f0</color>
+
+
+    <color name="BG8">#00cc66</color>
+    <color name="BG9">#ff6666</color>
+    <color name="BG10">#33cccc</color>
+    <color name="BG11">#ff9966</color>
+    <color name="BG12">#33ccff</color>
+    <color name="BG13">#231815</color>
+    <color name="BG14">#AA000000</color>
+    <color name="BG15">#ffffffff</color>
+    <color name="BG16">#eeeeee</color>
+    <color name="BG17">#99e1e2e1</color>
+    <color name="BG18">#fe7732</color>
+    <!-- button -->
+    <color name="BT1">#aaaaaa</color>
+    <color name="BT2">#fc894b</color>
+    <color name="BT3">#fd5c02</color>
+    <!-- line -->
+    <color name="L1">#e1e2e1</color>
+    <color name="L2">#fd5c02</color>
+    <color name="L3">#565a5c</color>
+    <color name="L4">#e4007f</color>
+    <color name="L5">#aaaaaa</color>
+    <color name="L6">#7c7c7d</color>
+    <color name="L7">#2c84f0</color>
+
+
+</resources>

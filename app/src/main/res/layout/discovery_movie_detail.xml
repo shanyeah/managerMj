@@ -1,0 +1,180 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.imovie.mogic.widget.TitleBar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/title_bar"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/ivPoster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_margin="8dp"
+                android:src="@drawable/movie_default"
+                />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/ivPoster"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvTimes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvName"
+                android:layout_toRightOf="@id/ivPoster"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvTimes"
+                android:layout_alignBottom="@id/tvTimes"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvLang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTimes"
+                android:layout_toRightOf="@id/ivPoster"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvTimeLong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvArea"
+                android:layout_toRightOf="@id/tvLang"
+                android:layout_alignBottom="@id/tvLang"
+                android:layout_marginTop="2dp"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvLang"
+                android:layout_toRightOf="@id/ivPoster"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvDirectors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvCategory"
+                android:layout_toRightOf="@id/ivPoster"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+            <TextView
+                android:id="@+id/tvActors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDirectors"
+                android:layout_toRightOf="@id/ivPoster"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:textColor="@color/T1"/>
+
+
+        </RelativeLayout>
+
+
+
+            <!--
+            <Button
+                    android:id="@+id/btnReturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/detail_button_margin"
+                    android:padding="@dimen/detail_button_padding"
+                    android:text="关闭返回"
+                    android:gravity="center"
+                    android:textSize="@dimen/detail_button_text_size"
+                    android:background="@drawable/btn_base"
+                    android:enabled="true"/>
+        -->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:text="剧情简介"
+                        android:textSize="20sp"/>
+                    <Button
+                        android:id="@+id/btPlayMovie"
+                        android:layout_width="80dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/select_bg8_bg1_r4"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:text="预订电影"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"/>
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/tvMovieDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/T1"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>

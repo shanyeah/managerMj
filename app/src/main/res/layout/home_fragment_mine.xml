@@ -1,0 +1,354 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+                android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+    <com.imovie.mogic.widget.PullToRefreshFrameLayout
+        android:id="@+id/pull_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar">
+    <com.imovie.mogic.widget.FlexibleFrameLayout
+        android:id="@+id/ff_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/rlCharge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+                <RelativeLayout
+                    android:id="@+id/rl_mine_rank"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_rank"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/mine_rank"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/iv_mine_rank"
+                        android:layout_marginLeft="10dp"
+                        android:text="我的排行"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T2"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+                <RelativeLayout
+                    android:id="@+id/rl_mine_praise"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_password"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/home_appreciate0"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/iv_mine_password"
+                        android:layout_marginLeft="10dp"
+                        android:text="我的点赞"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T2"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_mine_exercises"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_exercises"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/home_buy_goods0"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/iv_mine_exercises"
+                        android:layout_marginLeft="10dp"
+                        android:text="我的点餐"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T2"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_mine_mission"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="8dp"
+                    android:background="@drawable/click_white_gray_no_stoke">
+
+                    <ImageView
+                        android:id="@+id/iv_mine_mission"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/home_recharge0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@drawable/arrow_right_next"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text=""
+                        android:textColor="@color/T2"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="我的充值"
+                        android:textColor="@color/T1"
+                        android:textSize="16sp"
+                        android:layout_toRightOf="@+id/iv_mine_mission"
+                        android:id="@+id/textView"/>
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/L1" />
+
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_request"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:background="@drawable/click_white_gray_no_stoke">
+
+                <ImageView
+                    android:id="@+id/iv_mine_request"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/home_mine_request"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/iv_mine_request"
+                    android:layout_marginLeft="10dp"
+                    android:text="收入汇总"
+                    android:textColor="@color/T1"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableRight="@drawable/arrow_right_next"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="5dp"
+                    android:text=""
+                    android:textColor="@color/T2"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1" />
+            <RelativeLayout
+                android:id="@+id/rl_mine_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:background="@drawable/click_white_gray_no_stoke">
+
+                <ImageView
+                    android:id="@+id/iv_mine_achieve"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/home_mine_achieve"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/iv_mine_achieve"
+                    android:layout_marginLeft="10dp"
+                    android:text="修改密码"
+                    android:textColor="@color/T1"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableRight="@drawable/arrow_right_next"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="5dp"
+                    android:text=""
+                    android:textColor="@color/T2"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/L1" />
+            <RelativeLayout
+                android:id="@+id/rlMineInfo"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:background="@drawable/click_white_gray_no_stoke">
+
+                <ImageView
+                    android:id="@+id/ivMineInfo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/home_mine_person"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/ivMineInfo"
+                    android:layout_marginLeft="10dp"
+                    android:text="个人资料"
+                    android:textColor="@color/T1"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableRight="@drawable/arrow_right_next"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="5dp"
+                    android:text=""
+                    android:textColor="@color/T2"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/L1" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_exit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:background="@drawable/click_white_gray_no_stoke">
+
+                <ImageView
+                    android:id="@+id/iv_mine_account"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/home_mine_account"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/iv_mine_account"
+                    android:layout_marginLeft="10dp"
+                    android:text="退出登录"
+                    android:textColor="@color/T1"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableRight="@drawable/arrow_right_next"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="5dp"
+                    android:text=""
+                    android:textColor="@color/T2"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/L1" />
+
+        </LinearLayout>
+    </com.imovie.mogic.widget.FlexibleFrameLayout>
+    </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/white">
+
+    <com.imovie.mogic.widget.RoundedImageView
+        android:id="@+id/ivPhotoImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/person_default_profile"/>
+
+    <RelativeLayout
+        android:id="@+id/rlReviewState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ivPhotoImage"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/T2"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvReviewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="3dp"
+            android:text="111"
+            android:textColor="@color/T1"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/hall_rating"
+            android:layout_alignBaseline="@+id/tvName"
+            android:text="10分"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="@color/T2"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tvCreateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvReviewText"
+            android:text="12-11"
+            android:textColor="@color/T2"
+            android:textSize="12sp"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ivPhotoImage"
+        android:layout_below="@+id/rlReviewState"
+        android:layout_marginBottom="6dp"
+        android:text="回复"
+        style="@style/text_16_T7"/>
+
+    <com.imovie.mogic.widget.NoScrollListView
+        android:id="@+id/lvNoCommentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvReply"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="50dp"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/lvNoCommentList"
+        android:background="@color/L1"/>
+
+
+</RelativeLayout>

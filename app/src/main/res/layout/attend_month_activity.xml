@@ -1,0 +1,153 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+
+    <com.imovie.mogic.widget.PullToRefreshFrameLayout
+        android:id="@+id/pull_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar"
+        android:descendantFocusability="afterDescendants">
+        <com.imovie.mogic.widget.FlexibleFrameLayout
+            android:id="@+id/ff_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="afterDescendants">
+
+                <LinearLayout
+                    android:id="@+id/ll_ad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:id="@+id/rlAttendState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp">
+                        <com.imovie.mogic.widget.RoundedImageView
+                            android:id="@+id/profile"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="10dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/person_default_profile"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentStart="true"/>
+                        <TextView
+                            android:id="@+id/tvNameOval"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/oval_bg7_bg7"
+                            android:text="信"
+                            android:visibility="gone"
+                            style="@style/text_12_white"/>
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/profile"
+                            android:gravity="center"
+                            android:text="信善"
+                            style="@style/text_16_T2"/>
+
+                        <TextView
+                            android:id="@+id/tvClockTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:text="2017.12"
+                            style="@style/text_16_T3"/>
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/L1"/>
+                    <com.imovie.mogic.calendar.WeekBarView
+                        android:layout_width="match_parent"
+                        android:layout_height="28dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        app:week_text_color="@color/T7"
+                        app:week_text_size="10"/>
+
+                    <com.imovie.mogic.calendar.month.MonthCalendarView
+                        android:id="@+id/mcvCalendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        app:month_day_text_size="@integer/small_calendar_text_size"
+                        app:month_selected_circle_color="@color/color_select_date_dialog_edit_text_bg_focus"
+                        app:month_selected_circle_today_color="@color/color_select_date_dialog_edit_text_bg_focus"
+                        app:month_show_task_hint="false"
+                        app:week_text_size="@integer/small_calendar_text_size"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/L1"/>
+                    <TextView
+                        android:id="@+id/tvClockGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="10dp"
+                        android:text="考勤组:开发组"
+                        android:gravity="center_vertical"
+                        android:background="@color/BG17"
+                        style="@style/text_16_T3"
+                        android:layout_alignBottom="@+id/profile"
+                        android:layout_toEndOf="@+id/profile" />
+                    <RelativeLayout
+                        android:id="@+id/rlNoData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/ivNoData"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/attend_no_data"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="25dp" />
+                        <TextView
+                            android:id="@+id/tvNoData"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/ivNoData"
+                            android:text="今天没有排班安排"/>
+
+                    </RelativeLayout>
+
+                    <com.imovie.mogic.widget.NoScrollListView
+                        android:id="@+id/lvClockList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:divider="#00000000"
+                        android:dividerHeight="0dip">
+                    </com.imovie.mogic.widget.NoScrollListView>
+
+                </LinearLayout>
+
+        </com.imovie.mogic.widget.FlexibleFrameLayout>
+    </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+
+</RelativeLayout>

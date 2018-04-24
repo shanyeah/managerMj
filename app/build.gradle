@@ -101,5 +101,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.25'
     compile 'com.github.florent37:viewanimator:1.0.5'
-    implementation files('libs/BaiduLBS_Android.jar')
+    compile files('libs/BaiduLBS_Android.jar')
 }

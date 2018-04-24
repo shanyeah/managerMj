@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.D;
+
 import com.imovie.mogic.R;
 import com.imovie.mogic.mine.model.AutoModel;
 import com.imovie.mogic.utills.DateUtil;

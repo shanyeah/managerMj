@@ -544,7 +544,7 @@ public class HomeFragmentOld extends Fragment {
             dbModel_slideBanners.add(slideBanner);
         }
         adSlideBanner.setData(dbModel_slideBanners);
-        adSlideBanner.setVisibility(View.VISIBLE);
+        adSlideBanner.setVisibility(View.GONE);
         adSlideBanner.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.advertising_enter));
 
     }

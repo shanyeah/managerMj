@@ -38,6 +38,9 @@
     <color name="color4">#666666</color>
     <color name="color5">#57C5E8</color>
 
+    <!-- 亮海蓝色 -->
+    <color name="dodgerblue">#1e90ff</color>
+
     <!-- Text -->
     <color name="T1">#2f3132</color>
     <color name="T2">#565a5c</color>

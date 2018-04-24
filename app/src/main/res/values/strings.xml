@@ -16,9 +16,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing emailcompletions."</string>
 
     <string name="text_ack_msg">已读</string>
     <string name="text_delivered_msg">送达</string>
@@ -436,6 +434,8 @@
     <string name="mis_permission_rationale">浏览图片需要您提供浏览存储的权限</string>
     <string name="mis_permission_rationale_write_storage">保存拍照图片需要您提供写存储权限</string>
     <string name="msg_recall_by_user">%1$s 撤回了一条消息</string>
+
+    <string name="scroll_behavior">@string/appbar_scrolling_view_behavior</string>
 
     <string name="year">年</string>
     <string name="month">月</string>

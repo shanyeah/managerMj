@@ -5,6 +5,7 @@
     <dimen name="action_bar_default_height">48dp</dimen>
 
     <dimen name="sp_16">16.0sp</dimen>
+    <dimen name="add_width">75dp</dimen>
 
     <dimen name="action_bar_height">48dp</dimen>
     <dimen name="bottom_bar_height">56dp</dimen>

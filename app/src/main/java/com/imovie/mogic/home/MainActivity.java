@@ -27,23 +27,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.EMContactListener;
-import com.hyphenate.EMMessageListener;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCmdMessageBody;
-import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMMessage;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
-import com.imovie.mogic.chat.ChatActivity;
-import com.imovie.mogic.chat.db.DemoHelper;
-import com.imovie.mogic.chat.db.InviteMessgeDao;
-import com.imovie.mogic.chat.db.UserDao;
-import com.imovie.mogic.chat.fragment.ConversationListFragment;
-import com.imovie.mogic.chat.runtimepermissions.PermissionsManager;
-import com.imovie.mogic.chat.utills.Constant;
+
 import com.imovie.mogic.config.AppConfig;
 import com.imovie.mogic.gameHall.model.ReviewModel;
 import com.imovie.mogic.home.checkUpdate.net.UpdateHelper;
@@ -88,7 +75,6 @@ public class MainActivity extends BaseActivity {
     public ClockFragment clockFragment;
     public ChargeFragment chargeFragment;
     public BuyGoodsFragment buyGoodsFragment;
-    public ConversationListFragment conversationListFragment;
     public MineFragment mineFragment;
 //    public PayMemberFragment payMemberFragment;
     protected PayBroadcast payReceiver;
@@ -120,7 +106,6 @@ public class MainActivity extends BaseActivity {
     private EditText commentEt;
     public Button btSend;
 
-    private InviteMessgeDao inviteMessgeDao;
     public boolean isConflict = false;
     private boolean isCurrentAccountRemoved = false;
 
@@ -139,10 +124,7 @@ public class MainActivity extends BaseActivity {
         filter.addAction(SEND_BROADCAST);
         this.registerReceiver(payReceiver, filter);
 
-        registerBroadcastReceiver();
-        EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
-        //debug purpose only
-        registerInternalDebugReceiver();
+
 
         initView();
         setView();
@@ -153,17 +135,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        if (!isConflict && !isCurrentAccountRemoved) {
-            updateUnreadLabel();
-            updateUnreadAddressLable();
-        }
 
-        // unregister this event listener when this activity enters the
-        // background
-        DemoHelper sdkHelper = DemoHelper.getInstance();
-        sdkHelper.pushActivity(this);
-
-        EMClient.getInstance().chatManager().addMessageListener(messageListener);
     }
 
     @Override
@@ -171,24 +143,10 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         this.unregisterReceiver(payReceiver);
 
-        if (exceptionBuilder != null) {
-            exceptionBuilder.create().dismiss();
-            exceptionBuilder = null;
-            isExceptionDialogShow = false;
-        }
-        unregisterBroadcastReceiver();
-
-        try {
-            unregisterReceiver(internalDebugReceiver);
-        } catch (Exception e) {
-        }
     }
 
     @Override
     protected void onStop() {
-        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
-        DemoHelper sdkHelper = DemoHelper.getInstance();
-        sdkHelper.popActivity(this);
 
         super.onStop();
     }
@@ -232,9 +190,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void setView() {
-        showExceptionDialogFromIntent(getIntent());
-        inviteMessgeDao = new InviteMessgeDao(this);
-        UserDao userDao = new UserDao(this);
 
         fman = getSupportFragmentManager();
         FragmentTransaction ft = fman.beginTransaction();
@@ -254,9 +209,7 @@ public class MainActivity extends BaseActivity {
 //            buyGoodsFragment = new BuyGoodsFragment();
 //            ft.add(R.id.ll_fragment, buyGoodsFragment, "3");
 //            ft.hide(buyGoodsFragment);
-        conversationListFragment = new ConversationListFragment();
-        ft.add(R.id.ll_fragment, conversationListFragment, "3");
-        ft.hide(conversationListFragment);
+
 
 
         mineFragment = new MineFragment();
@@ -567,302 +520,6 @@ public class MainActivity extends BaseActivity {
             }
         }
         return false;
-    }
-
-
-    private android.app.AlertDialog.Builder exceptionBuilder;
-    private boolean isExceptionDialogShow =  false;
-    private BroadcastReceiver internalDebugReceiver;
-    private BroadcastReceiver broadcastReceiver;
-    private LocalBroadcastManager broadcastManager;
-
-    private int getExceptionMessageId(String exceptionType) {
-        if(exceptionType.equals(Constant.ACCOUNT_CONFLICT)) {
-            return R.string.connect_conflict;
-        } else if (exceptionType.equals(Constant.ACCOUNT_REMOVED)) {
-            return R.string.em_user_remove;
-        } else if (exceptionType.equals(Constant.ACCOUNT_FORBIDDEN)) {
-            return R.string.user_forbidden;
-        }
-        return R.string.Network_error;
-    }
-    /**
-     * show the dialog when user met some exception: such as login on another device, user removed or user forbidden
-     */
-    private void showExceptionDialog(String exceptionType) {
-        isExceptionDialogShow = true;
-        DemoHelper.getInstance().logout(false,null);
-        String st = getResources().getString(R.string.Logoff_notification);
-        if (!MainActivity.this.isFinishing()) {
-            // clear up global variables
-            try {
-                if (exceptionBuilder == null)
-                    exceptionBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
-                exceptionBuilder.setTitle(st);
-                exceptionBuilder.setMessage(getExceptionMessageId(exceptionType));
-                exceptionBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        exceptionBuilder = null;
-                        isExceptionDialogShow = false;
-                        finish();
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
-                exceptionBuilder.setCancelable(false);
-                exceptionBuilder.create().show();
-                isConflict = true;
-            } catch (Exception e) {
-//                EMLog.e(TAG, "---------color conflictBuilder error" + e.getMessage());
-            }
-        }
-    }
-
-    private void showExceptionDialogFromIntent(Intent intent) {
-//        EMLog.e(TAG, "showExceptionDialogFromIntent");
-        if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_CONFLICT, false)) {
-            showExceptionDialog(Constant.ACCOUNT_CONFLICT);
-        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false)) {
-            showExceptionDialog(Constant.ACCOUNT_REMOVED);
-        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_FORBIDDEN, false)) {
-            showExceptionDialog(Constant.ACCOUNT_FORBIDDEN);
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        showExceptionDialogFromIntent(intent);
-    }
-
-    /**
-     * debug purpose only, you can ignore this
-     */
-    private void registerInternalDebugReceiver() {
-        internalDebugReceiver = new BroadcastReceiver() {
-
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                DemoHelper.getInstance().logout(false,new EMCallBack() {
-
-                    @Override
-                    public void onSuccess() {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                finish();
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onProgress(int progress, String status) {}
-
-                    @Override
-                    public void onError(int code, String message) {}
-                });
-            }
-        };
-        IntentFilter filter = new IntentFilter(getPackageName() + ".em_internal_debug");
-        registerReceiver(internalDebugReceiver, filter);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
-    }
-
-
-    private void registerBroadcastReceiver() {
-        broadcastManager = LocalBroadcastManager.getInstance(this);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constant.ACTION_CONTACT_CHANAGED);
-        intentFilter.addAction(Constant.ACTION_GROUP_CHANAGED);
-//        intentFilter.addAction(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION);
-        broadcastReceiver = new BroadcastReceiver() {
-
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                updateUnreadLabel();
-                updateUnreadAddressLable();
-//                if (currentTabIndex == 0) {
-//                    // refresh conversation list
-//                    if (conversationListFragment != null) {
-//                        conversationListFragment.refresh();
-//                    }
-//                } else if (currentTabIndex == 1) {
-//                    if(contactListFragment != null) {
-//                        contactListFragment.refresh();
-//                    }
-//                }
-                String action = intent.getAction();
-                if(action.equals(Constant.ACTION_GROUP_CHANAGED)){
-//                    if (EaseCommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
-//                        GroupsActivity.instance.onResume();
-//                    }
-                }
-                //red packet code : 处理红包回执透传消息
-//                if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)){
-//                    if (conversationListFragment != null){
-//                        conversationListFragment.refresh();
-//                    }
-//                }
-                //end of red packet code
-            }
-        };
-        broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
-    }
-
-    public class MyContactListener implements EMContactListener {
-        @Override
-        public void onContactAdded(String username) {}
-        @Override
-        public void onContactDeleted(final String username) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.getToChatUsername() != null &&
-                            username.equals(ChatActivity.activityInstance.getToChatUsername())) {
-                        String st10 = getResources().getString(R.string.have_you_removed);
-                        Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
-                                .show();
-//                        ChatActivity.activityInstance.finish();
-                    }
-                }
-            });
-            updateUnreadAddressLable();
-        }
-        @Override
-        public void onContactInvited(String username, String reason) {}
-        @Override
-        public void onFriendRequestAccepted(String username) {}
-        @Override
-        public void onFriendRequestDeclined(String username) {}
-    }
-
-    private void unregisterBroadcastReceiver(){
-        broadcastManager.unregisterReceiver(broadcastReceiver);
-    }
-
-
-    /**
-     * update unread message count
-     */
-    public void updateUnreadLabel() {
-        int count = getUnreadMsgCountTotal();
-        if (count > 0) {
-            unreadLabel.setText(String.valueOf(count));
-            unreadLabel.setVisibility(View.VISIBLE);
-        } else {
-            unreadLabel.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /**
-     * update the total unread count
-     */
-    public void updateUnreadAddressLable() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                int count = getUnreadAddressCountTotal();
-                if (count > 0) {
-//                    unreadAddressLable.setVisibility(View.VISIBLE);
-                } else {
-//                    unreadAddressLable.setVisibility(View.INVISIBLE);
-                }
-//                Utills.showShortToast(""+count);
-            }
-        });
-
-    }
-
-    /**
-     * get unread event notification count, including application, accepted, etc
-     *
-     * @return
-     */
-    public int getUnreadAddressCountTotal() {
-        int unreadAddressCountTotal = 0;
-        unreadAddressCountTotal = inviteMessgeDao.getUnreadMessagesCount();
-        return unreadAddressCountTotal;
-    }
-
-    /**
-     * get unread message count
-     *
-     * @return
-     */
-    public int getUnreadMsgCountTotal() {
-        int unreadMsgCountTotal = 0;
-        int chatroomUnreadMsgCount = 0;
-        unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
-            if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
-                chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
-        }
-        return unreadMsgCountTotal-chatroomUnreadMsgCount;
-    }
-
-
-    EMMessageListener messageListener = new EMMessageListener() {
-
-        @Override
-        public void onMessageReceived(List<EMMessage> messages) {
-            // notify new message
-            for (EMMessage message : messages) {
-                DemoHelper.getInstance().getNotifier().onNewMsg(message);
-            }
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onCmdMessageReceived(List<EMMessage> messages) {
-            //red packet code : 处理红包回执透传消息
-            for (EMMessage message : messages) {
-                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
-                final String action = cmdMsgBody.action();//获取自定义action
-//                if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
-//                    RedPacketUtil.receiveRedPacketAckMessage(message);
-//                }
-            }
-            //end of red packet code
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onMessageRead(List<EMMessage> messages) {
-        }
-
-        @Override
-        public void onMessageDelivered(List<EMMessage> message) {
-        }
-
-        @Override
-        public void onMessageRecalled(List<EMMessage> messages) {
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onMessageChanged(EMMessage message, Object change) {}
-    };
-
-    private void refreshUIWithMessage() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                // refresh unread count
-                updateUnreadLabel();
-//                if (currentTabIndex == 0) {
-//                    // refresh conversation list
-//                    if (conversationListFragment != null) {
-//                        conversationListFragment.refresh();
-//                    }
-//                }
-            }
-        });
     }
 
 

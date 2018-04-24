@@ -64,7 +64,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import internal.org.java_websocket.util.Base64;
 
 import static com.imovie.mogic.home.MainActivity.PHOTO_REQUEST_CUT;
 import static com.imovie.mogic.home.fragment.MineFragment.PHOTO_REQUEST_TAKEPHOTO;

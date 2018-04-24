@@ -9,11 +9,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
-import com.imovie.mogic.chat.db.DemoHelper;
 import com.imovie.mogic.utills.baidu.GetLocation;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -27,7 +25,7 @@ import java.io.File;
  * Created by zhou on 2017/3/7 0007.
  */
 
-public class MyApplication extends MultiDexApplication {
+public class MyApplication extends Application {
     private static MyApplication instance;
     public SharedPreferences mPref;
     //用户当前的经纬度
@@ -42,12 +40,6 @@ public class MyApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        try {
-            DemoHelper.getInstance().init(getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         GetLocation getLocation = new GetLocation(getApplicationContext());
         getLocation.start();

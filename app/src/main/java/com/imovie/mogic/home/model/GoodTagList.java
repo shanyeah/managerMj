@@ -10,14 +10,20 @@ import com.imovie.mogic.dbbase.model.BaseModel;
 public class GoodTagList extends BaseModel {
     public int id;
     public int goodsTagCategory;
-    public String name;
+
     public int orderIndex;
-    public double price;
+
     public String createTime;
     public int createAdmin;
     public int updateAdmin;
     public String updateTime;
     public boolean isSelect = false;
+
+    public int goodsId;
+    public String name;
+    public double packPrice;
+    public double price;
+    public int quantity;
 
 }
 

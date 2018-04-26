@@ -11,7 +11,7 @@
         android:id="@+id/recycler1"
         android:layout_width="70dp"
         android:layout_height="match_parent"
-        android:background="@color/BG1"
+        android:background="@color/BG3"
         android:overScrollMode="never"
         app:layout_behavior="@string/scroll_behavior"/>
 

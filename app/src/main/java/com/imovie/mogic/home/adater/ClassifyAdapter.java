@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.model.ClassifyModel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -28,9 +29,9 @@ public class ClassifyAdapter extends BaseAdapter {
 		this.list = list;
 		this.context = context;
 		mOption = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.person_default_profile)
-				.showImageOnFail(R.drawable.person_default_profile)
-				.showImageForEmptyUri(R.drawable.person_default_profile)
+				.showImageOnLoading(R.drawable.discovery01)
+				.showImageOnFail(R.drawable.discovery01)
+				.showImageForEmptyUri(R.drawable.discovery01)
 				.cacheInMemory(true)
 				.cacheOnDisk(true)
 				.build();
@@ -66,17 +67,17 @@ public class ClassifyAdapter extends BaseAdapter {
 		}
 
 		holder.tvClassifyName.setText(list.get(position).name);
-		holder.ivClassifyImage.setBackgroundResource(list.get(position).imageId);
+//		holder.ivClassifyImage.setBackgroundResource(list.get(position).imageId);
 
 		int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-		int width = (screenWidth - 125) / 5;
-		convertView.setLayoutParams(new GridView.LayoutParams(width, width*7/5));
+		int width = (screenWidth - 125) / 3;
+		convertView.setLayoutParams(new GridView.LayoutParams(width, width));
 
-//		try {
-//			ImageLoader.getInstance().displayImage(list.get(position).imageUrl,holder.ivClassifyImage,mOption);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			ImageLoader.getInstance().displayImage(list.get(position).iconUrl,holder.ivClassifyImage,mOption);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return convertView;
 
 	}

@@ -18,11 +18,12 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.car.utils.ViewUtils;
 
 import java.math.BigDecimal;
-import static com.imovie.mogic.home.fragment.BuyGoodsFragment.carAdapter;
+import static com.imovie.mogic.home.SelectTypeActivity.carAdapter;
 
 
 public class ShopCarView extends FrameLayout {
-	private TextView car_limit, tv_amount;
+	private TextView tv_amount;
+	public TextView car_limit;
 	public ImageView iv_shop_car;
 	public TextView car_badge;
 	private BottomSheetBehavior behavior;
@@ -87,7 +88,7 @@ public class ShopCarView extends FrameLayout {
 
 	public void updateAmount(BigDecimal amount) {
 		if (amount.compareTo(new BigDecimal(0.0)) == 0) {
-			car_limit.setText("¥20 起送");
+			car_limit.setText("     去结算     ");
 			car_limit.setTextColor(Color.parseColor("#a8a8a8"));
 			car_limit.setBackgroundColor(Color.parseColor("#535353"));
 			findViewById(R.id.car_nonselect).setVisibility(View.VISIBLE);
@@ -95,7 +96,8 @@ public class ShopCarView extends FrameLayout {
 			iv_shop_car.setImageResource(R.drawable.shop_car_empty);
 			behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 		} else if (amount.compareTo(new BigDecimal(20.0)) < 0) {
-			car_limit.setText("还差 ¥" + new BigDecimal(20.0).subtract(amount) + " 起送");
+//			car_limit.setText("还差 ¥" + new BigDecimal(20.0).subtract(amount) + " 起送");
+			car_limit.setText("     去结算     ");
 			car_limit.setTextColor(Color.parseColor("#a8a8a8"));
 			car_limit.setBackgroundColor(Color.parseColor("#535353"));
 			findViewById(R.id.car_nonselect).setVisibility(View.GONE);

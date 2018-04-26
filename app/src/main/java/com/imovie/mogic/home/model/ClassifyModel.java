@@ -10,9 +10,10 @@ import com.imovie.mogic.dbbase.model.BaseModel;
 public class ClassifyModel extends BaseModel {
     public int id;
     public String name;
-    public int imageId;
-    public String url;
+    public int status;
     public String code;
+    public String iconUrl;
+
 }
 
 

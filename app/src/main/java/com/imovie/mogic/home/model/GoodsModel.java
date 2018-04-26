@@ -24,7 +24,13 @@ public class GoodsModel extends BaseModel {
     public int goodsTagCategory;
     public boolean haveTag = false;
     public String tagName;
-    public List<GoodTagList> goodsTagList = null;
+
+    public int existTags;
+    public int goodsId;
+
+
+    public List<GoodTagList> goodsPackList = null;
+
 }
 
 

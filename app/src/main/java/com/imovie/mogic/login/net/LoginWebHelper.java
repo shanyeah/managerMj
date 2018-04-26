@@ -58,7 +58,7 @@ public class LoginWebHelper extends HttpWebHelper{
     public static void getLogin(String password,String userName,IModelResultListener<LoginModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
         baseReqParamNetMap.put("password", password);
-        baseReqParamNetMap.put("userName", userName);
+        baseReqParamNetMap.put("username", userName);
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.url_login);
         new LoginWebHelper().sendPostWithTranslate(LoginModel.class, data.toString(), HttpHelper.TYPE_2,HttpWebHelper.TYPE_3, baseReqParamNetMap, listener);

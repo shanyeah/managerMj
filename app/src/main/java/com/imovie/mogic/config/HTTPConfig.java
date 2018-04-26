@@ -9,18 +9,29 @@ import com.imovie.mogic.MyApplication;
 public class HTTPConfig {
 
     /* 正式地址*/
-//    public final static String do_main = "http://api.mjdj.cn/";
+    public final static String do_main = "http://local.api.liandaxia.com/";
     /* 测试地址*/
 //    public final static String do_main = "http://local.mojie.imovie.com.cn/";
 
     /* 正式地址*/
-    public final static String do_main = "http://api.mjdj.cn/";
+//    public final static String do_main = "http://api.mjdj.cn/";
     /* 测试地址*/
 //    public final static String do_main = "http://local.imp.mjdj.cn/";
 
 
     /* 登录*/
-    public final static String url_login = do_main + "api/clerk/clerklogin.do";
+    public final static String url_login = do_main + "clerk/login.do";
+    /* 首页*/
+    public final static String url_home = do_main + "clerk/home.do";
+    /* 商品列表 */
+    public final static String url_allGoodList = do_main + "clerk/queryAllGoods.do";
+
+
+
+
+
+
+
     /* 更新 */
     public final static String url_update = do_main + "app/version.do";
 
@@ -30,8 +41,8 @@ public class HTTPConfig {
     /* 点赞 */
     public final static String url_myQrCode = do_main + "api/clerk/createlikeurl.do";
 
-    /* 商品列表 */
-    public final static String url_allGoodList = do_main + "api/allgoods.do";
+
+
 
     /* 馆列表 */
     public final static String url_hallList = do_main + "api/clerk/clerkstglist.do";

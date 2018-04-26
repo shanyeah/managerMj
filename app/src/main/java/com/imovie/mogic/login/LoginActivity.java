@@ -91,9 +91,12 @@ public class LoginActivity extends BaseActivity {
                     editor.putString("password",etPassword.getText().toString());
                     editor.putBoolean("isLogin",true);
                     editor.putInt("adminId",resultModel.adminId);
-                    editor.putInt("organId",resultModel.organId);
+                    if(resultModel.organList.size()>0){
+                        editor.putInt("organId",resultModel.organList.get(0).organId);
+                        editor.putString("organName",resultModel.organList.get(0).organName);
+                    }
                     editor.putString("token",resultModel.token);
-                    editor.putString("nickName",resultModel.nickName);
+                    editor.putString("nickName",resultModel.name);
                     editor.putString("fackeImageUrl",resultModel.fackeImageUrl);
                     editor.commit();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

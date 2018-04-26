@@ -6,7 +6,8 @@
     <com.imovie.mogic.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:visibility="gone">
     </com.imovie.mogic.widget.TitleBar>
 
 

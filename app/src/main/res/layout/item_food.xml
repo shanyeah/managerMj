@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/iv_food"
             android:maxLines="2"
             android:text="12321312412421fasdfasdfadsfdasfasdfasdf"
@@ -46,6 +47,7 @@
             android:layout_below="@id/tv_name"
             android:maxLines="1"
             android:text="123123213"
+            android:visibility="gone"
             android:textColor="@color/T3"/>
 
         <TextView

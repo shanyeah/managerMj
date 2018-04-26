@@ -13,6 +13,7 @@ import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.home.model.SearchUserModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoDialog extends Dialog implements View.OnClickListener{
@@ -21,7 +22,7 @@ public class UserInfoDialog extends Dialog implements View.OnClickListener{
 	private TextView tvCancel;
 	public ListView lvGoodsTagList;
 	public UserInfoAdapter adapter;
-	public List<SearchUserModel> list;
+	public List<SearchUserModel> list = new ArrayList<>();
 	private Context context;
 	public SearchUserModel userModel;
 	public GoodsModel goodsModel;
@@ -34,7 +35,7 @@ public class UserInfoDialog extends Dialog implements View.OnClickListener{
 		this.listener = listener;
 	}
 
-	public UserInfoDialog(Context context, List<SearchUserModel> list) {
+	public UserInfoDialog(Context context) {
 		super(context,R.style.Theme_TranslucentDlg);
 		setContentView(R.layout.home_user_info_dialog);
 		this.context = context;

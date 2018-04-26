@@ -35,10 +35,12 @@ import com.imovie.mogic.home.model.ClassifyModel;
 import com.imovie.mogic.home.model.DBModel_SlideBanner;
 import com.imovie.mogic.home.model.GameHall;
 import com.imovie.mogic.home.model.HallModel;
+import com.imovie.mogic.home.model.HomeModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.mine.MapActivity;
 import com.imovie.mogic.myRank.widget.SpinerPopWindow;
+import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
@@ -64,6 +66,14 @@ public class HomeFragmentOld extends Fragment {
     private TextView tvHallTelNum;
     private TextView tvCommentNum;
     private TitleBar titleBar;
+    private TextView totalPayAmount;
+    private TextView totalIncomeAmount;
+    private TextView goodsSaleBillCount;
+    private TextView goodsIncomeAmount;
+    private TextView rechargeSaleBillCount;
+    private TextView rechargeIncomeAmount;
+    private TextView menuName;
+
     private TextView tvHomeHall;
     private ImageView ivHallPhone;
     private ImageView ivHomeScan;
@@ -121,8 +131,9 @@ public class HomeFragmentOld extends Fragment {
         initView(view);
         setView();
         setListener();
-        getHallDetail();
-
+//        getHallDetail();
+        organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        getHomeDetail(organId);
         return view;
     }
 
@@ -145,8 +156,15 @@ public class HomeFragmentOld extends Fragment {
         llAuthCodeList = (LinearLayout) view.findViewById(R.id.llAuthCodeList);
         adSlideBanner = (AdSlideBanner)view.findViewById(R.id.home_ad);
         lvRatingList = (YSBCommentListView) view.findViewById(R.id.lvRatingList);
-        tvHallAddress = (TextView)view.findViewById(R.id.tvHallAddress);
-        tvHallTelNum = (TextView)view.findViewById(R.id.tvHallTelNum);
+
+        totalPayAmount = (TextView)view.findViewById(R.id.totalPayAmount);
+        totalIncomeAmount = (TextView)view.findViewById(R.id.totalIncomeAmount);
+        goodsSaleBillCount = (TextView)view.findViewById(R.id.goodsSaleBillCount);
+        goodsIncomeAmount = (TextView)view.findViewById(R.id.goodsIncomeAmount);
+        rechargeSaleBillCount = (TextView)view.findViewById(R.id.rechargeSaleBillCount);
+        rechargeIncomeAmount = (TextView)view.findViewById(R.id.rechargeIncomeAmount);
+        menuName = (TextView)view.findViewById(R.id.menuName);
+
         tvCommentNum = (TextView)view.findViewById(R.id.tvCommentNum);
         ivHallPhone = (ImageView) view.findViewById(R.id.ivHallPhone);
         ivHomeScan = (ImageView) view.findViewById(R.id.ivHomeScan);
@@ -202,7 +220,7 @@ public class HomeFragmentOld extends Fragment {
             getReviewList(organId);
             getHallList();
         }
-        getAuthCodeList();
+//        getAuthCodeList();
 //        getSchemeList();
     }
     private void setPullAndFlexListener(){
@@ -285,14 +303,14 @@ public class HomeFragmentOld extends Fragment {
             }
         });
 
-        tvHallAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putExtra("address",address);
-                startActivity(intent);
-            }
-        });
+//        tvHallAddress.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), MapActivity.class);
+//                intent.putExtra("address",address);
+//                startActivity(intent);
+//            }
+//        });
 
         ivHomeScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,13 +338,17 @@ public class HomeFragmentOld extends Fragment {
         gvClassification.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(classifyAdapter.getItem(position).id==4){
-                    WebViewManager.enterWebView(getContext(),classifyAdapter.getItem(position).url,false);
-                }else {
+//                if(classifyAdapter.getItem(position).id==4){
+//                    WebViewManager.enterWebView(getContext(),classifyAdapter.getItem(position).url,false);
+//                }else {
+                try {
                     Intent intent = new Intent(getContext(), SelectTypeActivity.class);
                     intent.putExtra("classifyModel", classifyAdapter.getItem(position));
                     startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+//                }
             }
         });
 
@@ -334,9 +356,10 @@ public class HomeFragmentOld extends Fragment {
 
     public void refresh(){
         organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        getHomeDetail(organId);
         getHallDetail();
         getReviewList(organId);
-        getAuthCodeList();
+//        getAuthCodeList();
     }
 
     public void getHallList(){
@@ -384,6 +407,61 @@ public class HomeFragmentOld extends Fragment {
             listHall.add(internetBarModel);
         }
         mSpinerPopWindow.refreshData(listHall);
+    }
+
+    private void getHomeDetail(int organId){
+        HallWebHelper.getHomeDetail(organId, new IModelResultListener<HomeModel>() {
+            @Override
+            public boolean onGetResultModel(HttpResultModel resultModel) {
+                pull_content.endRefresh(true);
+                return false;
+            }
+
+            @Override
+            public void onSuccess(String resultCode, HomeModel resultModel, List<HomeModel> resultModelList, String resultMsg, String hint) {
+
+                try {
+//                    Log.e("----hall",""+resultCode);
+                    pull_content.endRefresh(true);
+                    if(resultCode.equals("0")){
+                        totalPayAmount.setText(DecimalUtil.FormatMoney(resultModel.dayReport.totalPayAmount));
+                        totalIncomeAmount.setText(DecimalUtil.FormatMoney(resultModel.dayReport.totalIncomeAmount));
+                        goodsSaleBillCount.setText(""+resultModel.dayReport.goodsSaleBillCount);
+                        goodsIncomeAmount.setText(DecimalUtil.FormatMoney(resultModel.dayReport.goodsIncomeAmount));
+                        rechargeSaleBillCount.setText(""+resultModel.dayReport.rechargeSaleBillCount);
+                        rechargeIncomeAmount.setText(DecimalUtil.FormatMoney(resultModel.dayReport.rechargeIncomeAmount));
+                        if(resultModel.menuList.size()>0){
+                            classifyAdapter.list.clear();
+                            llAuthCodeList.setVisibility(View.VISIBLE);
+                            for(int i=0;i<resultModel.menuList.size();i++){
+                                if(resultModel.menuList.get(i).name.contains("日常应用")){
+                                    menuName.setText(resultModel.menuList.get(i).name);
+                                    if(resultModel.menuList.get(i).operationList.size()>0) {
+                                        classifyAdapter.list.addAll(resultModel.menuList.get(i).operationList);
+                                        classifyAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        llAuthCodeList.setVisibility(View.GONE);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(String resultCode, String resultMsg, String hint) {
+                pull_content.endRefresh(true);
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                pull_content.endRefresh(true);
+            }
+        });
     }
 
 
@@ -477,62 +555,62 @@ public class HomeFragmentOld extends Fragment {
         });
     }
 
-    public void getAuthCodeList(){
-        HomeWebHelper.getAuthCodeList( new IModelResultListener<ClassifyModel>() {
-            @Override
-            public boolean onGetResultModel(HttpResultModel resultModel) {
-//                pull_content.endRefresh(true);
-//                lvRatingList.finishLoading(true);
-                return false;
-            }
-
-            @Override
-            public void onSuccess(String resultCode, ClassifyModel resultModel, List<ClassifyModel> resultModelList, String resultMsg, String hint) {
-
-                try {
-                    if(resultModelList.size()>0){
-                        classifyAdapter.list.clear();
-                        llAuthCodeList.setVisibility(View.VISIBLE);
-                        for(int i=0;i<resultModelList.size();i++){
-                            if(resultModelList.get(i).name.contains("点赞")){
-                                resultModelList.get(i).id = 3;
-                                resultModelList.get(i).imageId = R.drawable.discovery03;
-                            }else if(resultModelList.get(i).name.contains("充值")){
-                                resultModelList.get(i).id = 2;
-                                resultModelList.get(i).imageId = R.drawable.discovery02;
-                            }else if(resultModelList.get(i).name.contains("点餐")){
-                                resultModelList.get(i).id = 1;
-                                resultModelList.get(i).imageId = R.drawable.discovery01;
-                            }else if(resultModelList.get(i).name.contains("报表")){
-                                resultModelList.get(i).id = 4;
-                                resultModelList.get(i).imageId = R.drawable.discovery04;
-                            }
-                            classifyAdapter.list.add(resultModelList.get(i));
-                        }
-                        classifyAdapter.notifyDataSetChanged();
-
-                    }else{
-                        llAuthCodeList.setVisibility(View.GONE);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFail(String resultCode, String resultMsg, String hint) {
-//                pull_content.endRefresh(true);
-//                lvRatingList.finishLoading(true);
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-//                pull_content.endRefresh(true);
-//                lvRatingList.finishLoading(true);
-            }
-        });
-    }
+//    public void getAuthCodeList(){
+//        HomeWebHelper.getAuthCodeList( new IModelResultListener<ClassifyModel>() {
+//            @Override
+//            public boolean onGetResultModel(HttpResultModel resultModel) {
+////                pull_content.endRefresh(true);
+////                lvRatingList.finishLoading(true);
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSuccess(String resultCode, ClassifyModel resultModel, List<ClassifyModel> resultModelList, String resultMsg, String hint) {
+//
+//                try {
+//                    if(resultModelList.size()>0){
+//                        classifyAdapter.list.clear();
+//                        llAuthCodeList.setVisibility(View.VISIBLE);
+//                        for(int i=0;i<resultModelList.size();i++){
+//                            if(resultModelList.get(i).name.contains("点赞")){
+//                                resultModelList.get(i).id = 3;
+//                                resultModelList.get(i).imageId = R.drawable.discovery03;
+//                            }else if(resultModelList.get(i).name.contains("充值")){
+//                                resultModelList.get(i).id = 2;
+//                                resultModelList.get(i).imageId = R.drawable.discovery02;
+//                            }else if(resultModelList.get(i).name.contains("点餐")){
+//                                resultModelList.get(i).id = 1;
+//                                resultModelList.get(i).imageId = R.drawable.discovery01;
+//                            }else if(resultModelList.get(i).name.contains("报表")){
+//                                resultModelList.get(i).id = 4;
+//                                resultModelList.get(i).imageId = R.drawable.discovery04;
+//                            }
+//                            classifyAdapter.list.add(resultModelList.get(i));
+//                        }
+//                        classifyAdapter.notifyDataSetChanged();
+//
+//                    }else{
+//                        llAuthCodeList.setVisibility(View.GONE);
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(String resultCode, String resultMsg, String hint) {
+////                pull_content.endRefresh(true);
+////                lvRatingList.finishLoading(true);
+//            }
+//
+//            @Override
+//            public void onError(String errorMsg) {
+////                pull_content.endRefresh(true);
+////                lvRatingList.finishLoading(true);
+//            }
+//        });
+//    }
 
     public void setAdData(List<GameHall.HallImages> images){
         dbModel_slideBanners.clear();

@@ -91,7 +91,7 @@
                     android:drawableRight="@drawable/login_clear"
                     android:focusable="true"
                     android:hint="请输入密码"
-                    android:text="zhouxinshan"
+                    android:text="123456"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:maxLength="20"

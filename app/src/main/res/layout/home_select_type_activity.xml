@@ -1,20 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
-              android:orientation="vertical"
-    android:background="@color/white">
-    <com.imovie.mogic.widget.TitleBar
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-    </com.imovie.mogic.widget.TitleBar>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:splitMotionEvents="false">
     <LinearLayout
-        android:id="@+id/ll_fragment"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/title_bar">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.imovie.mogic.widget.TitleBar
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        </com.imovie.mogic.widget.TitleBar>
+        <LinearLayout
+            android:id="@+id/ll_fragment"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+
+    <include layout="@layout/view_black" />
+    <include layout="@layout/view_carpop" />
+    <include layout="@layout/view_car" />
+</android.support.design.widget.CoordinatorLayout>

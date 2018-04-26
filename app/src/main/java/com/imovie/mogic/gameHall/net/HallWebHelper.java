@@ -1,8 +1,10 @@
 package com.imovie.mogic.gameHall.net;
 
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.config.HTTPConfig;
 import com.imovie.mogic.gameHall.model.ReviewListModel;
 import com.imovie.mogic.home.model.GameHall;
+import com.imovie.mogic.home.model.HomeModel;
 import com.imovie.mogic.login.model.BaseReqParamNetMap;
 import com.imovie.mogic.web.HttpWebHelper;
 import com.imovie.mogic.web.IModelResultListener;
@@ -13,6 +15,22 @@ import com.imovie.mogic.web.http.HttpHelper;
  */
 
 public class HallWebHelper extends HttpWebHelper{
+
+    /**
+     * 首页
+     * @param listener
+     */
+    public static void getHomeDetail(int organId, IModelResultListener<HomeModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.url_home);
+        String  token = MyApplication.getInstance().mPref.getString("token","");
+        data.append("?token=" + token);
+        data.append("&organId=" + organId);
+        new HallWebHelper().sendPostWithTranslate(HomeModel.class, data.toString(), HttpHelper.TYPE_3,HttpWebHelper.TYPE_3, baseReqParamNetMap, listener);
+    }
+
+
 
     /**
      * 评论列表

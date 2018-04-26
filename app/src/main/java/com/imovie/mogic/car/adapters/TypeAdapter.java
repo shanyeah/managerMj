@@ -35,6 +35,12 @@ public class TypeAdapter extends BaseQuickAdapter<TypeBean, BaseViewHolder> {
 		notifyDataSetChanged();
 	}
 
+	public void updateAdapter(List<TypeBean> list) {
+		this.data.clear();
+		this.data.addAll(list);
+		notifyDataSetChanged();
+	}
+
 
 	@Override
 	protected void convert(BaseViewHolder helper, TypeBean item) {
@@ -46,7 +52,7 @@ public class TypeAdapter extends BaseQuickAdapter<TypeBean, BaseViewHolder> {
 					.setTypeface(R.id.tv_name, Typeface.DEFAULT_BOLD)
 			;
 		} else {
-			helper.setBackgroundColor(R.id.item_main, ContextCompat.getColor(mContext, R.color.T3))
+			helper.setBackgroundColor(R.id.item_main, ContextCompat.getColor(mContext, R.color.BG3))
 					.setTextColor(R.id.tv_name, ContextCompat.getColor(mContext, R.color.T3))
 					.setTypeface(R.id.tv_name, Typeface.DEFAULT)
 			;

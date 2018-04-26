@@ -78,11 +78,11 @@ public class HomeWebHelper extends HttpWebHelper{
     public static void getAllGoodList(IModelResultListener<CardModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
         int organId = MyApplication.getInstance().mPref.getInt("organId",0);
-        baseReqParamNetMap.put("stgId", organId);
+//        baseReqParamNetMap.put("stgId", organId);
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.url_allGoodList);
-//        data.append("distDate=" + distDate);
-        new HomeWebHelper().sendPostWithTranslate(CardModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+        data.append("?organId=" + organId);
+        new HomeWebHelper().sendPostWithTranslate(CardModel.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
     }
 
     /**

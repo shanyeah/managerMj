@@ -52,8 +52,6 @@
                     android:id="@+id/ll_ad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginBottom="6dp"
                     android:orientation="vertical">
                     <com.imovie.mogic.home.adbanner.AdSlideBanner
@@ -73,7 +71,6 @@
                             android:layout_height="1dp"
                             android:layout_weight="1"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
                             android:layout_marginRight="10dp"
                             android:layout_gravity="center_vertical"
                             android:background="@color/L1"/>
@@ -91,7 +88,6 @@
                             android:layout_height="1dp"
                             android:layout_weight="1"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginRight="20dp"
                             android:layout_gravity="center_vertical"
                             android:background="@color/L1"/>
                     </LinearLayout>
@@ -105,6 +101,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/totalPayAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -115,7 +112,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="营业金额"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:layout_marginBottom="20dp"
                                 android:gravity="center"
                                 style="@style/text_16_T3"/>
@@ -126,6 +123,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/totalIncomeAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -136,7 +134,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="收入金额"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:layout_marginBottom="20dp"
                                 android:gravity="center"
                                 style="@style/text_16_T3"/>
@@ -154,6 +152,7 @@
                             android:layout_gravity="center_vertical"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/goodsSaleBillCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -164,7 +163,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="商品单数"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:gravity="center"
                                 style="@style/text_16_T3"/>
                         </LinearLayout>
@@ -180,6 +179,7 @@
                             android:layout_gravity="center_vertical"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/goodsIncomeAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -190,7 +190,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="商品收入"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:gravity="center"
                                 style="@style/text_16_T3"/>
                         </LinearLayout>
@@ -206,6 +206,7 @@
                             android:layout_gravity="center_vertical"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/rechargeSaleBillCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -216,7 +217,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="充值单数"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:gravity="center"
                                 style="@style/text_16_T3"/>
                         </LinearLayout>
@@ -232,6 +233,7 @@
                             android:layout_gravity="center_vertical"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/rechargeIncomeAmount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -242,7 +244,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="充值收入"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:gravity="center"
                                 style="@style/text_16_T3"/>
                         </LinearLayout>
@@ -292,7 +294,7 @@
                     </RelativeLayout>
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="6dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/L1"/>
                     <LinearLayout
@@ -302,9 +304,11 @@
                         android:orientation="vertical"
                         android:visibility="gone">
                         <TextView
+                            android:id="@+id/menuName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="5dp"
                             android:text="店面运营"
                             android:textColor="@color/T2"
@@ -313,19 +317,20 @@
                             android:id="@+id/gvClassification"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:numColumns="4">
+                            android:numColumns="3">
                         </com.imovie.mogic.widget.NoScrollGridView>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="6dp"
                         android:background="@color/L1"/>
                     <RelativeLayout
                         android:layout_width="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_height="26dp">
 
                         <TextView
@@ -367,6 +372,7 @@
                             android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@+id/ratingBarScore"
                             android:numStars="5"
+                            android:visibility="gone"
                             android:stepSize="2"/>
                     </RelativeLayout>
                 </LinearLayout>

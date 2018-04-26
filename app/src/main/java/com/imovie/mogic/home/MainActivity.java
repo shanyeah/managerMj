@@ -38,6 +38,7 @@ import com.imovie.mogic.home.fragment.BuyGoodsFragment;
 import com.imovie.mogic.home.fragment.ChargeFragment;
 import com.imovie.mogic.home.fragment.HomeFragmentOld;
 import com.imovie.mogic.home.fragment.MineFragment;
+import com.imovie.mogic.home.fragment.PraiseFragment;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.login.LoginActivity;
 import com.imovie.mogic.mine.SetingHallActivity;
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity {
 
     private FragmentManager fman;
     public HomeFragmentOld homeFragment;
-    public ClockFragment clockFragment;
+    public PraiseFragment praiseFragment;
     public ChargeFragment chargeFragment;
     public BuyGoodsFragment buyGoodsFragment;
     public MineFragment mineFragment;
@@ -197,9 +198,9 @@ public class MainActivity extends BaseActivity {
         ft.add(R.id.ll_fragment, homeFragment, "0");
         ft.show(homeFragment);
 
-        clockFragment = new ClockFragment();
-        ft.add(R.id.ll_fragment, clockFragment, "1");
-        ft.hide(clockFragment);
+        praiseFragment = new PraiseFragment();
+        ft.add(R.id.ll_fragment, praiseFragment, "1");
+        ft.hide(praiseFragment);
 //
 //        chargeFragment = new ChargeFragment();
 //        ft.add(R.id.ll_fragment, chargeFragment, "2");
@@ -233,7 +234,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 switchBottomMenu(1);
-                clockFragment.refreshData();
             }
         });
 
@@ -326,7 +326,7 @@ public class MainActivity extends BaseActivity {
 
             case SetingHallActivity.SELECT_RESULT:
                 homeFragment.refresh();
-                buyGoodsFragment.refresh();
+//                buyGoodsFragment.refresh();
                 break;
             default:
                 break;

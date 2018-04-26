@@ -18,6 +18,7 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.car.adapters.FoodAdapter;
 import com.imovie.mogic.car.adapters.TypeAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
+import com.imovie.mogic.car.bean.TypeBean;
 import com.imovie.mogic.car.utils.BaseUtils;
 import com.imovie.mogic.car.utils.ViewUtils;
 
@@ -25,11 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListContainer extends LinearLayout {
-
 	public TypeAdapter typeAdapter;
 	private RecyclerView recyclerView2;
 	private LinearLayoutManager linearLayoutManager;
-	private List<FoodBean> foodBeanList;
+	public List<FoodBean> foodBeanList=new ArrayList<>();
 	private boolean move;
 	private int index;
 	private Context mContext;
@@ -37,6 +37,8 @@ public class ListContainer extends LinearLayout {
 	public static List<FoodBean> commandList = new ArrayList<>();
 	private TextView tvStickyHeaderView;
 	private View stickView;
+//	public List<TypeBean> typeList = BaseUtils.getTypes();
+	public List<TypeBean> typeList = new ArrayList<>();
 
 	public ListContainer(Context context) {
 		super(context);
@@ -48,9 +50,10 @@ public class ListContainer extends LinearLayout {
 		inflate(mContext, R.layout.view_listcontainer, this);
 		RecyclerView recyclerView1 = findViewById(R.id.recycler1);
 		recyclerView1.setLayoutManager(new LinearLayoutManager(mContext));
-		typeAdapter = new TypeAdapter(BaseUtils.getTypes());
+		typeList = BaseUtils.getTypes();
+		typeAdapter = new TypeAdapter(typeList);
 		View view = new View(mContext);
-		view.setMinimumHeight(ViewUtils.dip2px(mContext, 50));
+		view.setMinimumHeight(ViewUtils.dip2px(mContext, 70));
 		typeAdapter.addFooterView(view);
 		typeAdapter.bindToRecyclerView(recyclerView1);
 		recyclerView1.addItemDecoration(new SimpleDividerDecoration(mContext));
@@ -128,7 +131,7 @@ public class ListContainer extends LinearLayout {
 		foodAdapter.bindToRecyclerView(recyclerView2);
 		stickView = findViewById(R.id.stick_header);
 		tvStickyHeaderView = findViewById(R.id.tv_header);
-		tvStickyHeaderView.setText("类别0");
+		tvStickyHeaderView.setText("类别");
         recyclerView2.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -175,5 +178,11 @@ public class ListContainer extends LinearLayout {
 				}
 			}
 		});
+	}
+
+	public void refreshTypeAdater(List<TypeBean> typeBeans,List<FoodBean> foodBeans){
+		tvStickyHeaderView.setText(typeBeans.get(0).getName());
+		typeAdapter.updateAdapter(typeBeans);
+		foodAdapter.updateAdapter(foodBeans);
 	}
 }

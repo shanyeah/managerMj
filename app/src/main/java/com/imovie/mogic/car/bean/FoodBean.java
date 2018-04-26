@@ -22,7 +22,15 @@ public class FoodBean implements Serializable{
 	private String type;//类
 	private int icon;//图片
 	private long selectCount;
+	private String imageUrl;//类
+	private int goodsId;
 
+	public int getGoodsId() {
+		return goodsId;
+	}
+	public void setGoodsId(int goodsId) {
+		this.goodsId = goodsId;
+	}
 	public long getSelectCount() {
 		return selectCount;
 	}
@@ -109,5 +117,13 @@ public class FoodBean implements Serializable{
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

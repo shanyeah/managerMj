@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="另需配送费¥4元"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="10sp"/>
         </LinearLayout>
 
@@ -61,7 +62,7 @@
             android:onClick="goAccount"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="¥20 起送"
+            android:text="去结算"
             android:textColor="#a8a8a8"
             android:textSize="16sp"
             android:textStyle="bold"/>
@@ -79,6 +80,6 @@
     <TextView
         android:id="@+id/car_badge"
         style="@style/badge_style"
-        android:layout_marginLeft="52dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"/>
 </com.imovie.mogic.car.view.ShopCarView>

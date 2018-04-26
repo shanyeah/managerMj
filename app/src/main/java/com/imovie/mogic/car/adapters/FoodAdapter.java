@@ -3,12 +3,16 @@ package com.imovie.mogic.car.adapters;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.bean.FoodBean;
+import com.imovie.mogic.car.bean.TypeBean;
 import com.imovie.mogic.car.view.AddWidget;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -25,6 +29,12 @@ public class FoodAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 		this.onAddClick = onAddClick;
 	}
 
+	public void updateAdapter(List<FoodBean> list) {
+		this.flist.clear();
+		this.flist.addAll(list);
+		notifyDataSetChanged();
+	}
+
 	@Override
 	protected void convert(BaseViewHolder helper, FoodBean item) {
 		helper.setText(R.id.tv_name, item.getName())
@@ -36,6 +46,19 @@ public class FoodAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 		AddWidget addWidget = helper.getView(R.id.addwidget);
 //		addWidget.setData(this, helper.getAdapterPosition(), onAddClick);
 		addWidget.setData( onAddClick,item);
+		ImageView iv_food = helper.getView(R.id.iv_food);
+		try {
+            DisplayImageOptions mOption = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.food0)
+                    .showImageOnFail(R.drawable.food0)
+                    .showImageForEmptyUri(R.drawable.food0)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .build();
+			ImageLoader.getInstance().displayImage(item.getImageUrl(),iv_food,mOption);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		if (helper.getAdapterPosition() == 0) {
 			helper.setVisible(R.id.stick_header, true)

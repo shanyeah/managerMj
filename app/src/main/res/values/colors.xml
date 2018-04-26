@@ -53,14 +53,14 @@
     <!-- background -->
     <color name="BG1">#7c7c7d</color>
     <color name="BG2">#e1e2e1</color>
-    <color name="BG3">#f5f6f5</color>
+    <color name="BG3">#f8f8f8</color>
     <color name="BG4">#fd5c02</color>
     <color name="BG5">#fc894b</color>
     <color name="BG6">#00acff</color>
     <color name="BG7">#2c84f0</color>
 
 
-    <color name="BG8">#00cc66</color>
+    <color name="BG8">#59d178</color>
     <color name="BG9">#ff6666</color>
     <color name="BG10">#33cccc</color>
     <color name="BG11">#ff9966</color>

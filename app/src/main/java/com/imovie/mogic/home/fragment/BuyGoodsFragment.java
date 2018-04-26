@@ -27,9 +27,13 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.manager.ScanPayManager;
 import com.imovie.mogic.base.universal_loading.YSBLoadingDialog;
 import com.imovie.mogic.car.adapters.CarAdapter;
+import com.imovie.mogic.car.adapters.FoodAdapter;
+import com.imovie.mogic.car.adapters.TypeAdapter;
+import com.imovie.mogic.car.bean.FoodBean;
+import com.imovie.mogic.car.bean.TypeBean;
+import com.imovie.mogic.car.view.ListContainer;
 import com.imovie.mogic.home.BaseActivity;
-import com.imovie.mogic.home.adater.GoodsAdapter;
-import com.imovie.mogic.home.adater.GoodsTypeAdapter;
+import com.imovie.mogic.home.SelectTypeActivity;
 import com.imovie.mogic.home.model.CardModel;
 import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodTypeModel;
@@ -52,6 +56,7 @@ import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.YSBPageListView;
 import com.imovie.mogic.widget.interfaces.IPageList;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,25 +66,25 @@ public class BuyGoodsFragment extends Fragment {
     public static CarAdapter carAdapter;
     private String mParam1;
     private String mParam2;
-    private PullToRefreshFrameLayout pull_content;
-    private FlexibleFrameLayout ff_list;
-    private LinearLayout ll_ad;
+
     public LinearLayout rlSearchTitle;
     public ClearButtonEditText etHomeSearch;
     public RelativeLayout rlShopCart;
-    public YSBPageListView lvGoodsTypeList;
-    public GoodsTypeAdapter typeAdapter;
-    public ArrayList<GoodTypeModel> listType;
+//    public YSBPageListView lvGoodsTypeList;
+//    public GoodsCarAdapter typeAdapter;
+//    public ArrayList<GoodTypeModel> listType;
 
-    public YSBPageListView lvCard;
-    public ArrayList<GoodsModel> listCard;
-    public GoodsAdapter goodsAdapter;
-    public ArrayList<GoodsModel> listAllCard = new ArrayList<>();
+//    public YSBPageListView lvCard;
+//    public ArrayList<GoodsModel> listCard;
+//    public GoodsAdapter goodsAdapter;
+//    public ArrayList<GoodsModel> listAllCard = new ArrayList<>();
 
     public ArrayList<GoodsModel> listSearch = new ArrayList<>();
 
     public CartPopWindow<GoodsModel> cartPopWindow;
     private List<GoodsModel> list = new ArrayList<>();
+
+    private ListContainer listContainer;
 
     private ViewGroup anim_mask_layout;//动画层
     public ImageView ivShopCart;
@@ -122,13 +127,13 @@ public class BuyGoodsFragment extends Fragment {
     }
 
     private void initView(View view) {
-        pull_content = (PullToRefreshFrameLayout) view.findViewById(R.id.pull_content);
-        ff_list = (FlexibleFrameLayout) view.findViewById(R.id.ff_list);
-        ll_ad = (LinearLayout) view.findViewById(R.id.ll_ad);
+
         rlSearchTitle = (LinearLayout) view.findViewById(R.id.rlSearchTitle);
         rlShopCart = (RelativeLayout) view.findViewById(R.id.rlShopCart);
-        lvGoodsTypeList = (YSBPageListView) view.findViewById(R.id.lvGoodsTypeList);
-        lvCard = (YSBPageListView) view.findViewById(R.id.lv_card_list);
+        listContainer = (ListContainer) view.findViewById(R.id.listcontainer);
+        listContainer.setAddClick((SelectTypeActivity) getActivity());
+//        lvGoodsTypeList = (YSBPageListView) view.findViewById(R.id.lvGoodsTypeList);
+//        lvCard = (YSBPageListView) view.findViewById(R.id.lv_card_list);
         ivShopCart = (ImageView) view.findViewById(R.id.ivShopCart);
         tvCount = (TextView) view.findViewById(R.id.tvCount);
         tvSumPrice = (TextView) view.findViewById(R.id.tvSumPrice);
@@ -167,83 +172,91 @@ public class BuyGoodsFragment extends Fragment {
         });
     }
 
+    public FoodAdapter getFoodAdapter() {
+        return listContainer.foodAdapter;
+    }
+
+    public TypeAdapter getTypeAdapter() {
+        return listContainer.typeAdapter;
+    }
+
     private void setView() {
-        setPullAndFlexListener();
-        listType = new ArrayList<>();
-        typeAdapter = new GoodsTypeAdapter(getContext(),listType);
-        lvGoodsTypeList.setAdapter(typeAdapter);
-        typeAdapter.setSelectIndex(0);
 
-        listCard = new ArrayList<>();
-        goodsAdapter = new GoodsAdapter(getContext(),listCard);
-        goodsAdapter.setOnSelectListener(new GoodsAdapter.onSelectListener() {
-            @Override
-            public void onSelect(final GoodsModel goodsModel, View v) {
-                if(goodsModel.goodsTagList!=null && goodsModel.goodsTagList.size()>0) {
-                    GoodTagDialog dialog = new GoodTagDialog(getContext(), goodsModel.goodsTagList,v);
-                    dialog.setOnSelectListener(new GoodTagDialog.onSelectListener() {
-                        @Override
-                        public void onSelect(GoodTagList goodTagList, View v) {
-                            TotalPrice += goodsModel.price;
-                            tvSumPrice.setText(DecimalUtil.FormatMoney(TotalPrice / 100) + getContext().getResources().getString(R.string.symbol_RMB));
-                            int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
-                            v.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
-                            ImageView ball = new ImageView(getContext());// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
-                            ball.setImageResource(R.drawable.home_dot);// 设置buyImg的图片
-                            setAnim(ball, startLocation);// 开始执行动画
-                            GoodsModel goods = new GoodsModel();
-                            goods.id = goodsModel.id;
-                            goods.name = goodsModel.name;
-                            goods.price = goodsModel.price;
-                            goods.imageUrl = goodsModel.imageUrl;
-                            goods.haveTag = true;
-//                            goods.goodsTagCategory = goodTagList.goodsTagCategory;
-                            goods.goodsTagCategory = goodTagList.id;
-                            goods.tagName = goodTagList.name;
-                            AddCartList(goods);
-                        }
-                    });
-                    dialog.show();
-                }else {
-                    TotalPrice += goodsModel.price;
-                    tvSumPrice.setText(DecimalUtil.FormatMoney(TotalPrice / 100) + getContext().getResources().getString(R.string.symbol_RMB));
-                    int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
-                    v.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
-                    ImageView ball = new ImageView(getContext());// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
-                    ball.setImageResource(R.drawable.home_dot);// 设置buyImg的图片
-                    setAnim(ball, startLocation);// 开始执行动画
-                    AddCartList(goodsModel);
-                }
-            }
-        });
-        lvCard.setAdapter(goodsAdapter);
+//        listType = new ArrayList<>();
+//        typeAdapter = new GoodsCarAdapter(getContext(),listType);
+//        lvGoodsTypeList.setAdapter(typeAdapter);
+//        typeAdapter.setSelectIndex(0);
+//
+//        listCard = new ArrayList<>();
+//        goodsAdapter = new GoodsAdapter(getContext(),listCard);
+//        goodsAdapter.setOnSelectListener(new GoodsAdapter.onSelectListener() {
+//            @Override
+//            public void onSelect(final GoodsModel goodsModel, View v) {
+//                if(goodsModel.goodsTagList!=null && goodsModel.goodsTagList.size()>0) {
+//                    GoodTagDialog dialog = new GoodTagDialog(getContext(), goodsModel.goodsTagList,v);
+//                    dialog.setOnSelectListener(new GoodTagDialog.onSelectListener() {
+//                        @Override
+//                        public void onSelect(GoodTagList goodTagList, View v) {
+//                            TotalPrice += goodsModel.price;
+//                            tvSumPrice.setText(DecimalUtil.FormatMoney(TotalPrice / 100) + getContext().getResources().getString(R.string.symbol_RMB));
+//                            int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
+//                            v.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
+//                            ImageView ball = new ImageView(getContext());// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
+//                            ball.setImageResource(R.drawable.home_dot);// 设置buyImg的图片
+//                            setAnim(ball, startLocation);// 开始执行动画
+//                            GoodsModel goods = new GoodsModel();
+//                            goods.id = goodsModel.id;
+//                            goods.name = goodsModel.name;
+//                            goods.price = goodsModel.price;
+//                            goods.imageUrl = goodsModel.imageUrl;
+//                            goods.haveTag = true;
+////                            goods.goodsTagCategory = goodTagList.goodsTagCategory;
+//                            goods.goodsTagCategory = goodTagList.id;
+//                            goods.tagName = goodTagList.name;
+//                            AddCartList(goods);
+//                        }
+//                    });
+//                    dialog.show();
+//                }else {
+//                    TotalPrice += goodsModel.price;
+//                    tvSumPrice.setText(DecimalUtil.FormatMoney(TotalPrice / 100) + getContext().getResources().getString(R.string.symbol_RMB));
+//                    int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
+//                    v.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
+//                    ImageView ball = new ImageView(getContext());// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
+//                    ball.setImageResource(R.drawable.home_dot);// 设置buyImg的图片
+//                    setAnim(ball, startLocation);// 开始执行动画
+//                    AddCartList(goodsModel);
+//                }
+//            }
+//        });
+//        lvCard.setAdapter(goodsAdapter);
+//
+//        lvCard.setOnPageListener(new IPageList.OnPageListener() {
+//            @Override
+//            public void onLoadMoreItems() {
+//                getAllGoodList();
+//            }
+//        });
+//
+//        lvCard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
+//
+//        lvCard.startLoad();
 
-        lvCard.setOnPageListener(new IPageList.OnPageListener() {
-            @Override
-            public void onLoadMoreItems() {
-                getAllGoodList();
-            }
-        });
-
-        lvCard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-
-        lvCard.startLoad();
-
-        lvGoodsTypeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                typeAdapter.setSelectIndex(position);
-                int index = typeAdapter.getItem(position).index;
-                lvCard.setSelectPosition(index);
-                lvCard.smoothScrollToPosition(position);
-
-            }
-        });
+//        lvGoodsTypeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                typeAdapter.setSelectIndex(position);
+//                int index = typeAdapter.getItem(position).index;
+//                lvCard.setSelectPosition(index);
+//                lvCard.smoothScrollToPosition(position);
+//
+//            }
+//        });
 
         rlShopCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,85 +285,25 @@ public class BuyGoodsFragment extends Fragment {
                 String chargeFee = editable.toString();
                 if(!StringHelper.isEmpty(chargeFee)){
                     listSearch.clear();
-                    for(int i = 0;i<listAllCard.size();i++){
-                        if(listAllCard.get(i).name.contains(chargeFee)){
-                            listSearch.add(listAllCard.get(i));
-                        }
-                    }
-                    if(listSearch.size()>0) {
-                        goodsAdapter.list = listSearch;
-                        goodsAdapter.notifyDataSetChanged();
-                    }
+//                    for(int i = 0;i<listAllCard.size();i++){
+//                        if(listAllCard.get(i).name.contains(chargeFee)){
+//                            listSearch.add(listAllCard.get(i));
+//                        }
+//                    }
+//                    if(listSearch.size()>0) {
+//                        goodsAdapter.list = listSearch;
+//                        goodsAdapter.notifyDataSetChanged();
+//                    }
                 }
             }
         });
 
     }
 
-    private void setPullAndFlexListener(){
-        ff_list.setFlexView(ll_ad);
-        ff_list.setFlexible(true);
 
-        ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
-            @Override
-            public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
-                if (isOnTop) {
-                    pull_content.setPullEnable(true);
-                } else {
-                    pull_content.setPullEnable(false);
-                }
-            }
 
-        });
-        pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getAllGoodList();
-            }
-        });
 
-        lvCard.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE) {
 
-                    //列表处于最上方
-                    if (true && view.getChildAt(0).getTop() == 0) {
-                        ff_list.setFlexible(true);
-                    } else {
-                        ff_list.setFlexible(false);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                typeAdapter.setSelectCategory(goodsAdapter.list.get(firstVisibleItem).category);
-            }
-        });
-
-        lvGoodsTypeList.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE) {
-                    //列表处于最上方
-                    if (true && view.getChildAt(0).getTop() == 0) {
-                        ff_list.setFlexible(true);
-                    } else {
-                        ff_list.setFlexible(false);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-
-    }
 
     /**
      * popupwindow显示的ListView的item点击事件
@@ -468,54 +421,80 @@ public class BuyGoodsFragment extends Fragment {
         HomeWebHelper.getAllGoodList(new IModelResultListener<CardModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
-                pull_content.endRefresh(true);
-                lvCard.finishLoading(true);
+
+//                lvCard.finishLoading(true);
                 return false;
             }
 
             @Override
             public void onSuccess(String resultCode, CardModel resultModel, List<CardModel> resultModelList, String resultMsg, String hint) {
-                pull_content.endRefresh(true);
-                lvCard.finishLoading(true);
-                if(resultCode.equals("0")) {
-                    goodsAdapter.list.clear();
-                    listAllCard.clear();
-                    listType.clear();
-                    int index = 0;
-                    for(int i=0;i<resultModel.categorys.size();i++){
-                        GoodTypeModel typeModel = new GoodTypeModel();
-                        typeModel.id = resultModel.categorys.get(i).id;
-                        typeModel.name = resultModel.categorys.get(i).name;
-                        typeModel.index = index;
-                        listType.add(typeModel);
-                        List<GoodsModel> goods = resultModel.categorys.get(i).goods;
-                        goods.get(0).category = typeModel.name;
-                        goods.get(0).isShow = true;
-                        goodsAdapter.list.addAll(goods);
-                        listAllCard.addAll(goods);
-                        index += goods.size();
-                    }
-                    typeAdapter.list = listType;
-                    typeAdapter.notifyDataSetChanged();
-                    typeAdapter.setSelectIndex(0);
 
-//                    goodsAdapter.list = resultModel.categorys.get(0).goods;
-                    goodsAdapter.notifyDataSetChanged();
-                    lvCard.setHaveMoreData(false);
-                    lvCard.setTotalPage(1);
+//                lvCard.finishLoading(true);
+                if(resultCode.equals("0")) {
+                    if(resultModel.categories.size()>0){
+                        List<TypeBean> typeList = new ArrayList<>();
+                        List<FoodBean> foodBeanList = new ArrayList<>();
+                        for(int i=0;i<resultModel.categories.size();i++){
+                            TypeBean typeBean = new TypeBean();
+                            typeBean.setName(resultModel.categories.get(i).categoryName);
+                            typeBean.setCategoryId(resultModel.categories.get(i).categoryId);
+                            typeList.add(typeBean);
+                            List<GoodsModel> goodsList = resultModel.categories.get(i).goodsList;
+                            for(int j=0;j<goodsList.size();j++){
+                                FoodBean foodBean = new FoodBean();
+                                GoodsModel goodsModel = goodsList.get(j);
+//                                foodBean.setGoodsId(goodsModel.goodsId);
+                                foodBean.setId(goodsModel.goodsId);
+                                foodBean.setImageUrl(goodsModel.imageUrl);
+                                foodBean.setName(goodsModel.name);
+                                BigDecimal price = new BigDecimal(DecimalUtil.FormatMoney(goodsModel.price));
+                                foodBean.setPrice(price);
+                                foodBean.setType(resultModel.categories.get(i).categoryName);
+                                foodBeanList.add(foodBean);
+                            }
+                        }
+//                        getTypeAdapter().updateAdapter(typeList);
+//                        Utills.showShortToast(""+typeList.size());
+                        listContainer.refreshTypeAdater(typeList,foodBeanList);
+                    }
+//                    goodsAdapter.list.clear();
+//                    listAllCard.clear();
+//                    listType.clear();
+//                    int index = 0;
+//                    for(int i=0;i<resultModel.categorys.size();i++){
+//                        GoodTypeModel typeModel = new GoodTypeModel();
+//                        typeModel.id = resultModel.categorys.get(i).id;
+//                        typeModel.name = resultModel.categorys.get(i).name;
+//                        typeModel.index = index;
+//                        listType.add(typeModel);
+//                        List<GoodsModel> goods = resultModel.categorys.get(i).goods;
+//                        goods.get(0).category = typeModel.name;
+//                        goods.get(0).isShow = true;
+//                        goodsAdapter.list.addAll(goods);
+//                        listAllCard.addAll(goods);
+//                        index += goods.size();
+//                    }
+//                    typeAdapter.list = listType;
+//                    typeAdapter.notifyDataSetChanged();
+//                    typeAdapter.setSelectIndex(0);
+//
+////                    goodsAdapter.list = resultModel.categorys.get(0).goods;
+//                    goodsAdapter.notifyDataSetChanged();
+//                    lvCard.setHaveMoreData(false);
+//                    lvCard.setTotalPage(1);
                 }
             }
 
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
-                pull_content.endRefresh(true);
-                lvCard.finishLoading(true);
+
+//                lvCard.finishLoading(true);
             }
 
             @Override
             public void onError(String errorMsg) {
-                pull_content.endRefresh(true);
-                lvCard.finishLoading(true);
+
+//                lvCard.finishLoading(true);
             }
         });
     }
@@ -531,15 +510,15 @@ public class BuyGoodsFragment extends Fragment {
             public void onSuccess(String resultCode, SearchUserModel resultModel, List<SearchUserModel> resultModelList, String resultMsg, String hint) {
 //                Log.e("----city:",""+resultCode);
                 if(resultModelList.size()>0){
-                    UserInfoDialog dialog = new UserInfoDialog(getContext(),resultModelList);
-                    dialog.setOnSelectListener(new UserInfoDialog.onSelectListener() {
-                        @Override
-                        public void onSelect(SearchUserModel userModel) {
-//                            payGoodsOrder(goodsOrderId , clerkOrderId , userModel.qrCode);
-                            saveGoodsOrder(userModel.qrCode,TotalPrice, text, list);
-                        }
-                    });
-                    dialog.show();
+//                    UserInfoDialog dialog = new UserInfoDialog(getContext(),resultModelList);
+//                    dialog.setOnSelectListener(new UserInfoDialog.onSelectListener() {
+//                        @Override
+//                        public void onSelect(SearchUserModel userModel) {
+////                            payGoodsOrder(goodsOrderId , clerkOrderId , userModel.qrCode);
+//                            saveGoodsOrder(userModel.qrCode,TotalPrice, text, list);
+//                        }
+//                    });
+//                    dialog.show();
 
 
 //                    payGoodsOrder(goodsOrderId , clerkOrderId , resultModelList.get(0).qrCode);
@@ -595,12 +574,12 @@ public class BuyGoodsFragment extends Fragment {
 
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
-                lvCard.finishLoading(true);
+//                lvCard.finishLoading(true);
             }
 
             @Override
             public void onError(String errorMsg) {
-                lvCard.finishLoading(true);
+//                lvCard.finishLoading(true);
             }
         });
     }
@@ -670,62 +649,62 @@ public class BuyGoodsFragment extends Fragment {
         return view;
     }
 
-    public void setAnim(final View v, int[] startLocation) {
-        anim_mask_layout = null;
-        anim_mask_layout = createAnimLayout();
-        anim_mask_layout.addView(v);//把动画小球添加到动画层
-        final View view = addViewToAnimLayout(anim_mask_layout, v,
-                startLocation);
-        int[] endLocation = new int[2];// 存储动画结束位置的X、Y坐标
-        ivShopCart.getLocationInWindow(endLocation);// shopCart是那个购物车
-//        Utills.showShortToast("x="+startLocation[0]+"y="+startLocation[1]);
-//        Utills.showShortToast("x1="+endLocation[0]+"y1="+endLocation[1]);
-
-        // 计算位移
-        int endX = endLocation[0] - startLocation[0];// 动画位移的X坐标
-        int endY = endLocation[1] - startLocation[1]+3;// 动画位移的y坐标
-        TranslateAnimation translateAnimationX = new TranslateAnimation(0,
-                endX, 0, 0);
-        translateAnimationX.setInterpolator(new LinearInterpolator());
-        translateAnimationX.setRepeatCount(0);// 动画重复执行的次数
-        translateAnimationX.setFillAfter(true);
-
-        TranslateAnimation translateAnimationY = new TranslateAnimation(0, 0,
-                0, endY);
-        translateAnimationY.setInterpolator(new AccelerateInterpolator());
-        translateAnimationY.setRepeatCount(0);// 动画重复执行的次数
-        translateAnimationX.setFillAfter(true);
-
-        AnimationSet set = new AnimationSet(false);
-        set.setFillAfter(false);
-        set.addAnimation(translateAnimationY);
-        set.addAnimation(translateAnimationX);
-        set.setDuration(500);// 动画的执行时间
-        view.startAnimation(set);
-        // 动画监听事件
-        set.setAnimationListener(new Animation.AnimationListener() {
-            // 动画的开始
-            @Override
-            public void onAnimationStart(Animation animation) {
-                v.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-                // TODO Auto-generated method stub
-            }
-
-            // 动画的结束
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setVisibility(View.GONE);
-                buyNum++;//让购买数量加1
-                tvCount.setText(buyNum + "");
-                tvCount.setVisibility(View.VISIBLE);
-//                buyNumView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
-//                buyNumView.show();
-            }
-        });
-    }
+//    public void setAnim(final View v, int[] startLocation) {
+//        anim_mask_layout = null;
+//        anim_mask_layout = createAnimLayout();
+//        anim_mask_layout.addView(v);//把动画小球添加到动画层
+//        final View view = addViewToAnimLayout(anim_mask_layout, v,
+//                startLocation);
+//        int[] endLocation = new int[2];// 存储动画结束位置的X、Y坐标
+//        ivShopCart.getLocationInWindow(endLocation);// shopCart是那个购物车
+////        Utills.showShortToast("x="+startLocation[0]+"y="+startLocation[1]);
+////        Utills.showShortToast("x1="+endLocation[0]+"y1="+endLocation[1]);
+//
+//        // 计算位移
+//        int endX = endLocation[0] - startLocation[0];// 动画位移的X坐标
+//        int endY = endLocation[1] - startLocation[1]+3;// 动画位移的y坐标
+//        TranslateAnimation translateAnimationX = new TranslateAnimation(0,
+//                endX, 0, 0);
+//        translateAnimationX.setInterpolator(new LinearInterpolator());
+//        translateAnimationX.setRepeatCount(0);// 动画重复执行的次数
+//        translateAnimationX.setFillAfter(true);
+//
+//        TranslateAnimation translateAnimationY = new TranslateAnimation(0, 0,
+//                0, endY);
+//        translateAnimationY.setInterpolator(new AccelerateInterpolator());
+//        translateAnimationY.setRepeatCount(0);// 动画重复执行的次数
+//        translateAnimationX.setFillAfter(true);
+//
+//        AnimationSet set = new AnimationSet(false);
+//        set.setFillAfter(false);
+//        set.addAnimation(translateAnimationY);
+//        set.addAnimation(translateAnimationX);
+//        set.setDuration(500);// 动画的执行时间
+//        view.startAnimation(set);
+//        // 动画监听事件
+//        set.setAnimationListener(new Animation.AnimationListener() {
+//            // 动画的开始
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//                v.setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//                // TODO Auto-generated method stub
+//            }
+//
+//            // 动画的结束
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                v.setVisibility(View.GONE);
+//                buyNum++;//让购买数量加1
+//                tvCount.setText(buyNum + "");
+//                tvCount.setVisibility(View.VISIBLE);
+////                buyNumView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+////                buyNumView.show();
+//            }
+//        });
+//    }
 
 }

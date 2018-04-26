@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivClassifyImage"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/person_default_profile"
@@ -21,9 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/ivClassifyImage"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="5dp"
         android:text=""
-        android:textColor="@color/T2"
+        android:textColor="@color/T1"
         android:gravity="center"
         android:lines="1"/>
 </RelativeLayout>

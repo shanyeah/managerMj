@@ -14,12 +14,13 @@ import static android.R.id.list;
 
 public class CardModel extends BaseModel {
     public String stgName;
-    public List<Categorys> categorys = new ArrayList<>();
+    public List<Categorys> categories = new ArrayList<>();
     public static class Categorys extends BaseModel{
-        public List<GoodsModel> goods = new ArrayList<>();
-        public int id;
-        public String name;
+        public List<GoodsModel> goodsList = new ArrayList<>();
+        public int categoryId;
+        public String categoryName;
     }
+
 }
 
 

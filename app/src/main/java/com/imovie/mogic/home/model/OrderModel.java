@@ -12,7 +12,11 @@ import java.util.List;
 public class OrderModel extends BaseModel {
     public int goodsId;
     public String price;
-    public String name;
-    public int goodsTagCategory;
-    public List<BomModel> goodsBomList = null;
+    public String remark;
+    public long quantity;
+    public double payAmount;
+    public double incomeAmount;
+    public String goodsTags;
+    public List<GoodTagList> goodsPackList = null;
+
 }

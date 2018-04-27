@@ -1,11 +1,6 @@
 package com.imovie.mogic.home.model;
 
-
 import com.imovie.mogic.dbbase.model.BaseModel;
-
-/**
- * Created by ${zhouxinshan} on 2016/4/12.
- */
 
 public class SearchUserModel extends BaseModel {
     public double balance;
@@ -16,7 +11,6 @@ public class SearchUserModel extends BaseModel {
     public int userId;
     public String qrCode;
     public String chargeNum;
+    public String mobile;
     public int status =0;
 }
-
-

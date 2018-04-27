@@ -7,9 +7,12 @@ import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
 
 import com.imovie.mogic.car.utils.ViewUtils;
+import com.imovie.mogic.home.model.GoodTagList;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodBean implements Serializable{
 
@@ -24,6 +27,7 @@ public class FoodBean implements Serializable{
 	private long selectCount;
 	private String imageUrl;//类
 	private int goodsId;
+	public List<GoodTagList> goodsPackList = new ArrayList<>();
 
 	public int getGoodsId() {
 		return goodsId;

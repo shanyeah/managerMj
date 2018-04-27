@@ -320,7 +320,6 @@ public class MainActivity extends BaseActivity {
             case CaptureActivity.MSG_OTHER:
                 String code = data.getStringExtra("code");
                 if(StringHelper.isEmail(code))return;
-                buyGoodsFragment.cartPopWindow.refreshSeatText(code);
                 break;
 
 

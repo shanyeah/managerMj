@@ -25,6 +25,7 @@ import com.imovie.mogic.ScanPay.manager.ScanPayManager;
 import com.imovie.mogic.card.model.PresentModel;
 import com.imovie.mogic.card.net.CardWebHelper;
 import com.imovie.mogic.home.model.MyQrCodeModel;
+import com.imovie.mogic.home.model.SearchModel;
 import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.home.widget.SearchUserPopWindow;
@@ -389,14 +390,14 @@ public class ChargeFragment extends Fragment {
     }
 
     public void getCheckUserInfo(String input){
-        HomeWebHelper.getCheckUserInfo(input,new IModelResultListener<SearchUserModel>() {
+        HomeWebHelper.getCheckUserInfo(input,new IModelResultListener<SearchModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
             }
 
             @Override
-            public void onSuccess(String resultCode, SearchUserModel resultModel, List<SearchUserModel> resultModelList, String resultMsg, String hint) {
+            public void onSuccess(String resultCode, SearchModel resultModel, List<SearchModel> resultModelList, String resultMsg, String hint) {
 //                Log.e("----city:",""+resultCode);
                 if(resultModelList.size()>0){
 //                    closeSoftKeyboard(getContext());
@@ -404,7 +405,7 @@ public class ChargeFragment extends Fragment {
                     mSpinerPopWindow.setWidth(llUserNumState.getWidth());
                     mSpinerPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                     mSpinerPopWindow.showAsDropDown(llUserNumState);
-                    mSpinerPopWindow.refreshData(resultModelList);
+                    mSpinerPopWindow.refreshData(resultModel.list);
 
                 }
 

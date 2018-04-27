@@ -29,7 +29,7 @@ public class GoodsModel extends BaseModel {
     public int goodsId;
 
 
-    public List<GoodTagList> goodsPackList = null;
+    public List<GoodTagList> goodsPackList = new ArrayList<>();
 
 }
 

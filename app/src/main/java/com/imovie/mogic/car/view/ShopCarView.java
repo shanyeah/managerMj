@@ -95,7 +95,7 @@ public class ShopCarView extends FrameLayout {
 			findViewById(R.id.amount_container).setVisibility(View.GONE);
 			iv_shop_car.setImageResource(R.drawable.shop_car_empty);
 			behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-		} else if (amount.compareTo(new BigDecimal(20.0)) < 0) {
+		} else if (amount.compareTo(new BigDecimal(0.001)) < 0) {
 //			car_limit.setText("还差 ¥" + new BigDecimal(20.0).subtract(amount) + " 起送");
 			car_limit.setText("     去结算     ");
 			car_limit.setTextColor(Color.parseColor("#a8a8a8"));

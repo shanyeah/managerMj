@@ -15,26 +15,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:text="名字"
+            style="@style/text_16_T1"/>
         <TextView
             android:id="@+id/tvNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginLeft="3dp"
-            android:layout_toRightOf="@+id/tv_name"
-            android:text=""
-            style="@style/text_14_white" />
+            android:layout_below="@+id/tv_name"
+            android:text="565223"
+            style="@style/text_14_T2" />
         <TextView
             android:id="@+id/tvBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:textColor="@color/white"
-            style="@style/text_14_white"/>
+            android:text="5"
+            style="@style/text_14_T5"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -42,15 +41,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:visibility="gone">
         <TextView
             android:id="@+id/tvCashBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginLeft="3dp"
-            android:text=""
-            style="@style/text_14_white"/>
+            android:text="0"
+            style="@style/text_14_T5"/>
         <TextView
             android:id="@+id/tvPresentBalance"
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="3dp"
             android:text=""
-            style="@style/text_14_white"
+            style="@style/text_14_T5"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
@@ -67,6 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
-        android:background="@color/white"/>
+        android:background="@color/L1"/>
 
 </LinearLayout>

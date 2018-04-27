@@ -1,6 +1,7 @@
 package com.imovie.mogic.home.adater;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +60,11 @@ public class UserInfoAdapter extends BaseAdapter {
          }
 
         SearchUserModel internetBarModel = (SearchUserModel)getItem(position);
-        holder.tvName.setText(internetBarModel.name);
-        holder.tvNumber.setText("(" + internetBarModel.idNumber + ")");
-        holder.tvBalance.setText("余额:" + DecimalUtil.FormatMoney(internetBarModel.balance/100) + context.getResources().getString(R.string.symbol_RMB));
-        holder.tvCashBalance.setText("充值:" + DecimalUtil.FormatMoney(internetBarModel.cashBalance/100) + context.getResources().getString(R.string.symbol_RMB));
-        holder.tvPresentBalance.setText("赠送:" + DecimalUtil.FormatMoney(internetBarModel.presentBalance/100) + context.getResources().getString(R.string.symbol_RMB));
+        holder.tvName.setText("会员："+internetBarModel.name);
+        holder.tvNumber.setText("证件号：" + internetBarModel.idNumber);
+        holder.tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.balance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
+        holder.tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>充值:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
+        holder.tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
         return convertView;
     }
 

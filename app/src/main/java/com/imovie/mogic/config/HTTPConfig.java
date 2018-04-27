@@ -25,8 +25,10 @@ public class HTTPConfig {
     public final static String url_home = do_main + "clerk/home.do";
     /* 商品列表 */
     public final static String url_allGoodList = do_main + "clerk/queryAllGoods.do";
-
-
+    /* 查询用户 */
+    public final static String url_checkUserInfo = do_main + "clerk/queryLikeMemberInfo.do";
+    /* 保存定单 */
+    public final static String url_saveGoodsOrder = do_main + "clerk/saveGoodsBill.do";
 
 
 
@@ -42,8 +44,6 @@ public class HTTPConfig {
     public final static String url_myQrCode = do_main + "api/clerk/createlikeurl.do";
 
 
-
-
     /* 馆列表 */
     public final static String url_hallList = do_main + "api/clerk/clerkstglist.do";
 
@@ -53,8 +53,6 @@ public class HTTPConfig {
     /* 定餐列表 */
     public final static String url_orderList = do_main + "api/goodsorderlist.do";
 
-    /* 查询用户 */
-    public final static String url_checkUserInfo = do_main + "api/clerk/userviainput.do";
 
     /* 赠送 */
     public final static String url_presentList = do_main + "api/clerk/presentlist.do";
@@ -68,8 +66,8 @@ public class HTTPConfig {
     /* 扫码充值重试 */
     public final static String url_qrChargeReset = do_main + "api/clerk/readminqrcharge.do";
 
-    /* 保存定单 */
-    public final static String url_saveGoodsOrder = do_main + "api/clerk/saveClerkGoodsOrder.do";
+
+
 
     /* 支付定单 */
     public final static String url_payGoodsOrder = do_main + "api/adminmicropay.do";
@@ -114,17 +112,17 @@ public class HTTPConfig {
     /* 考勤信息 */
     public final static String url_attendInfo = do_main + "attend/attendbasicinfo.do";
     /* 出勤列表 */
-    public final static String url_attendRecords= do_main + "attend/attendrecords.do";
+    public final static String url_attendRecords = do_main + "attend/attendrecords.do";
     /* 打卡 */
-    public final static String url_clock= do_main + "attend/clock.do";
+    public final static String url_clock = do_main + "attend/clock.do";
     /* 统计 */
-    public final static String url_myAttend= do_main + "attend/my.do";
+    public final static String url_myAttend = do_main + "attend/my.do";
     /* 打卡月历 */
-    public final static String url_myCalendar= do_main + "attend/mycalendar.do";
+    public final static String url_myCalendar = do_main + "attend/mycalendar.do";
     /* 补卡 */
-    public final static String url_recheckClock= do_main + "attend/recheckapply.do";
+    public final static String url_recheckClock = do_main + "attend/recheckapply.do";
     /* 补卡信息 */
-    public final static String url_recheckInfo= do_main + "attend/attendextrarecords.do";
+    public final static String url_recheckInfo = do_main + "attend/attendextrarecords.do";
 
     /* 改密码 */
     public final static String url_setPassword = do_main + "api/clerk/changepass.do";
@@ -140,36 +138,7 @@ public class HTTPConfig {
     public final static String url_incomeOrder = do_main + "api/clerk/queryRewardDetail4Goods.do";
 
     /* 上传图片 */
-    public final static String url_uploadImage = do_main+ "api/clerk/changeclerkinfo.do";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public final static String url_uploadImage = do_main + "api/clerk/changeclerkinfo.do";
 
 
 

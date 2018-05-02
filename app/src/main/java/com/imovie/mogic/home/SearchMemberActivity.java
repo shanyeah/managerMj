@@ -2,6 +2,7 @@ package com.imovie.mogic.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -54,7 +55,6 @@ public class SearchMemberActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         try {
             Intent mIntent = new Intent();
             mIntent.putExtra("result", SELECT_RESULT);
@@ -63,6 +63,7 @@ public class SearchMemberActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        super.onBackPressed();
         finish();
     }
 

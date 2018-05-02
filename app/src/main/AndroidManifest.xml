@@ -208,6 +208,9 @@
         <activity
             android:name=".car.CarPayActivity"
             android:launchMode="singleTop"/>
+        <activity
+            android:name=".car.DetailActivity"
+            android:launchMode="singleTop"/>
 
 
         <receiver

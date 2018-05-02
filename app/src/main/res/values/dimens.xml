@@ -58,4 +58,5 @@
     <integer name="small_calendar_text_size">12</integer>
     <dimen name="small_week_bar_height">28dp</dimen>
     <dimen name="small_month_calendar_height">224dp</dimen>
+    <dimen name="shopcar_height">65dp</dimen>
 </resources>

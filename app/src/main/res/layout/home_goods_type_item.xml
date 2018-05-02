@@ -10,7 +10,6 @@
             android:id="@+id/tvTypeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:paddingTop="12dp"
             android:paddingBottom="6dp"
             android:text="金卡权益"
@@ -33,7 +32,17 @@
             android:layout_marginRight="50dp"
             android:text="X5"
             style="@style/text_14_T3"/>
+        <com.imovie.mogic.widget.NoScrollListView
+            android:id="@+id/lvCarTagList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:cacheColorHint="#00000000"
+            android:layout_below="@+id/tvTypeName"
+            android:divider="@null"
+            android:background="@color/white" />
     </RelativeLayout>
+
 
     <View
         android:layout_width="match_parent"

@@ -436,6 +436,7 @@
     <string name="msg_recall_by_user">%1$s 撤回了一条消息</string>
 
     <string name="scroll_behavior">@string/appbar_scrolling_view_behavior</string>
+    <string name="detail_header_behavior">com.imovie.mogic.car.view.DetailHeaderBehavior</string>
 
     <string name="year">年</string>
     <string name="month">月</string>

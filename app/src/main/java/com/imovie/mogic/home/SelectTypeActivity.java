@@ -1,5 +1,6 @@
 package com.imovie.mogic.home;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,8 +18,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.CarPayActivity;
+import com.imovie.mogic.car.DetailActivity;
 import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.bean.TypeBean;
@@ -211,6 +215,27 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         ((DefaultItemAnimator) carRecView.getItemAnimator()).setSupportsChangeAnimations(false);
         carAdapter = new CarAdapter(new ArrayList<FoodBean>(), this);
         carAdapter.bindToRecyclerView(carRecView);
+        carRecView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemChildClick(adapter, view, position);
+                Utills.showShortToast("999"+position);
+                if (view.getId() == R.id.car_main) {
+                    Intent intent = new Intent(SelectTypeActivity.this, DetailActivity.class);
+                    intent.putExtra("food", (FoodBean) adapter.getData().get(position));
+                    intent.putExtra("position", position);
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            }
+
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+        });
+
+
     }
 
     private void setView(){

@@ -1,7 +1,9 @@
 package com.imovie.mogic.car.view;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.imovie.mogic.R;
+import com.imovie.mogic.car.DetailActivity;
 import com.imovie.mogic.car.adapters.FoodAdapter;
 import com.imovie.mogic.car.adapters.TypeAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
@@ -86,13 +89,14 @@ public class ListContainer extends LinearLayout {
 			@Override
 			public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 				super.onItemChildClick(adapter, view, position);
-//				if (view.getId() == R.id.food_main) {
-//					Intent intent = new Intent(mContext, DetailActivity.class);
-//					intent.putExtra("food", (FoodBean) adapter.getData().get(position));
-//					intent.putExtra("position", position);
-//					mContext.startActivity(intent);
-//					((Activity) mContext).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-//				}
+				if (view.getId() == R.id.food_main) {
+
+					Intent intent = new Intent(mContext, DetailActivity.class);
+					intent.putExtra("food", (FoodBean) adapter.getData().get(position));
+					intent.putExtra("position", position);
+					mContext.startActivity(intent);
+					((Activity) mContext).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				}
 			}
 
 			@Override

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.model.GoodTagList;
-import com.imovie.mogic.home.model.GoodTypeModel;
 
 import java.util.List;
 
@@ -18,10 +17,10 @@ import java.util.List;
 /**
  * Created by zhouxinshan on 2016/3/31.
  */
-public class GoodsTagAdapter extends BaseAdapter {
+public class GoodsPayTagAdapter extends BaseAdapter {
     private Context context;
     public List<GoodTagList> list;
-    public GoodsTagAdapter(Context context, List<GoodTagList> list) {
+    public GoodsPayTagAdapter(Context context, List<GoodTagList> list) {
         this.context = context;
         this.list = list;
     }
@@ -45,7 +44,7 @@ public class GoodsTagAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.home_goods_tag_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.home_pay_tag_item, null);
 //            holder.rlNameState = (RelativeLayout) convertView.findViewById(R.id.rlNameState);
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
 	  convertView.setTag(holder);

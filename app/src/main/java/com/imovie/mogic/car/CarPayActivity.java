@@ -212,6 +212,14 @@ public class CarPayActivity extends BaseActivity {
         tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
     }
 
+    public void setNoUserData() {
+         if(unSelect){
+            ivScanPay.setBackground(getResources().getDrawable(R.drawable.box_select));
+            ivMemberPay.setBackground(getResources().getDrawable(R.drawable.box_unselect));
+            payType = 0;
+         }
+    }
+
     public void saveGoodsOrder(int userId,String qrCode,String remark, String seatNo, List<FoodBean> goodsList){
         YSBLoadingDialog.showLoadingDialog(CarPayActivity.this, 3000, new YSBLoadingDialog.OnCancelListener() {
             @Override
@@ -300,9 +308,11 @@ public class CarPayActivity extends BaseActivity {
 
             case SearchMemberActivity.SELECT_RESULT:
                 SearchUserModel userModel = (SearchUserModel) data.getSerializableExtra("userModel");
-//                if(userModel!=null){
-//                    setUserData(userModel);
-//                }
+                if(userModel.name!=null){
+                    setUserData(userModel);
+                }else{
+                    setNoUserData();
+                }
                 break;
             default:
                 break;

@@ -497,7 +497,7 @@ public final class CaptureActivity extends Activity implements
         });
     }
 
-    public void payGoodsOrder(int goodsOrderId, int clerkOrderId,String code){
+    public void payGoodsOrder(long goodsOrderId, long clerkOrderId,String code){
         HomeWebHelper.payGoodsOrder(goodsOrderId , clerkOrderId , code ,new IModelResultListener<TestModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
@@ -553,7 +553,7 @@ public final class CaptureActivity extends Activity implements
                     PayResultModel model = (PayResultModel) activity.get().getIntent().getSerializableExtra("userModel");
                     Toast.makeText(activity.get(), "扫描完成，结果处理中...", Toast.LENGTH_SHORT).show();
                     String code1 = (String) msg.obj;
-                    activity.get().payGoodsOrder(model.goodsOrderId, model.clerkOrderId,code1);
+                    activity.get().payGoodsOrder(model.saleBillId, model.saleBillId,code1);
                     break;
 
                 case MSG_CHAEGE:

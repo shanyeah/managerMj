@@ -17,6 +17,7 @@ import com.imovie.mogic.widget.NoScrollListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -61,7 +62,7 @@ public class GoodsCarAdapter extends BaseAdapter {
          }
 
         holder.tvTypeName.setText(list.get(position).getName());
-        holder.tvGoodMoney.setText(context.getResources().getString(R.string.symbol_of_RMB) + list.get(position).getPrice());
+        holder.tvGoodMoney.setText(context.getResources().getString(R.string.symbol_of_RMB) + list.get(position).getPrice().multiply(BigDecimal.valueOf(list.get(position).getSelectCount())));
         holder.tvGoodNum.setText("x"+list.get(position).getSelectCount());
         if(list.get(position).goodsPackList.size()>0){
             GoodsPayTagAdapter adapter = new GoodsPayTagAdapter(context,list.get(position).goodsPackList);

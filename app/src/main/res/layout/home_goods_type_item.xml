@@ -27,10 +27,10 @@
             android:id="@+id/tvGoodNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tvGoodMoney"
             android:layout_alignBaseline="@+id/tvGoodMoney"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="100dp"
             android:text="X5"
+            android:layout_alignParentRight="true"
             style="@style/text_14_T3"/>
         <com.imovie.mogic.widget.NoScrollListView
             android:id="@+id/lvCarTagList"

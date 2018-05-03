@@ -138,6 +138,8 @@ public class SearchMemberActivity extends BaseActivity {
                     if (resultModel.list.size() > 0) {
                         adapter.list.addAll(resultModel.list);
                         adapter.notifyDataSetChanged();
+                    }else{
+                        Utills.showShortToast("查不到该会员");
                     }
                 }
 

@@ -23,6 +23,7 @@ import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.ClearButtonEditText;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class LoginActivity extends BaseActivity {
@@ -100,6 +101,7 @@ public class LoginActivity extends BaseActivity {
                     editor.putString("fackeImageUrl",resultModel.fackeImageUrl);
                     editor.commit();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("organList", (Serializable) resultModel.organList);
                     startActivity(intent);
                     finish();
                 }else{

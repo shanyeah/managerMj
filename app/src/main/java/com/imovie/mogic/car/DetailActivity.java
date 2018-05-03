@@ -63,7 +63,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	private View headerView;
 	public HorizontalListView lvGoodsTagList;
 	private int position = -1;
-//	private DetailAdapter dAdapter;
+	private TextView detail_sale;
+	private TextView detail_price;
 	public GoodsTagAdapter adapter;
 	public String amountStr = "0.00";
 
@@ -90,14 +91,23 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //		toolbar_title.setText(foodBean.getName());
 		TextView detail_name = (TextView) findViewById(R.id.detail_name);
 		detail_name.setText(foodBean.getName());
-//		TextView detail_sale = (TextView) findViewById(R.id.detail_sale);
+		detail_sale = (TextView) findViewById(R.id.detail_sale);
 //		detail_sale.setText(foodBean.getSale() + " 好评率95%");
-//		TextView detail_price = (TextView) findViewById(R.id.detail_price);
-//		detail_price.setText(foodBean.getStrPrice(getApplicationContext()));
+		detail_price = (TextView) findViewById(R.id.detail_price);
+		detail_price.setText(foodBean.getStrPrice(getApplicationContext()));
 
 		lvGoodsTagList = (HorizontalListView) findViewById(R.id.lvGoodsTagList);
-		adapter = new GoodsTagAdapter(DetailActivity.this,foodBean.goodsPackList);
-		lvGoodsTagList.setAdapter(adapter);
+		if(foodBean.goodsPackList.size()>0){
+			detail_sale.setVisibility(View.VISIBLE);
+			lvGoodsTagList.setVisibility(View.VISIBLE);
+			adapter = new GoodsTagAdapter(DetailActivity.this,foodBean.goodsPackList);
+			lvGoodsTagList.setAdapter(adapter);
+		}else{
+			detail_sale.setVisibility(View.GONE);
+			lvGoodsTagList.setVisibility(View.GONE);
+		}
+
+
 		detail_add = (AddWidget) findViewById(R.id.detail_add);
 		detail_add.setData(this, foodBean);
 //		detail_add.setState(foodBean.getSelectCount());

@@ -17,8 +17,6 @@
             android:id="@+id/ll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/llCarPayMember"
@@ -29,6 +27,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp">
                     <TextView
                         android:id="@+id/tv_name"
@@ -37,29 +37,15 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical"
                         android:text="名字"
-                        style="@style/text_16_T1"/>
-                    <LinearLayout
+                        style="@style/text_18_T1"/>
+                    <TextView
+                        android:id="@+id/tvPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="35dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvPhone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginTop="2dp"
-                            android:text="手机号："
-                            style="@style/text_14_T2"/>
-                        <TextView
-                            android:id="@+id/tvPresentBalance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="0"
-                            style="@style/text_14_T5" />
-                    </LinearLayout>
+                        android:layout_toRightOf="@+id/tv_name"
+                        android:layout_marginLeft="20dp"
+                        android:text="手机号："
+                        style="@style/text_18_T1"/>
 
                     <TextView
                         android:id="@+id/tvBalance"
@@ -70,6 +56,16 @@
                         android:layout_below="@+id/tv_name"
                         android:text="5"
                         style="@style/text_14_T5"/>
+                    <TextView
+                        android:id="@+id/tvPresentBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="35dp"
+                        android:layout_alignBaseline="@+id/tvBalance"
+                        android:gravity="center_vertical"
+                        android:text="0"
+                        style="@style/text_14_T5" />
 
                     <TextView
                         android:id="@+id/tvNumber"
@@ -100,6 +96,8 @@
                 android:id="@+id/stgName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="店"
                 style="@style/text_16_T1"
                 android:paddingTop="6dp"
@@ -120,6 +118,22 @@
                 android:text="小计: ¥0.00"
                 style="@style/text_16_T2"
                 android:paddingTop="6dp"/>
+            <TextView
+                android:id="@+id/tvIncomeAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="应付金额: ¥0.00"
+                style="@style/text_16_T2"
+                android:paddingTop="6dp"/>
+            <TextView
+                android:id="@+id/tvDiscountAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="减免金额: ¥0.00"
+                style="@style/text_16_T2"
+                android:paddingTop="6dp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
@@ -129,6 +143,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="支付方式"
                 style="@style/text_16_T1"
                 android:paddingTop="6dp"
@@ -184,7 +200,9 @@
                 android:background="@color/L1"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -215,6 +233,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView

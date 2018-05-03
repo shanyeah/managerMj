@@ -67,6 +67,9 @@ public class CarPayActivity extends BaseActivity {
     private ImageView ivScanPay;
     private ImageView ivMemberPay;
     private TextView car_limit;
+    private TextView tv_sum_amount;
+    private TextView tvIncomeAmount;
+    private TextView tvDiscountAmount;
     private String amount;
     public List<FoodBean> foodBeanList = new ArrayList<>();
     public GoodsCarAdapter carAdapter;
@@ -74,6 +77,8 @@ public class CarPayActivity extends BaseActivity {
     public UserInfoDialog dialog;
     public boolean unSelect = true;
     public int userId = 0;
+    public PayResultModel payModel = new PayResultModel();
+
 
 
     @Override
@@ -82,7 +87,11 @@ public class CarPayActivity extends BaseActivity {
         setContentView(R.layout.car_pay_activity);
         initView();
         setView();
-        saveGoodsOrder(userId,"","","",foodBeanList);
+        try {
+            saveGoodsOrder(userId,"","","",foodBeanList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -123,6 +132,9 @@ public class CarPayActivity extends BaseActivity {
         ivScanPay = (ImageView) findViewById(R.id.ivScanPay);
         ivMemberPay = (ImageView) findViewById(R.id.ivMemberPay);
         car_limit = (TextView) findViewById(R.id.car_limit);
+        tv_sum_amount = (TextView) findViewById(R.id.tv_sum_amount);
+        tvIncomeAmount = (TextView) findViewById(R.id.tvIncomeAmount);
+        tvDiscountAmount = (TextView) findViewById(R.id.tvDiscountAmount);
 
     }
 
@@ -205,11 +217,16 @@ public class CarPayActivity extends BaseActivity {
         unSelect = false;
         userId = userModel.userId;
         llCarPayMember.setVisibility(View.VISIBLE);
-        tvName.setText("会员："+userModel.name);
+        tvName.setText(""+userModel.name);
         tvNumber.setText("证件号：" + userModel.idNumber);
-        tvPhone.setText("手机号：" + userModel.mobile);
+        tvPhone.setText("" + userModel.mobile);
         tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.balance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        try {
+            saveGoodsOrder(userId,"","","",foodBeanList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setNoUserData() {
@@ -241,11 +258,15 @@ public class CarPayActivity extends BaseActivity {
             @Override
             public void onSuccess(String resultCode, PayResultModel resultModel, List<PayResultModel> resultModelList, String resultMsg, String hint) {
                 if(resultCode.equals("0")) {
-                    if(payType == 2){
-                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
-                    }else{
-                        payGoodsOrder(resultModel.goodsOrderId , resultModel.clerkOrderId,"");
-                    }
+                    payModel = resultModel;
+                    tv_sum_amount.setText("小计：¥" + payModel.payAmount);
+                    tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
+                    tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
+//                    if(payType == 2){
+//                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
+//                    }else{
+//                        payGoodsOrder(resultModel.saleBillId , resultModel.saleBillId,"");
+//                    }
 
                 }else{
                     Utills.showShortToast(resultMsg);
@@ -264,7 +285,7 @@ public class CarPayActivity extends BaseActivity {
         });
     }
 
-    public void payGoodsOrder(int goodsOrderId, int clerkOrderId,String code){
+    public void payGoodsOrder(long goodsOrderId, long clerkOrderId,String code){
         HomeWebHelper.payGoodsOrder(goodsOrderId , clerkOrderId , code ,new IModelResultListener<TestModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {

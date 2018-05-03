@@ -31,6 +31,7 @@ import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
 
+import com.imovie.mogic.card.model.InternetBarModel;
 import com.imovie.mogic.config.AppConfig;
 import com.imovie.mogic.gameHall.model.ReviewModel;
 import com.imovie.mogic.home.checkUpdate.net.UpdateHelper;
@@ -39,8 +40,10 @@ import com.imovie.mogic.home.fragment.ChargeFragment;
 import com.imovie.mogic.home.fragment.HomeFragmentOld;
 import com.imovie.mogic.home.fragment.MineFragment;
 import com.imovie.mogic.home.fragment.PraiseFragment;
+import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.login.LoginActivity;
+import com.imovie.mogic.login.model.LoginModel;
 import com.imovie.mogic.mine.SetingHallActivity;
 import com.imovie.mogic.mine.fragment.ClockFragment;
 import com.imovie.mogic.utills.ImageUtil;
@@ -51,6 +54,7 @@ import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -195,6 +199,15 @@ public class MainActivity extends BaseActivity {
         fman = getSupportFragmentManager();
         FragmentTransaction ft = fman.beginTransaction();
         homeFragment = new HomeFragmentOld();
+        List<LoginModel.OrganList> organList = (List<LoginModel.OrganList>) getIntent().getSerializableExtra("organList");
+        if(organList!=null && organList.size()>0) {
+            for (int i = 0; i < organList.size(); i++) {
+                InternetBarModel model = new InternetBarModel();
+                model.id = organList.get(i).organId;
+                model.name = organList.get(i).organName;
+                homeFragment.listHall.add(model);
+            }
+        }
         ft.add(R.id.ll_fragment, homeFragment, "0");
         ft.show(homeFragment);
 
@@ -327,6 +340,7 @@ public class MainActivity extends BaseActivity {
                 homeFragment.refresh();
 //                buyGoodsFragment.refresh();
                 break;
+
             default:
                 break;
 

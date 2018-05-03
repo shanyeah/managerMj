@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,16 @@ import android.widget.TextView;
 
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.manager.ScanPayManager;
+import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
+import com.imovie.mogic.car.CarPayActivity;
 import com.imovie.mogic.card.model.PresentModel;
 import com.imovie.mogic.card.net.CardWebHelper;
+import com.imovie.mogic.home.SearchMemberActivity;
+import com.imovie.mogic.home.SelectTypeActivity;
+import com.imovie.mogic.home.adater.ChargeAdapter;
+import com.imovie.mogic.home.adater.ClassifyAdapter;
+import com.imovie.mogic.home.model.ChargeListModel;
+import com.imovie.mogic.home.model.ClassifyModel;
 import com.imovie.mogic.home.model.MyQrCodeModel;
 import com.imovie.mogic.home.model.SearchModel;
 import com.imovie.mogic.home.model.SearchUserModel;
@@ -39,6 +48,7 @@ import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.FlexibleFrameLayout;
+import com.imovie.mogic.widget.NoScrollGridView;
 import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -54,27 +64,30 @@ public class ChargeFragment extends Fragment {
     private PullToRefreshFrameLayout pull_content;
     private FlexibleFrameLayout ff_list;
 
-    public RelativeLayout rlChargePraise;
-    public RelativeLayout rlChargeState;
-    public RelativeLayout rlChargeRanking;
-    public TextView tvNickname;
-    public TextView tvPresentAmount;
-    public ImageView ivChargeHeader;
-    public LinearLayout llRightOne;
-    public LinearLayout llRightTwo;
-    public LinearLayout llRightThree;
-    public LinearLayout llRightFour;
-    public LinearLayout llUserNumState;
+    private LinearLayout llCarPayMember;
+    private TextView tvName;
+    private TextView tvNumber;
+    private TextView tvBalance;
+    private TextView tvPresentBalance;
+    private TextView tvPhone;
+    private RelativeLayout rlNoUserData;
+    private RelativeLayout rlUserData;
+
+//    public LinearLayout llRightOne;
+//    public LinearLayout llRightTwo;
+//    public LinearLayout llRightThree;
+//    public LinearLayout llRightFour;
+//    public LinearLayout llUserNumState;
     public EditText etChargeNum;
-    public EditText etUserId;
-    public TextView tvUserName;
     public Button btChargeCard;
     public Button btChargeSelect;
     public SearchUserModel internetBarModel = new SearchUserModel();
     public String chargeNum = "";
+    public boolean unSelect = true;
+    public NoScrollGridView gvChargeList;
+    public List<ChargeListModel> listCharge = new ArrayList<>();
+    public ChargeAdapter chargeAdapter;
 
-    private SearchUserPopWindow<SearchUserModel> mSpinerPopWindow;
-    private List<SearchUserModel> list = new ArrayList<>();
 
     private int userId = -1;
     private int orderType = 0;
@@ -119,53 +132,78 @@ public class ChargeFragment extends Fragment {
         return v;
     }
     private void initView(View view) {
-        rlChargePraise = (RelativeLayout) view.findViewById(R.id.rlChargePraise);
-        rlChargeState = (RelativeLayout) view.findViewById(R.id.rlChargeState);
-        rlChargeRanking = (RelativeLayout) view.findViewById(R.id.rlChargeRanking);
-        tvNickname = (TextView) view.findViewById(R.id.tvNickname);
-        ivChargeHeader = (ImageView) view.findViewById(R.id.ivChargeHeader);
+        llCarPayMember = (LinearLayout) view.findViewById(R.id.llCarPayMember);
+        tvName=(TextView) view.findViewById(R.id.tv_name);
+        tvNumber=(TextView) view.findViewById(R.id.tvNumber);
+        tvBalance = (TextView) view.findViewById(R.id.tvBalance);
+        tvPresentBalance = (TextView) view.findViewById(R.id.tvPresentBalance);
+        tvPhone=(TextView) view.findViewById(R.id.tvPhone);
+        rlNoUserData = (RelativeLayout) view.findViewById(R.id.rlNoUserData);
+        rlUserData = (RelativeLayout) view.findViewById(R.id.rlUserData);
+
         pull_content = (PullToRefreshFrameLayout) view.findViewById(R.id.pull_content);
         ff_list = (FlexibleFrameLayout) view.findViewById(R.id.ff_list);
-        llRightOne = (LinearLayout) view.findViewById(R.id.llRightOne);
-        llRightTwo = (LinearLayout) view.findViewById(R.id.llRightTwo);
-        llRightThree = (LinearLayout) view.findViewById(R.id.llRightThree);
-        llRightFour = (LinearLayout) view.findViewById(R.id.llRightFour);
-        llUserNumState = (LinearLayout) view.findViewById(R.id.llUserNumState);
-        etUserId = (EditText) view.findViewById(R.id.etUserId);
-        tvUserName = (TextView) view.findViewById(R.id.tvUserName);
+        gvChargeList = (NoScrollGridView) view.findViewById(R.id.gvChargeList);
+
+
         etChargeNum = (EditText) view.findViewById(R.id.etChargeNum);
-        tvPresentAmount = (TextView) view.findViewById(R.id.tvPresentAmount);
+
         btChargeCard = (Button) view.findViewById(R.id.btChargeCard);
         btChargeSelect = (Button) view.findViewById(R.id.btChargeSelect);
 
-        mSpinerPopWindow = new SearchUserPopWindow<SearchUserModel>(getActivity(), list,itemClickListener);
-
-//        LinearLayout.LayoutParams slideShowViewParam=(LinearLayout.LayoutParams)adSlideBanner.getLayoutParams();
-//        slideShowViewParam.width= AppConfig.getScreenWidth();
-//        slideShowViewParam.height=(AppConfig.getScreenWidth()*244)/640;
-//        adSlideBanner.setLayoutParams(slideShowViewParam);
 
     }
 
     private void setView() {
         setPullAndFlexListener();
+        for(int i=0;i<6;i++){
+            ChargeListModel model = new ChargeListModel();
+            model.chargeAmount = 10;
+            model.presentAmount = 100;
+            listCharge.add(model);
+        }
+
+        chargeAdapter = new ChargeAdapter(getContext(),listCharge);
+        gvChargeList.setAdapter(chargeAdapter);
 //        listHall = new ArrayList<>();
 //        hallAdapter = new GameHallAdapter(getContext(),listHall);
 //        lvGameHall.setAdapter(hallAdapter);
 //        lvGameHall.setPageSize(10);
-        getMyData();
+//        getMyData();
 //        getCityList();
+    }
+
+    public void setUserData(SearchUserModel userModel){
+        unSelect = false;
+        userId = userModel.userId;
+        rlUserData.setVisibility(View.VISIBLE);
+        rlNoUserData.setVisibility(View.GONE);
+        tvName.setText(""+userModel.name);
+        tvNumber.setText("证件号：" + userModel.idNumber);
+        tvPhone.setText("" + userModel.mobile);
+        tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.balance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+
+    }
+
+    public void setNoUserData(){
+        if(unSelect){
+            rlUserData.setVisibility(View.GONE);
+            rlNoUserData.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void setPullAndFlexListener(){
 //        ff_list.setFlexView(ll_ad);
 //        ff_list.setFlexible(true);
+        pull_content.setPullEnable(false);
 
         ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
             @Override
             public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
                 if (isOnTop) {
-                    pull_content.setPullEnable(true);
+                    pull_content.setPullEnable(false);
                 } else {
                     pull_content.setPullEnable(false);
                 }
@@ -175,76 +213,30 @@ public class ChargeFragment extends Fragment {
         pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
             @Override
             public void onRefresh() {
-                getMyData();
+//                getMyData();
             }
         });
 
     }
 
     private void setListener() {
-        rlChargePraise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MinePraiseActivity.class);
-                intent.putExtra("stgId",21);
-                startActivity(intent);
-            }
-        });
-        rlChargeState.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MinePraiseActivity.class);
-                intent.putExtra("stgId",21);
-                startActivity(intent);
-            }
-        });
-
-        rlChargeRanking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MineRankActivity.class);
-                intent.putExtra("stgId",21);
-                startActivity(intent);
-            }
-        });
-        etUserId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-//                String user = editable.toString();
-//                if(!StringHelper.isEmail(user)) {
-//                    getCheckUserInfo(user);
-//                }
-            }
-        });
-        btChargeSelect.setOnClickListener(new View.OnClickListener() {
+        llCarPayMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = etUserId.getText().toString();
-                if(StringHelper.isEmail(user)) {
-                    Utills.showShortToast("请输入充值用户");
-                   return;
-                }
-                getCheckUserInfo(user);
+                Intent intent = new Intent(getActivity(),SearchMemberActivity.class);
+                startActivityForResult(intent,SearchMemberActivity.SELECT_RESULT);
             }
         });
+
 
         etChargeNum.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+                chargeAdapter.setUnSelectIndex();
             }
 
             @Override
@@ -255,66 +247,106 @@ public class ChargeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 chargeNum = editable.toString();
-                if(!StringHelper.isEmpty(chargeNum))getPresentList(chargeNum+"00",userId);
+                if(!StringHelper.isEmpty(chargeNum))getPresentList(chargeNum+"",userId);
             }
         });
 
-        llRightOne.setOnClickListener(new View.OnClickListener() {
+        gvChargeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                etChargeNum.setText("");
-                chargeNum = "50";
-                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_bg5_r5_l5));
-                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                if(userId != -1)getPresentList(chargeNum+"00",userId);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    Utills.showShortToast(""+position);
+                    chargeAdapter.setSelectIndex(position);
+                    etChargeNum.setText("");
+                    chargeNum = ""+chargeAdapter.getItem(position).chargeAmount;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
-        llRightTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etChargeNum.setText("");
-                chargeNum = "100";
-                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_bg5_r5_l5));
-                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                if(userId != -1)getPresentList(chargeNum+"00",userId);
-            }
-        });
-        llRightThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etChargeNum.setText("");
-                chargeNum = "200";
-                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_bg5_r5_l5));
-                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                if(userId != -1)getPresentList(chargeNum+"00",userId);
-            }
-        });
-        llRightFour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etChargeNum.setText("");
-                chargeNum = "500";
-                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_bg5_r5_l5));
-                if(userId != -1)getPresentList(chargeNum+"00",userId);
-            }
-        });
+
+//        llRightOne.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(unSelect) {
+//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+//                    return;
+//                }
+//
+//                etChargeNum.setText("");
+//                chargeNum = "50";
+//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
+//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                if(userId != -1)getPresentList(chargeNum+"00",userId);
+//            }
+//        });
+//        llRightTwo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(unSelect) {
+//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+//                    return;
+//                }
+//                etChargeNum.setText("");
+//                chargeNum = "100";
+//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
+//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                if(userId != -1)getPresentList(chargeNum+"00",userId);
+//            }
+//        });
+//        llRightThree.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(unSelect) {
+//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+//                    return;
+//                }
+//                etChargeNum.setText("");
+//                chargeNum = "200";
+//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
+//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                if(userId != -1)getPresentList(chargeNum+"00",userId);
+//            }
+//        });
+//        llRightFour.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(unSelect) {
+//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+//                    return;
+//                }
+//                etChargeNum.setText("");
+//                chargeNum = "500";
+//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
+//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
+//                if(userId != -1)getPresentList(chargeNum+"00",userId);
+//            }
+//        });
 
         btChargeCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(userId == -1) {
-                    Utills.showShortToast("请选择充值用户");
+                if(unSelect) {
+                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
                     return;
                 }
+//                if(userId == -1) {
+//                    Utills.showShortToast("请选择充值用户");
+//                    return;
+//                }
 //                String chargeFee = etChargeNum.getText().toString();
                 if(StringHelper.isEmail(chargeNum)) {
                     Utills.showShortToast("请选择充值金额");
@@ -327,101 +359,7 @@ public class ChargeFragment extends Fragment {
 
     }
 
-//    /**
-//     * 给TextView右边设置图片
-//     * @param resId
-//     */
-//    private void setTextImage(int resId) {
-//        Drawable drawable = getResources().getDrawable(resId);
-//        drawable.setBounds(0, 0, drawable.getMinimumWidth(),drawable.getMinimumHeight());// 必须设置图片大小，否则不显示
-//        tvHallArea.setCompoundDrawables(null, null, drawable, null);
-//    }
 
-    /**
-     * popupwindow显示的ListView的item点击事件
-     */
-    private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-            internetBarModel = (SearchUserModel)mSpinerPopWindow.list.get(position);
-            tvUserName.setText(internetBarModel.name + "(" + internetBarModel.idNumber + ")");
-            userId = internetBarModel.userId;
-            mSpinerPopWindow.dismiss();
-            if(!StringHelper.isEmpty(chargeNum)) getPresentList(chargeNum+"00",userId);
-//            cityId = "" + internetBarModel.userId;
-//            if(cityId.equals("0")) cityId="";
-//            Toast.makeText(MovieSelectActivity.this, "点击了:" + internetBarModel.id,Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    public void getMyData(){
-        HomeWebHelper.getMy(new IModelResultListener<MyDataModel>() {
-            @Override
-            public boolean onGetResultModel(HttpResultModel resultModel) {
-                pull_content.endRefresh(true);
-                return false;
-            }
-
-            @Override
-            public void onSuccess(String resultCode, MyDataModel resultModel, List<MyDataModel> resultModelList, String resultMsg, String hint) {
-                pull_content.endRefresh(true);
-                if(resultCode.equals("0")) {
-                    tvNickname.setText(resultModel.nickName);
-//                member.setText(loginModel.card.cardCategoryName);
-//                tvTodayIntegration.setText(DecimalUtil.FormatMoney(loginModel.card.cashBalance));
-//                tvBalance.setText(DecimalUtil.FormatMoney(loginModel.card.exchangeBalance));
-//                tvBean.setText(DecimalUtil.FormatMoney(loginModel.card.presentBalance));
-//                tvTicket.setText(DecimalUtil.FormatMoney(loginModel.card.point));
-                    ImageLoader.getInstance().displayImage(resultModel.fackeImageUrl,ivChargeHeader,mOption);
-                }
-
-            }
-
-            @Override
-            public void onFail(String resultCode, String resultMsg, String hint) {
-                pull_content.endRefresh(true);
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-                pull_content.endRefresh(true);
-            }
-        });
-    }
-
-    public void getCheckUserInfo(String input){
-        HomeWebHelper.getCheckUserInfo(input,new IModelResultListener<SearchModel>() {
-            @Override
-            public boolean onGetResultModel(HttpResultModel resultModel) {
-                return false;
-            }
-
-            @Override
-            public void onSuccess(String resultCode, SearchModel resultModel, List<SearchModel> resultModelList, String resultMsg, String hint) {
-//                Log.e("----city:",""+resultCode);
-                if(resultModelList.size()>0){
-//                    closeSoftKeyboard(getContext());
-                    closeSoftKeyboard(getActivity());
-                    mSpinerPopWindow.setWidth(llUserNumState.getWidth());
-                    mSpinerPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-                    mSpinerPopWindow.showAsDropDown(llUserNumState);
-                    mSpinerPopWindow.refreshData(resultModel.list);
-
-                }
-
-            }
-
-            @Override
-            public void onFail(String resultCode, String resultMsg, String hint) {
-
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-
-            }
-        });
-    }
 
     public void getPresentList(String chargeFee,int userId){
         CardWebHelper.getPresentList(chargeFee,userId , new IModelResultListener<PresentModel>() {
@@ -435,7 +373,7 @@ public class ChargeFragment extends Fragment {
 //                Log.e("-----getPresentList",""+resultCode);
 //                loginModel.setModelByJson(resultCode);
                 if(resultModelList.size()>0) {
-                    tvPresentAmount.setText("(充" + DecimalUtil.FormatMoney(resultModelList.get(0).chargeAmount/100) + "元,送"+ DecimalUtil.FormatMoney(resultModelList.get(0).presentAmount/100) + "元)");
+//                    tvPresentAmount.setText("(充" + DecimalUtil.FormatMoney(resultModelList.get(0).chargeAmount/100) + "元,送"+ DecimalUtil.FormatMoney(resultModelList.get(0).presentAmount/100) + "元)");
 
 //                    for(int i=0;i<resultModelList.size();i++) {
 //                        switch (i){
@@ -498,9 +436,9 @@ public class ChargeFragment extends Fragment {
 //                    Utills.showShortToast(""+qrCodeModel.data);
                     try {
                         ScanPayManager.enterCaptureActivity(getContext(),""+qrCodeModel.data,internetBarModel);
-                        tvUserName.setText("");
+//                        tvUserName.setText("");
                         userId = -1;
-                        etUserId.setText("");
+//                        etUserId.setText("");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -529,5 +467,31 @@ public class ChargeFragment extends Fragment {
             inputMethodManager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Utills.showShortToast(""+requestCode);
+        switch (requestCode) {
+//            case CaptureActivity.MSG_OTHER:
+//                String code = data.getStringExtra("code");
+//                if(StringHelper.isEmail(code))return;
+//                break;
+
+
+            case SearchMemberActivity.SELECT_RESULT:
+                SearchUserModel userModel = (SearchUserModel) data.getSerializableExtra("userModel");
+                if(userModel.name!=null){
+                    setUserData(userModel);
+                }else{
+                    setNoUserData();
+                }
+                break;
+            default:
+                break;
+
+        }
+    }
+
+
 
 }

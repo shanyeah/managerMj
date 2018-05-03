@@ -8,9 +8,12 @@ import com.imovie.mogic.dbbase.model.BaseModel;
  */
 
 public class PayResultModel extends BaseModel {
-    public int clerkOrderId;
-    public int  goodsOrderId;
-    public int payType;
+    public long saleBillId;
+    public int  discount;
+    public double discountAmount;
+    public double incomeAmount;
+    public double payAmount;
+
 }
 
 

@@ -21,6 +21,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.imovie.mogic.R;
+import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
 import com.imovie.mogic.car.CarPayActivity;
 import com.imovie.mogic.car.DetailActivity;
 import com.imovie.mogic.car.adapters.CarAdapter;
@@ -34,10 +35,12 @@ import com.imovie.mogic.home.fragment.ChargeFragment;
 import com.imovie.mogic.home.fragment.PraiseFragment;
 import com.imovie.mogic.home.fragment.WebviewFragment;
 import com.imovie.mogic.home.model.ClassifyModel;
+import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.login.LoginActivity;
 import com.imovie.mogic.mine.MyAttendActivity;
 import com.imovie.mogic.mine.fragment.ClockFragment;
 import com.imovie.mogic.myRank.MinePraiseActivity;
+import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.widget.TitleBar;
 
@@ -336,7 +339,6 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             }
         }
     };
-
 
 }
 

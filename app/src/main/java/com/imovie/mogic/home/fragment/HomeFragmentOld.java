@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.manager.ScanPayManager;
+import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.card.model.InternetBarModel;
 import com.imovie.mogic.gameHall.adater.RatingAdapter;
 import com.imovie.mogic.gameHall.model.ReviewListModel;
@@ -37,6 +38,7 @@ import com.imovie.mogic.home.model.GameHall;
 import com.imovie.mogic.home.model.HallModel;
 import com.imovie.mogic.home.model.HomeModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
+import com.imovie.mogic.login.model.LoginModel;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.mine.MapActivity;
 import com.imovie.mogic.myRank.widget.SpinerPopWindow;
@@ -81,7 +83,7 @@ public class HomeFragmentOld extends Fragment {
     private TextView ratingBarScore;
     private TextView tvNoData;
     private SpinerPopWindow<InternetBarModel> mSpinerPopWindow;
-    private List<InternetBarModel> listHall = new ArrayList<>();
+    public List<InternetBarModel> listHall = new ArrayList<>();
 
     public List<ClassifyModel> listClassify = new ArrayList<>();
     public ClassifyAdapter classifyAdapter;
@@ -99,6 +101,7 @@ public class HomeFragmentOld extends Fragment {
     public ReviewModel reviewModel;
     public String address = "";
     public int selectPop = 0;
+    public List<LoginModel.OrganList> organList = new ArrayList<>();
 
     public HomeFragmentOld() {
 
@@ -197,6 +200,7 @@ public class HomeFragmentOld extends Fragment {
         classifyAdapter = new ClassifyAdapter(getContext(),listClassify);
         gvClassification.setAdapter(classifyAdapter);
 
+        tvHomeHall.setText(MyApplication.getInstance().mPref.getString("organName",""));
 
         mSpinerPopWindow = new SpinerPopWindow<InternetBarModel>(getActivity(), listHall,itemClickListener);
 

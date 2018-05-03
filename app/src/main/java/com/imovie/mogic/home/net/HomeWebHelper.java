@@ -14,6 +14,7 @@ import com.imovie.mogic.home.model.AuthCodeModel;
 import com.imovie.mogic.home.model.CardModel;
 import com.imovie.mogic.home.model.ClassifyModel;
 import com.imovie.mogic.home.model.DBModel_SlideBanner;
+import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.home.model.HallModel;
 import com.imovie.mogic.home.model.OrderModel;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,10 +100,24 @@ public class HomeWebHelper extends HttpWebHelper{
         List<OrderModel> list = new ArrayList<>();
         for(int i=0;i<goodsList.size();i++){
             OrderModel orderModel = new OrderModel();
-            orderModel.goodsId = goodsList.get(i).getGoodsId();
+            orderModel.goodsId = goodsList.get(i).getId();
             orderModel.price = goodsList.get(i).getPrice().toString();
             orderModel.quantity = goodsList.get(i).getSelectCount();
-            orderModel.goodsPackList = goodsList.get(i).goodsPackList;
+            orderModel.payAmount = goodsList.get(i).getPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getSelectCount()));
+            orderModel.incomeAmount = goodsList.get(i).getPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getSelectCount()));
+            if(goodsList.get(i).goodsPackList!=null && goodsList.get(i).goodsPackList.size()>0){
+                List<GoodTagList> listTag = new ArrayList<>();
+                for(int j=0;j<goodsList.get(i).goodsPackList.size();j++){
+                    GoodTagList tagList = new GoodTagList();
+                    tagList.goodsId = goodsList.get(i).goodsPackList.get(j).goodsId;
+                    tagList.quantity = goodsList.get(i).goodsPackList.get(j).quantity;
+                    tagList.packPrice = goodsList.get(i).goodsPackList.get(j).packPrice;
+                    tagList.price = goodsList.get(i).goodsPackList.get(j).price;
+                    tagList.goodsTags = goodsList.get(i).goodsPackList.get(j).goodsTags;
+                    listTag.add(tagList);
+                }
+                orderModel.goodsPackList.addAll(listTag);
+            }
             list.add(orderModel);
         }
         return list;
@@ -178,7 +194,7 @@ public class HomeWebHelper extends HttpWebHelper{
      * 支付定单
      * @param listener
      */
-    public static void payGoodsOrder(int goodsOrderId, int clerkOrderId,String code, IModelResultListener<TestModel> listener) {
+    public static void payGoodsOrder(long goodsOrderId, long clerkOrderId,String code, IModelResultListener<TestModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
         baseReqParamNetMap.put("goodsOrderId", goodsOrderId);
         baseReqParamNetMap.put("clerkOrderId", clerkOrderId);

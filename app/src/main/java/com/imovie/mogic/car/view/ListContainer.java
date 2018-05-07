@@ -53,7 +53,7 @@ public class ListContainer extends LinearLayout {
 		inflate(mContext, R.layout.view_listcontainer, this);
 		RecyclerView recyclerView1 = findViewById(R.id.recycler1);
 		recyclerView1.setLayoutManager(new LinearLayoutManager(mContext));
-		typeList = BaseUtils.getTypes();
+//		typeList = BaseUtils.getTypes();
 		typeAdapter = new TypeAdapter(typeList);
 		View view = new View(mContext);
 		view.setMinimumHeight(ViewUtils.dip2px(mContext, 70));
@@ -83,7 +83,7 @@ public class ListContainer extends LinearLayout {
 		linearLayoutManager = new LinearLayoutManager(mContext);
 		recyclerView2.setLayoutManager(linearLayoutManager);
 		((DefaultItemAnimator) recyclerView2.getItemAnimator()).setSupportsChangeAnimations(false);
-		foodBeanList = BaseUtils.getDatas(mContext);
+//		foodBeanList = BaseUtils.getDatas(mContext);
 		commandList = BaseUtils.getDetails(foodBeanList);
 		recyclerView2.addOnItemTouchListener(new OnItemClickListener() {
 			@Override

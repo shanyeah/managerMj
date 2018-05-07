@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.base.universal_loading.YSBLoadingDialog;
@@ -19,6 +20,7 @@ import com.imovie.mogic.home.MainActivity;
 import com.imovie.mogic.login.model.LoginModel;
 import com.imovie.mogic.login.net.LoginWebHelper;
 import com.imovie.mogic.utills.StringHelper;
+import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.ClearButtonEditText;
@@ -95,13 +97,16 @@ public class LoginActivity extends BaseActivity {
                     if(resultModel.organList.size()>0){
                         editor.putInt("organId",resultModel.organList.get(0).organId);
                         editor.putString("organName",resultModel.organList.get(0).organName);
+                        Gson gson = new Gson();
+                        String str = gson.toJson(resultModel.organList);
+                        editor.putString("organList",str);
                     }
                     editor.putString("token",resultModel.token);
                     editor.putString("nickName",resultModel.name);
                     editor.putString("fackeImageUrl",resultModel.fackeImageUrl);
                     editor.commit();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("organList", (Serializable) resultModel.organList);
+//                    intent.putExtra("organList", (Serializable) resultModel.organList);
                     startActivity(intent);
                     finish();
                 }else{

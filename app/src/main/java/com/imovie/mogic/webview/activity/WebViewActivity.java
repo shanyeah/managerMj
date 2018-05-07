@@ -113,6 +113,7 @@ public class WebViewActivity extends BaseActivity {
         setContentView(R.layout.home_webview);
         //get view
         navigationbar = (TitleBar)findViewById(R.id.navigationbar);
+        navigationbar.setTitle(getIntent().getStringExtra("title"));
         id_webview = (YSBWebView)findViewById(R.id.id_webview);
         rl_Layout = (RelativeLayout)findViewById(R.id.rl_web_view_layout);
     }
@@ -139,7 +140,7 @@ public class WebViewActivity extends BaseActivity {
         webViewClient.setOnGetTitleListener(new YSBWebViewClient.getTitleListener() {
             @Override
             public void onGetTitle(String title) {
-                navigationbar.setTitle(title);
+//                navigationbar.setTitle(title);
             }
         });
 
@@ -149,7 +150,7 @@ public class WebViewActivity extends BaseActivity {
         webViewChromeClient.setOnGetTitleListener(new YSBWebViewChromeClient.getTitleListener() {
             @Override
             public void onGetTitle(String title) {
-                navigationbar.setTitle(title);
+//                navigationbar.setTitle(title);
             }
 
             @Override

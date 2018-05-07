@@ -1,6 +1,7 @@
 package com.imovie.mogic.home.adater;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.model.ChargeListModel;
 import com.imovie.mogic.home.model.ClassifyModel;
+import com.imovie.mogic.utills.DecimalUtil;
+import com.imovie.mogic.utills.Utills;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -62,8 +65,7 @@ public class ChargeAdapter extends BaseAdapter {
 		ViewHolder holder = new ViewHolder();
 		if (convertView == null) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.home_charge_list_item, null);
-			holder.rlChargeState = (RelativeLayout) convertView.findViewById(R.id.rlChargeState);
-			holder.ivChargeState = (ImageView) convertView.findViewById(R.id.ivChargeState);
+			holder.rlChargeState = (RelativeLayout) convertView.findViewById(R.id.rlChargeMoneyState);
 			holder.tvChargeAmount = (TextView) convertView.findViewById(R.id.tvChargeAmount);
 			holder.tvPresentAmount = (TextView) convertView.findViewById(R.id.tvPresentAmount);
 			convertView.setTag(holder);
@@ -71,18 +73,10 @@ public class ChargeAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if(list.get(position).isSelect){
-//            holder.viewType.setVisibility(View.VISIBLE);
-			holder.ivChargeState.setBackgroundResource(R.drawable.bg_line_l7_r3);
-			holder.rlChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
-		}else{
-//            holder.viewType.setVisibility(View.GONE);
-			holder.rlChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.shape_write_r5_l5));
-			holder.ivChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.shape_write_r5_l5));
-		}
 
-		holder.tvChargeAmount.setText(""+list.get(position).chargeAmount);
-		holder.tvPresentAmount.setText("充"+list.get(position).chargeAmount+"充"+list.get(position).presentAmount);
+//		holder.rlChargeState.setTag(list.get(position).isSelect);
+		holder.tvChargeAmount.setText(""+ DecimalUtil.FormatMoney(list.get(position).chargeAmount,"#0"));
+		holder.tvPresentAmount.setText("送"+DecimalUtil.FormatMoney(list.get(position).presentAmount,"#0"));
 //		holder.ivClassifyImage.setBackgroundResource(list.get(position).imageId);
 
 		int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
@@ -96,32 +90,40 @@ public class ChargeAdapter extends BaseAdapter {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
+
+
+		if(list.get(position).present==5000){
+			Log.e("----","111");
+//			Utills.showShortToast(""+list.get(position).isSelect);
+//            holder.viewType.setVisibility(View.VISIBLE);
+//			holder.rlChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
+			holder.rlChargeState.setBackground(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
+		}else{
+			Log.e("----","0000");
+//			Utills.showShortToast(""+list.get(position).isSelect);
+//            holder.viewType.setVisibility(View.GONE);
+//			holder.rlChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.shape_write_r5_l5));
+			holder.rlChargeState.setBackground(context.getResources().getDrawable(R.drawable.shape_write_r5_l5));
+		}
 		return convertView;
 
 	}
 
 	public void setSelectIndex(int position){
 		for(int i=0;i<this.list.size();i++){
-			if(i==position){
-				this.list.get(i).isSelect = true;
-				this.list.get(i).presentAmount =5000;
+			if(i == position){
+				this.list.get(i).present = 5000;
+//				this.list.get(i).presentAmount = 5000;
 			}else{
-				this.list.get(i).isSelect = false;
+				this.list.get(i).present = 1000;
+//				this.list.get(i).presentAmount = 1000;
 			}
-		}
-		super.notifyDataSetChanged();
-	}
-
-	public void setUnSelectIndex(){
-		for(int i=0;i<this.list.size();i++){
-			list.get(i).isSelect = false;
 		}
 		super.notifyDataSetChanged();
 	}
 
 	class ViewHolder {
 		public RelativeLayout rlChargeState = null;
-		public ImageView ivChargeState;
 		public TextView tvChargeAmount = null;
 		public TextView tvPresentAmount = null;
 	}

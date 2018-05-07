@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_write_r5_l5"
-                android:id="@+id/rlChargeState">
+                android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
-        <ImageView
-            android:id="@+id/ivChargeState"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/shape_write_r5_l5">
-
-        </ImageView>
+        android:layout_height="60dp"
+        android:id="@+id/rlChargeMoneyState"
+        android:background="@drawable/shape_write_r5_l5">
 
         <TextView
             android:id="@+id/tvChargeAmount"

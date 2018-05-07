@@ -55,6 +55,7 @@ public class PraiseNumFragment extends Fragment {
 		list = new ArrayList<>();
 		adapter = new PraiseNumAdapter(getContext(),list);
 		lvRatingList.setAdapter(adapter);
+		lvRatingList.setEmptyTips("暂无数据");
 		getPraiseList(typeNum);
 
 //		btHallRating.setOnClickListener(new View.OnClickListener() {

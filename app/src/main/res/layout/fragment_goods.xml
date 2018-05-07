@@ -28,7 +28,7 @@
                         android:cursorVisible="true"
                         android:drawableLeft="@drawable/home_tr_sousuo"
                         android:drawableRight="@drawable/login_clear"
-                        android:hint="附近美食"
+                        android:hint="搜索"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="5dp"

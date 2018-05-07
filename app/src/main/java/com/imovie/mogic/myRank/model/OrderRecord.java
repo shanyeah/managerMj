@@ -16,14 +16,17 @@ public class OrderRecord extends BaseModel {
 
     public static class Record extends BaseModel{
         public int id;
-        public int billId;
+        public int organId;
         public String createTime;
         public double payAmount;
         public String remark;
         public double rewardAmount;
         public int status;
         public int type;
+        public long saleBillId;
+        public String updateTime;
         public RecordDetail detail;
+
     }
 
     public static class RecordDetail extends BaseModel{

@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+
+    <com.imovie.mogic.widget.PullToRefreshFrameLayout
+        android:id="@+id/pull_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar">
+        <com.imovie.mogic.widget.FlexibleFrameLayout
+            android:id="@+id/ff_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/rlCharge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/ll_ad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+
+                <com.imovie.mogic.widget.PageGridView
+                    android:id="@+id/lv_report_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:numColumns="3"/>
+            </LinearLayout>
+        </com.imovie.mogic.widget.FlexibleFrameLayout>
+    </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+
+</RelativeLayout>

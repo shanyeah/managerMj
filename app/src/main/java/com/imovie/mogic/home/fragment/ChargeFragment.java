@@ -1,13 +1,19 @@
 package com.imovie.mogic.home.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +33,13 @@ import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
 import com.imovie.mogic.car.CarPayActivity;
 import com.imovie.mogic.card.model.PresentModel;
 import com.imovie.mogic.card.net.CardWebHelper;
+import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.SearchMemberActivity;
 import com.imovie.mogic.home.SelectTypeActivity;
 import com.imovie.mogic.home.adater.ChargeAdapter;
 import com.imovie.mogic.home.adater.ClassifyAdapter;
 import com.imovie.mogic.home.model.ChargeListModel;
+import com.imovie.mogic.home.model.ChargeSuccessModel;
 import com.imovie.mogic.home.model.ClassifyModel;
 import com.imovie.mogic.home.model.MyQrCodeModel;
 import com.imovie.mogic.home.model.SearchModel;
@@ -73,6 +81,8 @@ public class ChargeFragment extends Fragment {
     private RelativeLayout rlNoUserData;
     private RelativeLayout rlUserData;
 
+    private TextView tvPresentAmount;
+
 //    public LinearLayout llRightOne;
 //    public LinearLayout llRightTwo;
 //    public LinearLayout llRightThree;
@@ -82,7 +92,7 @@ public class ChargeFragment extends Fragment {
     public Button btChargeCard;
     public Button btChargeSelect;
     public SearchUserModel internetBarModel = new SearchUserModel();
-    public String chargeNum = "";
+    public String chargeNum;
     public boolean unSelect = true;
     public NoScrollGridView gvChargeList;
     public List<ChargeListModel> listCharge = new ArrayList<>();
@@ -150,6 +160,7 @@ public class ChargeFragment extends Fragment {
 
         btChargeCard = (Button) view.findViewById(R.id.btChargeCard);
         btChargeSelect = (Button) view.findViewById(R.id.btChargeSelect);
+        tvPresentAmount = (TextView) view.findViewById(R.id.tvPresentAmount);
 
 
     }
@@ -158,12 +169,42 @@ public class ChargeFragment extends Fragment {
         setPullAndFlexListener();
         for(int i=0;i<6;i++){
             ChargeListModel model = new ChargeListModel();
-            model.chargeAmount = 10;
-            model.presentAmount = 100;
+            switch (i){
+                case 0:
+                    model.chargeAmount = 50;
+                    model.presentAmount = 5;
+                    model.present = 5;
+                    break;
+                case 1:
+                    model.chargeAmount = 100;
+                    model.presentAmount = 20;
+                    model.present = 20;
+                    break;
+                case 2:
+                    model.chargeAmount = 200;
+                    model.presentAmount = 50;
+                    model.present = 50;
+                    break;
+                case 3:
+                    model.chargeAmount = 500;
+                    model.presentAmount = 100;
+                    model.present = 100;
+                    break;
+                case 4:
+                    model.chargeAmount = 1000;
+                    model.presentAmount = 200;
+                    model.present = 200;
+                    break;
+                case 5:
+                    model.chargeAmount = 2000;
+                    model.presentAmount = 500;
+                    model.present = 500;
+                    break;
+            }
+
             listCharge.add(model);
         }
-
-        chargeAdapter = new ChargeAdapter(getContext(),listCharge);
+        chargeAdapter = new ChargeAdapter(getActivity(),listCharge);
         gvChargeList.setAdapter(chargeAdapter);
 //        listHall = new ArrayList<>();
 //        hallAdapter = new GameHallAdapter(getContext(),listHall);
@@ -171,6 +212,7 @@ public class ChargeFragment extends Fragment {
 //        lvGameHall.setPageSize(10);
 //        getMyData();
 //        getCityList();
+        getPresentList("",-1);
     }
 
     public void setUserData(SearchUserModel userModel){
@@ -228,7 +270,16 @@ public class ChargeFragment extends Fragment {
             }
         });
 
-
+//        etChargeNum.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(unSelect) {
+//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+//                    return;
+//                }
+//            }
+//        });
         etChargeNum.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -236,7 +287,12 @@ public class ChargeFragment extends Fragment {
 //                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
 //                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
 //                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-                chargeAdapter.setUnSelectIndex();
+                if(unSelect) {
+                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+                    return;
+                }
+
             }
 
             @Override
@@ -246,8 +302,13 @@ public class ChargeFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                chargeAdapter.setSelectIndex(-1);
                 chargeNum = editable.toString();
-                if(!StringHelper.isEmpty(chargeNum))getPresentList(chargeNum+"",userId);
+                if(!StringHelper.isEmpty(chargeNum)){
+                    getChargePresent(chargeNum+"",userId);
+                }else{
+                    tvPresentAmount.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -255,10 +316,28 @@ public class ChargeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    Utills.showShortToast(""+position);
+                    if(unSelect) {
+                        Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
+                        startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
+                        return;
+                    }
+//                    Utills.showShortToast(""+position);
+                    if(!StringHelper.isEmpty(etChargeNum.getText().toString()))etChargeNum.setText("");
                     chargeAdapter.setSelectIndex(position);
-                    etChargeNum.setText("");
+//                    for(int i=0;i<listCharge.size();i++){
+//                        if(i == position){
+//                            listCharge.get(i).isSelect = true;
+//                            listCharge.get(i).presentAmount =5000;
+//                        }else{
+//                            listCharge.get(i).isSelect = false;
+//                        }
+//                    }
+//                    chargeAdapter.list.clear();
+//                    chargeAdapter.list=listCharge;
+//                    chargeAdapter.notifyDataSetChanged();
+
                     chargeNum = ""+chargeAdapter.getItem(position).chargeAmount;
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -348,12 +427,24 @@ public class ChargeFragment extends Fragment {
 //                    return;
 //                }
 //                String chargeFee = etChargeNum.getText().toString();
-                if(StringHelper.isEmail(chargeNum)) {
+                if(StringHelper.isEmpty(chargeNum)) {
                     Utills.showShortToast("请选择充值金额");
                     return;
                 }
-                internetBarModel.chargeNum = chargeNum;
-                getPreqrCharge(chargeNum+"00",userId);
+//                internetBarModel.chargeNum = chargeNum;
+//                ScanPayManager.enterCaptureActivity(getActivity(),(BaseActivity)getActivity());
+//                getPreqrCharge(chargeNum,userId,1,0,0,"","sn");
+                if (Build.VERSION.SDK_INT >= 23){
+                    int checkCallPhonePermission = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA);
+                    if(checkCallPhonePermission != PackageManager.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions((Activity) getActivity(),new String[]{Manifest.permission.CAMERA},222);
+                        return;
+                    }
+                }
+                Intent intent = new Intent(getActivity(),CaptureActivity.class);
+                intent.putExtra("data","");
+                intent.putExtra(CaptureActivity.MSG_FROM,CaptureActivity.MSG_OTHER);
+               startActivityForResult(intent,CaptureActivity.MSG_OTHER);
             }
         });
 
@@ -362,50 +453,27 @@ public class ChargeFragment extends Fragment {
 
 
     public void getPresentList(String chargeFee,int userId){
-        CardWebHelper.getPresentList(chargeFee,userId , new IModelResultListener<PresentModel>() {
+        CardWebHelper.getPresentList("",userId , new IModelResultListener<ChargeListModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
             }
 
             @Override
-            public void onSuccess(String resultCode, PresentModel resultModel, List<PresentModel> resultModelList, String resultMsg, String hint) {
+            public void onSuccess(String resultCode, ChargeListModel resultModel, List<ChargeListModel> resultModelList, String resultMsg, String hint) {
 //                Log.e("-----getPresentList",""+resultCode);
 //                loginModel.setModelByJson(resultCode);
-                if(resultModelList.size()>0) {
-//                    tvPresentAmount.setText("(充" + DecimalUtil.FormatMoney(resultModelList.get(0).chargeAmount/100) + "元,送"+ DecimalUtil.FormatMoney(resultModelList.get(0).presentAmount/100) + "元)");
-
-//                    for(int i=0;i<resultModelList.size();i++) {
-//                        switch (i){
-//                            case 0:
-//                                tvRightOne.setText(resultModelList.get(0).presentAmount);
-//                                break;
-//                            case 1:
-//                                tvRightTwo.setText(resultModelList.get(0).presentAmount);
-//                                break;
-//                            case 2:
-//                                tvRightThree.setText(resultModelList.get(2).presentAmount);
-//                                break;
-//                            case 3:
-//                                tvRightFour.setText(resultModelList.get(3).presentAmount);
-//                                break;
-//                            case 4:
-//                                tv_right_Five.setText(resultModelList.get(4).presentAmount);
-//                                break;
-//                            case 5:
-//                                tv_right_six.setText(resultModelList.get(5).presentAmount);
-//                                break;
-//                            case 6:
-//                                tv_right_seven.setText(resultModelList.get(6).presentAmount);
-//                                break;
-//                        }
-//                    }
-
+                if(resultCode.equals("0")) {
+                    if (resultModelList.size() > 0) {
+                        listCharge.clear();
+                        listCharge.addAll(resultModelList);
+//                        chargeAdapter.list.addAll(resultModelList);
+                        chargeAdapter.notifyDataSetChanged();
+                    }
+                }else{
 
                 }
-//                else{
-//                    Toast.makeText(MemberChargeActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
-//                }
+
             }
 
             @Override
@@ -420,31 +488,54 @@ public class ChargeFragment extends Fragment {
         });
     }
 
-    public void getPreqrCharge(String chargeFee,int userId1){
-        CardWebHelper.getPreqrCharge(chargeFee,userId1 , new IModelResultListener<TestModel>() {
+    public void getChargePresent(String chargeFee,int userId){
+        CardWebHelper.getPresentList(chargeFee,userId , new IModelResultListener<ChargeListModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
             }
 
             @Override
-            public void onSuccess(String resultCode, TestModel resultModel, List<TestModel> resultModelList, String resultMsg, String hint) {
-//                Log.e("-----getPresentList",""+resultCode);
-                MyQrCodeModel qrCodeModel = new MyQrCodeModel();
-                qrCodeModel.setModelByJson(resultCode);
-                if(qrCodeModel.code.equals("0")){
-//                    Utills.showShortToast(""+qrCodeModel.data);
-                    try {
-                        ScanPayManager.enterCaptureActivity(getContext(),""+qrCodeModel.data,internetBarModel);
-//                        tvUserName.setText("");
-                        userId = -1;
-//                        etUserId.setText("");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            public void onSuccess(String resultCode, ChargeListModel resultModel, List<ChargeListModel> resultModelList, String resultMsg, String hint) {
+                if(resultCode.equals("0")) {
+                    if (resultModelList.size() > 0 && resultModelList.get(0).presentAmount>0) {
+                        tvPresentAmount.setVisibility(View.VISIBLE);
+                        tvPresentAmount.setText("(送"+ DecimalUtil.FormatMoney(resultModelList.get(0).presentAmount,"#0")+")");
                     }
+                }else{
+                    tvPresentAmount.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onFail(String resultCode, String resultMsg, String hint) {
+//                lvCard.finishLoading(true);
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+//                lvCard.finishLoading(true);
+            }
+        });
+    }
+
+    public void getPreqrCharge(String amount,int userId,int payType, long payCategoryId,int type,String remark,String tn){
+        CardWebHelper.getPreqrCharge(amount,userId,payType, payCategoryId,type,remark,tn , new IModelResultListener<ChargeSuccessModel>() {
+            @Override
+            public boolean onGetResultModel(HttpResultModel resultModel) {
+                return false;
+            }
+
+            @Override
+            public void onSuccess(String resultCode, ChargeSuccessModel resultModel, List<ChargeSuccessModel> resultModelList, String resultMsg, String hint) {
+                if(resultCode.equals("0")) {
+//                    Utills.showShortToast(resultMsg);
+                    ScanPayManager.enterChargeSuccessActivity(getActivity(), "", resultModel);
+                }else if(resultCode.equals("90016")){
 
                 }else{
-                    Utills.showShortToast("下单失败");
+                    Utills.showShortToast(resultMsg);
                 }
             }
 
@@ -472,16 +563,23 @@ public class ChargeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        Utills.showShortToast(""+requestCode);
         switch (requestCode) {
-//            case CaptureActivity.MSG_OTHER:
-//                String code = data.getStringExtra("code");
-//                if(StringHelper.isEmail(code))return;
-//                break;
+            case CaptureActivity.MSG_OTHER:
+                String code = data.getStringExtra("code");
+                if(StringHelper.isEmpty(code)){
+                    Utills.showShortToast("扫码出错");
+                    return;
+                }else{
+                    getPreqrCharge(chargeNum,userId,1,0,0,"",code);
+//                    Utills.showShortToast("扫码" + code);
+                }
+            break;
 
 
             case SearchMemberActivity.SELECT_RESULT:
                 SearchUserModel userModel = (SearchUserModel) data.getSerializableExtra("userModel");
                 if(userModel.name!=null){
                     setUserData(userModel);
+                    getPresentList(chargeNum+"",userModel.userId);
                 }else{
                     setNoUserData();
                 }

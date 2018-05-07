@@ -32,7 +32,7 @@ public class MineOrderActivity extends BaseActivity {
     public static final int MSG_REFRESH = 600;
     public static final int MSG_WXSEND = 601;
 
-    private final List<String> titles = Arrays.asList("点餐记录","点餐次数");
+    private final List<String> titles = Arrays.asList("收款记录","每日收款");
     private List<Fragment> mFragments = new ArrayList<>();
     public FragmentPagerAdapter adapter;
     public PraiseNumFragment praiseFragment;
@@ -47,7 +47,7 @@ public class MineOrderActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mine_rank_activity);
+        setContentView(R.layout.mine_order_list_activity);
         initView();
     }
 

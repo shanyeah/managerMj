@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import com.imovie.mogic.ScanPay.ChargeSuccessActivity;
 import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
 import com.imovie.mogic.home.BaseActivity;
+import com.imovie.mogic.home.model.ChargeSuccessModel;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.model.SearchUserModel;
 
@@ -80,6 +81,7 @@ public class ScanPayManager {
         intent.putExtra(CaptureActivity.MSG_FROM,CaptureActivity.MSG_CHAEGE);
         intent.putExtra("userModel",userModel);
         context.startActivity(intent);
+//        context.startActivityForResult(intent,CaptureActivity.MSG_CHAEGE);
     }
 
 
@@ -106,7 +108,7 @@ public class ScanPayManager {
      * 跳转 ChargeSuccessActivity页
      * @param context
      */
-    public static void enterChargeSuccessActivity(Context context, String data, SearchUserModel userModel){
+    public static void enterChargeSuccessActivity(Context context, String data, ChargeSuccessModel userModel){
         Intent intent = new Intent(context, ChargeSuccessActivity.class);
         intent.putExtra("data",data);
         intent.putExtra("userModel",userModel);

@@ -474,9 +474,9 @@ public final class CaptureActivity extends Activity implements
 
                 if(resultModel.status == 1) {
 //                    Utills.showShortToast("充值成功");
-                    ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,resultModel);
+//                    ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,resultModel);
                 }else{
-                    ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,(SearchUserModel) getIntent().getSerializableExtra("userModel"));
+//                    ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,(SearchUserModel) getIntent().getSerializableExtra("userModel"));
                 }
                 finish();
             }
@@ -484,21 +484,21 @@ public final class CaptureActivity extends Activity implements
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
 //                Utills.showShortToast("支付失败");
-                ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,(SearchUserModel) getIntent().getSerializableExtra("userModel"));
+//                ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,(SearchUserModel) getIntent().getSerializableExtra("userModel"));
                 finish();
             }
 
             @Override
             public void onError(String errorMsg) {
 //                Utills.showShortToast("支付失败");
-                ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,(SearchUserModel) getIntent().getSerializableExtra("userModel"));
+//                ScanPayManager.enterChargeSuccessActivity(CaptureActivity.this,data,(SearchUserModel) getIntent().getSerializableExtra("userModel"));
                 finish();
             }
         });
     }
 
-    public void payGoodsOrder(long goodsOrderId, long clerkOrderId,String code){
-        HomeWebHelper.payGoodsOrder(goodsOrderId , clerkOrderId , code ,new IModelResultListener<TestModel>() {
+    public void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn){
+        HomeWebHelper.payGoodsOrder(saleBillId, userId,seatNo,payType, payCategoryId,incomeAmount,remark,tn,new IModelResultListener<TestModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
@@ -553,7 +553,7 @@ public final class CaptureActivity extends Activity implements
                     PayResultModel model = (PayResultModel) activity.get().getIntent().getSerializableExtra("userModel");
                     Toast.makeText(activity.get(), "扫描完成，结果处理中...", Toast.LENGTH_SHORT).show();
                     String code1 = (String) msg.obj;
-                    activity.get().payGoodsOrder(model.saleBillId, model.saleBillId,code1);
+//                    activity.get().payGoodsOrder(model.saleBillId, model.saleBillId,code1);
                     break;
 
                 case MSG_CHAEGE:

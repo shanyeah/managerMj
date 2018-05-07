@@ -31,10 +31,10 @@ public class MineRankActivity extends BaseActivity {
     public static final int MSG_REFRESH = 600;
     public static final int MSG_WXSEND = 601;
 
-    private final List<String> titles = Arrays.asList("点赞排行","点餐排行","充值排行");
+    private final List<String> titles = Arrays.asList("点餐排行","充值排行");
     private List<Fragment> mFragments = new ArrayList<>();
     public FragmentPagerAdapter adapter;
-    public PraiseFragment praiseFragment;
+//    public PraiseFragment praiseFragment;
     public OrderFragment orderFragment;
     public ChargeRankFragment chargeFragment;
 
@@ -80,10 +80,10 @@ public class MineRankActivity extends BaseActivity {
 
 
         fixUI();
-        praiseFragment = new PraiseFragment();
+//        praiseFragment = new PraiseFragment();
         orderFragment = new OrderFragment();
         chargeFragment = new ChargeRankFragment();
-        mFragments.add(praiseFragment);
+//        mFragments.add(praiseFragment);
         mFragments.add(orderFragment);
         mFragments.add(chargeFragment);
 //        mFragments.add(new MissionFragment());
@@ -115,7 +115,7 @@ public class MineRankActivity extends BaseActivity {
             }
         };
         mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(2);
         pstTabTitle.setViewPager(mViewPager);
         mViewPager.setCurrentItem(0);
     }

@@ -159,8 +159,8 @@
                         android:textColor="@color/T1"/>
                     <EditText
                         android:id="@+id/etChargeNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
                         android:textColor="@color/T4"
                         android:padding="5dp"
                         android:gravity="center"
@@ -169,46 +169,36 @@
                         android:hint="请输入充值金额"
                         android:textSize="14sp"/>
                     <TextView
-                        android:id="@+id/tvSendNum"
+                        android:id="@+id/tvPresentAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="元"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text=""
                         android:padding="3dp"
                         android:gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="@color/T1"/>
+                        style="@style/text_16_T2"/>
 
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvPresentAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/btChargeCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text=""
-                    android:padding="3dp"
-                    android:gravity="center"
-                    style="@style/text_16_T2"/>
-
-
-
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/select_bg8_bg1_r4"
+                    android:text="充值"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
         </com.imovie.mogic.widget.FlexibleFrameLayout>
     </com.imovie.mogic.widget.PullToRefreshFrameLayout>
 
-    <Button
-        android:id="@+id/btChargeCard"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/select_bg8_bg1_r4"
-        android:text="充值"
-        android:textSize="16sp"
-        android:textColor="@color/white"/>
+
 
 </RelativeLayout>

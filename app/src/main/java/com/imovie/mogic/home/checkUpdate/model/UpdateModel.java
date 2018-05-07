@@ -17,9 +17,10 @@ public class UpdateModel extends BaseModel {
 
     public String versionName = "";     // 服务器最新版本号
     public String releaseTime = "";  // 更新时间
-    public int upgradeType = 0; // false：非强制更新  true：强制更新
+    public int upgradeType = 0; // 0为最新版本，1为有新版本，2为有新版本且必须升级
     public String downloadUrl = "";         // 下载地址
     public String remark="";//更新详情
-    public int fileSize;
+    public long fileSize;
     public String hash;
+
 }

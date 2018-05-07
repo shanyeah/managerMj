@@ -27,6 +27,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
@@ -40,6 +42,7 @@ import com.imovie.mogic.home.fragment.ChargeFragment;
 import com.imovie.mogic.home.fragment.HomeFragmentOld;
 import com.imovie.mogic.home.fragment.MineFragment;
 import com.imovie.mogic.home.fragment.PraiseFragment;
+import com.imovie.mogic.home.fragment.ReportFragment;
 import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.login.LoginActivity;
@@ -77,7 +80,7 @@ public class MainActivity extends BaseActivity {
 
     private FragmentManager fman;
     public HomeFragmentOld homeFragment;
-    public PraiseFragment praiseFragment;
+    public ReportFragment reportFragment;
     public ChargeFragment chargeFragment;
     public BuyGoodsFragment buyGoodsFragment;
     public MineFragment mineFragment;
@@ -199,21 +202,29 @@ public class MainActivity extends BaseActivity {
         fman = getSupportFragmentManager();
         FragmentTransaction ft = fman.beginTransaction();
         homeFragment = new HomeFragmentOld();
-        List<LoginModel.OrganList> organList = (List<LoginModel.OrganList>) getIntent().getSerializableExtra("organList");
+//        List<LoginModel.OrganList> organList = (List<LoginModel.OrganList>) getIntent().getSerializableExtra("organList");
+        List<LoginModel.OrganList> organList = new ArrayList<>();
+        String  jsondata = MyApplication.getInstance().mPref.getString("organList", "null");
+        Gson gson = new Gson();
+        if (!jsondata.equals("null")) {
+            organList = gson.fromJson(jsondata, new TypeToken<List<LoginModel.OrganList>>() {}.getType());
+        }
+
         if(organList!=null && organList.size()>0) {
             for (int i = 0; i < organList.size(); i++) {
                 InternetBarModel model = new InternetBarModel();
-                model.id = organList.get(i).organId;
-                model.name = organList.get(i).organName;
+                LoginModel.OrganList organ = (LoginModel.OrganList)organList.get(i);
+                model.id = organ.organId;
+                model.name = organ.organName;
                 homeFragment.listHall.add(model);
             }
         }
         ft.add(R.id.ll_fragment, homeFragment, "0");
         ft.show(homeFragment);
 
-        praiseFragment = new PraiseFragment();
-        ft.add(R.id.ll_fragment, praiseFragment, "1");
-        ft.hide(praiseFragment);
+        reportFragment = new ReportFragment();
+        ft.add(R.id.ll_fragment, reportFragment, "1");
+        ft.hide(reportFragment);
 //
 //        chargeFragment = new ChargeFragment();
 //        ft.add(R.id.ll_fragment, chargeFragment, "2");

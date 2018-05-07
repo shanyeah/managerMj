@@ -3,6 +3,8 @@ package com.imovie.mogic.card.net;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.card.model.PresentModel;
 import com.imovie.mogic.config.HTTPConfig;
+import com.imovie.mogic.home.model.ChargeListModel;
+import com.imovie.mogic.home.model.ChargeSuccessModel;
 import com.imovie.mogic.login.model.BaseReqParamNetMap;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.web.HttpWebHelper;
@@ -19,39 +21,38 @@ public class CardWebHelper extends HttpWebHelper{
      * 赠送
      * @param listener
      */
-    public static void getPresentList(String chargeFee,int userId,IModelResultListener<PresentModel> listener) {
+    public static void getPresentList(String chargeAmount,int userId,IModelResultListener<ChargeListModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
-        baseReqParamNetMap.put("stgId", organId);
-        baseReqParamNetMap.put("chargeFee", chargeFee);
+        baseReqParamNetMap.put("chargeAmount", chargeAmount);
         baseReqParamNetMap.put("userId", userId);
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_presentList));
-        new CardWebHelper().sendPostWithTranslate(PresentModel.class, data.toString(), HttpHelper.TYPE_2,HttpWebHelper.TYPE_1, baseReqParamNetMap, listener);
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        new CardWebHelper().sendPostWithTranslate(ChargeListModel.class, data.toString(), HttpHelper.TYPE_2,HttpWebHelper.TYPE_1, baseReqParamNetMap, listener);
     }
 
     /**
-     * 下单
+     * 充值
      * @param listener
      */
-    public static void getPreqrCharge(String chargeFee,int userId,IModelResultListener<TestModel> listener) {
+    public static void getPreqrCharge(String amount,int userId,int payType, long payCategoryId,int type,String remark,String tn,IModelResultListener<ChargeSuccessModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
-        int adminId = MyApplication.getInstance().mPref.getInt("adminId",0);
-        baseReqParamNetMap.put("stgId", organId);
-        baseReqParamNetMap.put("fee", chargeFee);
+        baseReqParamNetMap.put("amount", amount);
         baseReqParamNetMap.put("userId", userId);
-        baseReqParamNetMap.put("adminId", adminId);
+        baseReqParamNetMap.put("type",type);
+        baseReqParamNetMap.put("payType",payType);
+//        baseReqParamNetMap.put("payCategoryId",payCategoryId);
+        baseReqParamNetMap.put("remark",remark);
+        baseReqParamNetMap.put("tn",tn);
+        baseReqParamNetMap.put("outTradeNo",tn);
+
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_preqrcharge));
-        new CardWebHelper().sendPostWithTranslate(TestModel.class, data.toString(), HttpHelper.TYPE_2,HttpWebHelper.TYPE_0, baseReqParamNetMap, listener);
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        new CardWebHelper().sendPostWithTranslate(ChargeSuccessModel.class, data.toString(), HttpHelper.TYPE_2,HttpWebHelper.TYPE_3, baseReqParamNetMap, listener);
     }
-
-
-
-
-
-
 
 
 

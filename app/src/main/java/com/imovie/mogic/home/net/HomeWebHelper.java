@@ -19,6 +19,7 @@ import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.home.model.HallModel;
 import com.imovie.mogic.home.model.OrderModel;
 import com.imovie.mogic.home.model.PayResultModel;
+import com.imovie.mogic.home.model.ReportListModel;
 import com.imovie.mogic.home.model.SearchModel;
 import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.login.model.BaseReqParamNetMap;
@@ -123,7 +124,70 @@ public class HomeWebHelper extends HttpWebHelper{
         return list;
     }
 
+    /**
+     * 定单会员价
+     * @param listener
+     */
+    public static void billMemberPrice(int userId, long saleBillId, IModelResultListener<PayResultModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        baseReqParamNetMap.put("userId", userId);
+        baseReqParamNetMap.put("saleBillId", saleBillId);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_billMemberPrice));
+        data.append("&organId=" + organId);
+        new HomeWebHelper().sendPostWithTranslate(PayResultModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
 
+    /**
+     * 支付定单
+     * @param listener
+     */
+    public static void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn,IModelResultListener<TestModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+        baseReqParamNetMap.put("saleBillId", saleBillId);
+        baseReqParamNetMap.put("userId", userId);
+        baseReqParamNetMap.put("seatNo",seatNo);
+        baseReqParamNetMap.put("payType",payType);
+        baseReqParamNetMap.put("payCategoryId",payCategoryId);
+        baseReqParamNetMap.put("incomeAmount",incomeAmount);
+        baseReqParamNetMap.put("remark",remark);
+        baseReqParamNetMap.put("tn",tn);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_payGoodsOrder));
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        new HomeWebHelper().sendPostWithTranslate(TestModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
+
+    /**
+     * 报表
+     * @param listener
+     */
+    public static void getReportList(IModelResultListener<ReportListModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_reportList));
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        new HomeWebHelper().sendPostWithTranslate(ReportListModel.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
+
+    /**
+     * 当月业绩
+     * @param listener
+     */
+    public static void getBusinessDetail(int type,IModelResultListener<MyDataModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+//        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+//        baseReqParamNetMap.put("organId", organId);
+        baseReqParamNetMap.put("type", type);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_businessDetail));
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        new HomeWebHelper().sendPostWithTranslate(MyDataModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
 
 
 
@@ -190,19 +254,7 @@ public class HomeWebHelper extends HttpWebHelper{
 
 
 
-    /**
-     * 支付定单
-     * @param listener
-     */
-    public static void payGoodsOrder(long goodsOrderId, long clerkOrderId,String code, IModelResultListener<TestModel> listener) {
-        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        baseReqParamNetMap.put("goodsOrderId", goodsOrderId);
-        baseReqParamNetMap.put("clerkOrderId", clerkOrderId);
-        baseReqParamNetMap.put("code", code);
-        StringBuffer data = new StringBuffer();
-        data.append(HTTPConfig.getUrlData(HTTPConfig.url_payGoodsOrder));
-        new HomeWebHelper().sendPostWithTranslate(TestModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
-    }
+
 
     /**
      * 回复评论

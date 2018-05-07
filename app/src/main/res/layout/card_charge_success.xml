@@ -20,7 +20,7 @@
              android:id="@+id/ivChargeState"
              android:layout_width="60dp"
              android:layout_height="60dp"
-             android:layout_marginTop="5dp"
+             android:layout_marginTop="20dp"
              android:layout_gravity="center_horizontal"
              android:background="@drawable/card_charge_fail"/>
         <TextView
@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:text="充值失败"
             android:textSize="16sp"
@@ -36,7 +35,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="20dp"
             android:background="@color/L1"/>
 
             <RelativeLayout
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="现金帐户"
+                android:text="    总余额"
                 android:textSize="16sp"
                 android:textColor="@color/T1"/>
             <TextView
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="赠送帐户"
+                android:text="现金余额"
                 android:textSize="16sp"
                 android:textColor="@color/T1"/>
             <TextView
@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="充值金额"
+                android:text="赠送余额"
                 android:textSize="16sp"
                 android:textColor="@color/T1"/>
             <TextView
@@ -206,6 +206,7 @@
             android:background="@drawable/select_bg8_bg1_r4"
             android:text="重试"
             android:textSize="16sp"
+            android:visibility="gone"
             android:textColor="@color/white"/>
         <Button
             android:id="@+id/btChargeScan"
@@ -216,6 +217,7 @@
             android:background="@drawable/select_bg8_bg1_r4"
             android:text="重新扫码"
             android:textSize="16sp"
+            android:visibility="gone"
             android:textColor="@color/white"/>
     </LinearLayout>
 

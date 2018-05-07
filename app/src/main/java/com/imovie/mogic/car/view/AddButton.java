@@ -22,6 +22,7 @@ import com.imovie.mogic.car.utils.ViewUtils;
 public class AddButton extends View implements View.OnClickListener {
 
 	private boolean isCircle = true;//false 加入购物车  true 只有加号
+	public boolean carState = true;//false 显示购物车
 	private Paint paint;
 	private Paint textPaint;
 	private Rect textRect = new Rect();
@@ -81,7 +82,7 @@ public class AddButton extends View implements View.OnClickListener {
 		draw_o2c(canvas);
 		if (isCircle) {
 			canvas.drawPath(addPath, addPaint);
-		} else if (getWidth() == getContext().getResources().getDimension(R.dimen.add_width)) {
+		} else{
 			drawText(canvas);
 		}
 	}
@@ -118,20 +119,26 @@ public class AddButton extends View implements View.OnClickListener {
 	public void onClick(View v) {
 		if (animListner != null) {
 			if (!isCircle) {
-				setClickable(false);
+//				expendAnim();
+					setClickable(false);
 				ViewAnimator.animate(this)
 						.width(getWidth(), getHeight())
 						.duration(300)
 						.onStop(new AnimationListener.Stop() {
 							@Override
 							public void onStop() {
-								isCircle = true;
+//                                isCircle = true;
+								isCircle = false;
 								invalidate();
 								setClickable(true);
 								animListner.onStop();
+								if (!carState) {
+									expendAnim();
+								}
 							}
 						})
 						.start();
+
 			} else {
 				animListner.onStop();
 			}
@@ -155,6 +162,7 @@ public class AddButton extends View implements View.OnClickListener {
 
 	public void setState(boolean state) {
 		this.isCircle = state;
+		carState = false;
 		invalidate();
 	}
 

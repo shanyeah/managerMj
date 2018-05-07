@@ -16,6 +16,7 @@ import com.imovie.mogic.ScanPay.net.PayWebHelper;
 import com.imovie.mogic.card.net.CardWebHelper;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.model.CardModel;
+import com.imovie.mogic.home.model.ChargeSuccessModel;
 import com.imovie.mogic.home.model.MyQrCodeModel;
 import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.login.model.LoginModel;
@@ -43,6 +44,7 @@ public class ChargeSuccessActivity extends BaseActivity {
     private TextView tvMemberNumber;
     private TextView tvCardCategoryName;
     private TextView tvCashBalance;
+    private TextView tvGiveMoneySum;
     private TextView tvChargeNum;
     private TextView tvGiveSum;
     private RelativeLayout rlChargeNumState;
@@ -50,7 +52,7 @@ public class ChargeSuccessActivity extends BaseActivity {
     private Button btChargeScan;
 
     public String data = "";
-    public SearchUserModel userModel;
+    public ChargeSuccessModel userModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class ChargeSuccessActivity extends BaseActivity {
         tvCashBalance = (TextView) findViewById(R.id.tvCashBalance);
         tvChargeNum = (TextView) findViewById(R.id.tvChargeNum);
         tvGiveSum = (TextView) findViewById(R.id.tvGiveSum);
+        tvGiveMoneySum = (TextView) findViewById(R.id.tvGiveMoneySum);
         ivChargeState = (ImageView) findViewById(R.id.ivChargeState);
         tvChargeState = (TextView) findViewById(R.id.tvChargeState);
         rlChargeNumState = (RelativeLayout) findViewById(R.id.rlChargeNumState);
@@ -104,28 +107,29 @@ public class ChargeSuccessActivity extends BaseActivity {
 
     private void setView(){
 //        tvPushMessage.setText(Html.fromHtml("<font color='#f92387' size=18>影片《</font><font color=\'#2962FF\' size=20>"+ title +"</font><font color=\'#f92387\' size=18>"+content+"</font>"));
-        userModel = (SearchUserModel) getIntent().getSerializableExtra("userModel");
+        userModel = (ChargeSuccessModel) getIntent().getSerializableExtra("userModel");
         data = getIntent().getStringExtra("data");
         if(userModel.status == 1){
             ivChargeState.setBackgroundResource(R.drawable.card_charge_success);
             tvChargeState.setText("充值成功");
-            rlChargeNumState.setVisibility(View.GONE);
-            btChargeScan.setVisibility(View.GONE);
-            btChargeReset.setVisibility(View.GONE);
+//            rlChargeNumState.setVisibility(View.GONE);
+//            btChargeScan.setVisibility(View.GONE);
+//            btChargeReset.setVisibility(View.GONE);
         }else {
-            ivChargeState.setBackgroundResource(R.drawable.card_charge_fail);
-            tvChargeState.setText("充值失败");
-            tvChargeNum.setText(userModel.chargeNum + getResources().getString(R.string.symbol_RMB));
-            tvChargeNum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ userModel.chargeNum + ".00</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
-
-            rlChargeNumState.setVisibility(View.VISIBLE);
-            btChargeScan.setVisibility(View.VISIBLE);
-            btChargeReset.setVisibility(View.VISIBLE);
+//            ivChargeState.setBackgroundResource(R.drawable.card_charge_fail);
+//            tvChargeState.setText("充值失败");
+//            tvChargeNum.setText(DecimalUtil.FormatMoney(userModel.afterBalance) + getResources().getString(R.string.symbol_RMB));
+//            tvChargeNum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ userModel.chargeNum + ".00</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+//
+//            rlChargeNumState.setVisibility(View.VISIBLE);
+//            btChargeScan.setVisibility(View.VISIBLE);
+//            btChargeReset.setVisibility(View.VISIBLE);
         }
         tvMemberNumber.setText(userModel.idNumber);
         tvCardCategoryName.setText(userModel.name);
-        tvCashBalance.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.cashBalance/100) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
-        tvGiveSum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.presentBalance/100) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        tvCashBalance.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.afterBalance) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        tvGiveSum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.afterCashBalance) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        tvChargeNum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.afterPresentBalance) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
 
 
 //        String orderNo = getIntent().getStringExtra("orderNo");
@@ -139,54 +143,54 @@ public class ChargeSuccessActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 //                ScanPayManager.enterCaptureActivity(ChargeSuccessActivity.this,data,userModel);
-                getPreqrCharge(userModel.chargeNum +"00",userModel.userId);
+//                getPreqrCharge(userModel.chargeNum +"00",userModel.userId);
             }
         });
 
         btChargeReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getScanReset();
+//                getScanReset();
             }
         });
 
     }
 
     public void getPreqrCharge(String chargeFee,int userId){
-        CardWebHelper.getPreqrCharge(chargeFee,userId , new IModelResultListener<TestModel>() {
-            @Override
-            public boolean onGetResultModel(HttpResultModel resultModel) {
-                return false;
-            }
-
-            @Override
-            public void onSuccess(String resultCode, TestModel resultModel, List<TestModel> resultModelList, String resultMsg, String hint) {
-//                Log.e("-----getPresentList",""+resultCode);
-                MyQrCodeModel qrCodeModel = new MyQrCodeModel();
-                qrCodeModel.setModelByJson(resultCode);
-                if(qrCodeModel.code.equals("0")){
-//                    Utills.showShortToast(""+qrCodeModel.data);
-                    try {
-                        ScanPayManager.enterCaptureActivity(ChargeSuccessActivity.this,""+qrCodeModel.data,userModel);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }else{
-                    Utills.showShortToast("下单失败");
-                }
-            }
-
-            @Override
-            public void onFail(String resultCode, String resultMsg, String hint) {
-//                lvCard.finishLoading(true);
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-//                lvCard.finishLoading(true);
-            }
-        });
+//        CardWebHelper.getPreqrCharge(chargeFee,userId , new IModelResultListener<TestModel>() {
+//            @Override
+//            public boolean onGetResultModel(HttpResultModel resultModel) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSuccess(String resultCode, TestModel resultModel, List<TestModel> resultModelList, String resultMsg, String hint) {
+////                Log.e("-----getPresentList",""+resultCode);
+//                MyQrCodeModel qrCodeModel = new MyQrCodeModel();
+//                qrCodeModel.setModelByJson(resultCode);
+//                if(qrCodeModel.code.equals("0")){
+////                    Utills.showShortToast(""+qrCodeModel.data);
+//                    try {
+//                        ScanPayManager.enterCaptureActivity(ChargeSuccessActivity.this,""+qrCodeModel.data,userModel);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }else{
+//                    Utills.showShortToast("下单失败");
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(String resultCode, String resultMsg, String hint) {
+////                lvCard.finishLoading(true);
+//            }
+//
+//            @Override
+//            public void onError(String errorMsg) {
+////                lvCard.finishLoading(true);
+//            }
+//        });
     }
 
     private void getScanReset() {

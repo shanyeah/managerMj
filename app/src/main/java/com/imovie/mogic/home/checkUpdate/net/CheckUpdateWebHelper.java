@@ -25,7 +25,7 @@ public class CheckUpdateWebHelper extends HttpWebHelper {
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.url_update);
         data.append("?version=" + AppConfig.getVersionName());
-        data.append("&stgId=" + organId);
+//        data.append("&stgId=" + organId);
         data.append("&appId=" + 10001);
         new HomeWebHelper().sendPostWithTranslate(UpdateModel.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
     }

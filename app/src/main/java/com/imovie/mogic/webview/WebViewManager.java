@@ -34,4 +34,23 @@ public class WebViewManager {
         }
     }
 
+
+    public static void enterTitleWebView(Context context, String directurl ,String title, Boolean bl){
+
+        if(directurl == null || directurl.equals("") || directurl.length() < 5){
+            return;
+        }
+
+        String str = directurl.substring(0, 5);
+
+        if (str.equals("http:") || str.equals("https")) {
+
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.EXTRA_URL, directurl);
+            intent.putExtra("title", title);
+            intent.putExtra(WebViewActivity.EXTRA_RIGHT_TEXT, bl + "");
+            context.startActivity(intent);
+        }
+    }
+
 }

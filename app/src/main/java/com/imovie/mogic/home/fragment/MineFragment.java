@@ -4,9 +4,7 @@ package com.imovie.mogic.home.fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,7 @@ import android.widget.TextView;
 
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
-import com.imovie.mogic.config.AppConfig;
-import com.imovie.mogic.config.HTTPConfig;
-import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.login.LoginActivity;
-import com.imovie.mogic.login.model.MyDataModel;
 import com.imovie.mogic.mine.UpdateMyInfoActivity;
 import com.imovie.mogic.mine.ResetPasswordActivity;
 import com.imovie.mogic.mine.MyIncomeActivity;
@@ -28,21 +22,12 @@ import com.imovie.mogic.myRank.MineChargeActivity;
 import com.imovie.mogic.myRank.MineOrderActivity;
 import com.imovie.mogic.myRank.MinePraiseActivity;
 import com.imovie.mogic.myRank.MineRankActivity;
-import com.imovie.mogic.web.IModelResultListener;
-import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.TitleBar;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 public class MineFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -60,7 +45,7 @@ public class MineFragment extends Fragment {
     private RelativeLayout rl_mine_rank;
     private RelativeLayout rl_mine_praise;
     private RelativeLayout rl_mine_exercises;
-    private RelativeLayout rl_mine_mission;
+    private RelativeLayout rl_mine_charge;
     private RelativeLayout rl_mine_passwrod;
     private RelativeLayout rlMineInfo;
     private RelativeLayout rl_mine_exit;
@@ -125,7 +110,7 @@ public class MineFragment extends Fragment {
 
         rl_mine_praise = (RelativeLayout) view.findViewById(R.id.rl_mine_praise);
         rl_mine_exercises = (RelativeLayout) view.findViewById(R.id.rl_mine_exercises);
-        rl_mine_mission = (RelativeLayout) view.findViewById(R.id.rl_mine_mission);
+        rl_mine_charge = (RelativeLayout) view.findViewById(R.id.rl_mine_charge);
         rl_mine_exit = (RelativeLayout) view.findViewById(R.id.rl_mine_exit);
         rl_mine_rank= (RelativeLayout) view.findViewById(R.id.rl_mine_rank);
         rlMineInfo = (RelativeLayout) view.findViewById(R.id.rlMineInfo);
@@ -231,7 +216,7 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        rl_mine_mission.setOnClickListener(new View.OnClickListener() {
+        rl_mine_charge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MineChargeActivity.class);

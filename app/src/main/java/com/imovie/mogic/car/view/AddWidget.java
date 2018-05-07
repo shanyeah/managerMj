@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.florent37.viewanimator.AnimationListener;
@@ -21,10 +22,13 @@ public class AddWidget extends FrameLayout {
 
 	private View sub;
 	private TextView tv_count;
+	public TextView tvAddCar;
+	public LinearLayout llAddCar;
 	private long count;
 	private AddButton addbutton;
 	private boolean sub_anim, circle_anim;
 	private FoodBean foodBean;
+	private boolean btAdd = false;
 
 	public interface OnAddClick {
 
@@ -62,24 +66,26 @@ public class AddWidget extends FrameLayout {
 		addbutton.setAnimListner(new AddButton.AnimListner() {
 			@Override
 			public void onStop() {
-				if (count == 0) {
-					ViewAnimator.animate(sub)
-							.translationX(addbutton.getLeft() - sub.getLeft(), 0)
-							.rotation(360)
-							.alpha(0, 255)
-							.duration(300)
-							.interpolator(new DecelerateInterpolator())
-							.andAnimate(tv_count)
-							.translationX(addbutton.getLeft() - tv_count.getLeft(), 0)
-							.rotation(360)
-							.alpha(0, 255)
-							.interpolator(new DecelerateInterpolator())
-							.duration(300)
-							.start()
-					;
+				if(!btAdd) {
+					if (count == 0) {
+						ViewAnimator.animate(sub)
+								.translationX(addbutton.getLeft() - sub.getLeft(), 0)
+								.rotation(360)
+								.alpha(0, 255)
+								.duration(300)
+								.interpolator(new DecelerateInterpolator())
+								.andAnimate(tv_count)
+								.translationX(addbutton.getLeft() - tv_count.getLeft(), 0)
+								.rotation(360)
+								.alpha(0, 255)
+								.interpolator(new DecelerateInterpolator())
+								.duration(300)
+								.start()
+						;
+					}
 				}
 				count++;
-				tv_count.setText(count + "");
+				if(!btAdd)tv_count.setText(count + "");
 				foodBean.setSelectCount(count);
 				if (onAddClick != null) {
 					onAddClick.onAddClick(addbutton, foodBean);
@@ -103,6 +109,9 @@ public class AddWidget extends FrameLayout {
 				}
 			}
 		});
+
+//		tvAddCar = findViewById(R.id.tv_count);
+		llAddCar = findViewById(R.id.llAddCar);
 	}
 
 	private void subAnim(){
@@ -134,25 +143,33 @@ public class AddWidget extends FrameLayout {
 		this.foodBean = foodBean;
 		this.onAddClick = onAddClick;
 		count = foodBean.getSelectCount();
-		if (count == 0) {
-			sub.setAlpha(0);
-			tv_count.setAlpha(0);
-		} else {
-			sub.setAlpha(1f);
-			tv_count.setAlpha(1f);
-			tv_count.setText(count + "");
-		}
+        if(!btAdd) {
+            if (count == 0) {
+                sub.setAlpha(0);
+                tv_count.setAlpha(0);
+            } else {
+                sub.setAlpha(1f);
+                tv_count.setAlpha(1f);
+                tv_count.setText(count + "");
+            }
+        }
+
 	}
 
 	public void setState(long count) {
-		addbutton.setState(count > 0);
+//		addbutton.setState(count > 0);
+		addbutton.setState(false);
+		btAdd = true;
 	}
+
 
 	public void expendAdd(long count) {
 		this.count = count;
-		tv_count.setText(count == 0 ? "1" : count + "");
-		if (count == 0) {
-			subAnim();
-		}
+		if(!btAdd){
+            tv_count.setText(count == 0 ? "1" : count + "");
+            if (count == 0) {
+                subAnim();
+            }
+        }
 	}
 }

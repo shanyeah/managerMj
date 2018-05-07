@@ -2,53 +2,40 @@ package com.imovie.mogic.car;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.github.florent37.viewanimator.AnimationListener;
-import com.github.florent37.viewanimator.ViewAnimator;
-import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.utils.ViewUtils;
 import com.imovie.mogic.car.view.AddWidget;
-import com.imovie.mogic.car.view.ListContainer;
 import com.imovie.mogic.car.view.ShopCarView;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.SelectTypeActivity;
 import com.imovie.mogic.home.adater.GoodsTagAdapter;
 import com.imovie.mogic.home.model.GoodTagList;
-import com.imovie.mogic.mine.AutoScrollActivity;
-import com.imovie.mogic.mine.SetingHallActivity;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.widget.HorizontalListView;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -109,8 +96,11 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 
 		detail_add = (AddWidget) findViewById(R.id.detail_add);
-		detail_add.setData(this, foodBean);
-//		detail_add.setState(foodBean.getSelectCount());
+//		detail_add.setAddButton(true);
+		detail_add.setState(foodBean.getSelectCount());
+		detail_add.setData((AddWidget.OnAddClick) this, foodBean);
+
+
 //		initRecyclerView();
 
 		lvGoodsTagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

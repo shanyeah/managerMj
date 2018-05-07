@@ -10,16 +10,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.BaseActivity;
+import com.imovie.mogic.home.net.HomeWebHelper;
+import com.imovie.mogic.login.model.MyDataModel;
 import com.imovie.mogic.myRank.fragment.ChargeRecordFragment;
 import com.imovie.mogic.myRank.fragment.PraiseNumFragment;
 import com.imovie.mogic.myRank.widget.PagerSlidingTabStrip;
+import com.imovie.mogic.web.IModelResultListener;
+import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.TitleBar;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -31,7 +39,7 @@ public class MineChargeActivity extends BaseActivity {
     public static final int MSG_REFRESH = 600;
     public static final int MSG_WXSEND = 601;
 
-    private final List<String> titles = Arrays.asList("充值记录","充值次数");
+    private final List<String> titles = Arrays.asList("引导充值记录","每日引导充值");
     private List<Fragment> mFragments = new ArrayList<>();
     public FragmentPagerAdapter adapter;
     public ChargeRecordFragment chargeFragment;
@@ -42,12 +50,26 @@ public class MineChargeActivity extends BaseActivity {
     private ViewPager mViewPager;
 
     private int stgId;
+    private DisplayImageOptions mOption;
+    public TextView tvNickname;
+    public TextView tvHallArea;
+    public ImageView ivChargeHeader;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mine_rank_activity);
+        setContentView(R.layout.mine_order_list_activity);
         initView();
+        mOption = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.person_default_profile)
+                .showImageOnFail(R.drawable.person_default_profile)
+                .showImageForEmptyUri(R.drawable.person_default_profile)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        getBusinessDetail(0);
     }
 
     @Override
@@ -65,7 +87,11 @@ public class MineChargeActivity extends BaseActivity {
     private void initView(){
         stgId = getIntent().getIntExtra("stgId",0);
         titleBar = (TitleBar) findViewById(R.id.title_bar);
-        titleBar.setTitle("我的充值");
+        titleBar.setTitle("我的引导充值");
+
+        tvNickname = (TextView) findViewById(R.id.tvNickname);
+//        tvHallOrder = (TextView) view.findViewById(R.id.tvHallOrder);
+        ivChargeHeader = (ImageView) findViewById(R.id.ivChargeHeader);
 
         pstTabTitle = (PagerSlidingTabStrip) findViewById(R.id.pst_hall_tabTitle);
         mViewPager = (ViewPager) findViewById(R.id.vpHallPager);
@@ -127,6 +153,41 @@ public class MineChargeActivity extends BaseActivity {
         tabtitleParams.height = 70 * screenWidth/640;
         pstTabTitle.setLayoutParams(tabtitleParams);
         pstTabTitle.setTextSize(16);
+    }
+
+    public void getBusinessDetail(int type){
+        HomeWebHelper.getBusinessDetail(type,new IModelResultListener<MyDataModel>() {
+            @Override
+            public boolean onGetResultModel(HttpResultModel resultModel) {
+//                pull_content.endRefresh(true);
+                return false;
+            }
+
+            @Override
+            public void onSuccess(String resultCode, MyDataModel resultModel, List<MyDataModel> resultModelList, String resultMsg, String hint) {
+//                pull_content.endRefresh(true);
+                if(resultCode.equals("0")) {
+                    tvNickname.setText(resultModel.nickName);
+//                member.setText(loginModel.card.cardCategoryName);
+//                tvTodayIntegration.setText(DecimalUtil.FormatMoney(loginModel.card.cashBalance));
+//                tvBalance.setText(DecimalUtil.FormatMoney(loginModel.card.exchangeBalance));
+//                tvBean.setText(DecimalUtil.FormatMoney(loginModel.card.presentBalance));
+//                tvTicket.setText(DecimalUtil.FormatMoney(loginModel.card.point));
+                    ImageLoader.getInstance().displayImage(resultModel.fackeImageUrl,ivChargeHeader,mOption);
+                }
+
+            }
+
+            @Override
+            public void onFail(String resultCode, String resultMsg, String hint) {
+//                pull_content.endRefresh(true);
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+//                pull_content.endRefresh(true);
+            }
+        });
     }
 }
 

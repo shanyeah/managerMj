@@ -29,13 +29,33 @@ public class HTTPConfig {
     public final static String url_checkUserInfo = do_main + "clerk/queryLikeMemberInfo.do";
     /* 保存定单 */
     public final static String url_saveGoodsOrder = do_main + "clerk/saveGoodsBill.do";
-
-
-
+    /* 定单会员价 */
+    public final static String url_billMemberPrice = do_main + "clerk/getGoodsBillMemberPrice.do";
+    /* 支付定单 */
+    public final static String url_payGoodsOrder = do_main + "clerk/payGoodsBill.do";
 
 
     /* 更新 */
-    public final static String url_update = do_main + "app/version.do";
+    public final static String url_update = do_main + "clerk/checkAppVersion.do";
+    /* 充值下单*/
+    public final static String url_preqrcharge = do_main + "clerk/userRecharge.do";
+    /* 赠送 */
+    public final static String url_presentList = do_main + "clerk/queryUserChargePresent.do";
+    /* 报表 */
+    public final static String url_reportList = do_main + "report/home.do";
+    /* 当月月绩 */
+    public final static String url_businessDetail = do_main + "clerk/clerkBusinessDetail.do";
+
+
+    /* 充值记录 */
+    public final static String url_chargeRecord = do_main + "clerk/queryMyRechargeList.do";
+    /* 充值次数 */
+    public final static String url_chargeNum = do_main + "clerk/clerkDateCharge.do";
+    /* 点餐记录 */
+    public final static String url_goodsPage = do_main + "clerk/queryClerkGoodsList.do";
+
+
+
 
     /* 我的 */
     public final static String url_my = do_main + "api/clerk/clerkdetail.do";
@@ -54,11 +74,11 @@ public class HTTPConfig {
     public final static String url_orderList = do_main + "api/goodsorderlist.do";
 
 
-    /* 赠送 */
-    public final static String url_presentList = do_main + "api/clerk/presentlist.do";
 
-    /* 下单*/
-    public final static String url_preqrcharge = do_main + "api/clerk/preqrcharge.do";
+
+
+
+
 
     /* 扫码充值 */
     public final static String url_adminQrCharge = do_main + "api/clerk/adminqrcharge.do";
@@ -69,8 +89,7 @@ public class HTTPConfig {
 
 
 
-    /* 支付定单 */
-    public final static String url_payGoodsOrder = do_main + "api/adminmicropay.do";
+
 
     /* 点赞排行 */
     public final static String url_likeRanking = do_main + "api/clerk/clerklikeranking.do";
@@ -84,18 +103,15 @@ public class HTTPConfig {
     /* 点赞记录 */
     public final static String url_likePage = do_main + "api/clerk/clerklikepage.do";
 
-    /* 点餐记录 */
-    public final static String url_goodsPage = do_main + "api/clerk/clerkgoodspage.do";
 
-    /* 充值记录 */
-    public final static String url_chargeRecord = do_main + "api/clerk/clerkchargepage.do";
+
+
 
     /* 点赞次数 */
     public final static String url_likeNum = do_main + "api/clerk/clerkdatelike.do";
     /* 点餐次数 */
     public final static String url_goodsNum = do_main + "api/clerk/clerkdategoods.do";
-    /* 充值次数 */
-    public final static String url_chargeNum = do_main + "api/clerk/clerkdatecharge.do";
+
 
     /* 回复评论 */
     public final static String url_reply = do_main + "api/clerk/reply.do";

@@ -59,12 +59,12 @@ public class OrderRecordAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
          }
 
-        holder.tvNickName.setText(list.get(position).detail.name);
-        holder.tvOrderId.setText("" + list.get(position).billId);
+//        holder.tvNickName.setText(list.get(position).detail.name);
+        holder.tvOrderId.setText("" + list.get(position).saleBillId);
         holder.tvCreateTime.setText(list.get(position).createTime);
-        holder.tvRewardAmount.setText(Html.fromHtml("<font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).rewardAmount/100) +"</font><font color=\'#7c7c7d\' size=14>元</font>"));
-        holder.tvPriceSum.setText(Html.fromHtml("<font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).payAmount/100) +"</font><font color=\'#7c7c7d\' size=14>元</font>"));
-        holder.tvMemberId.setText("(" + list.get(position).detail.idNumber + ")");
+        holder.tvRewardAmount.setText(Html.fromHtml("<font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).rewardAmount) +"</font><font color=\'#7c7c7d\' size=14>元</font>"));
+        holder.tvPriceSum.setText(Html.fromHtml("<font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).payAmount) +"</font><font color=\'#7c7c7d\' size=14>元</font>"));
+//        holder.tvMemberId.setText("(" + list.get(position).detail.idNumber + ")");
 
         switch (list.get(position).status){
             case 0:

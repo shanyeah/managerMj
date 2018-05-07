@@ -11,7 +11,8 @@ public class ChargeListModel extends BaseModel {
     public int id;
     public double chargeAmount;
     public double presentAmount;
-    public boolean isSelect = false;
+    public double present;
+    public double isSelect;
 }
 
 

@@ -54,7 +54,7 @@ public class OrderFragment extends Fragment {
 		list = new ArrayList<>();
 		adapter = new PraiseAdapter(getContext(),list);
 		lvRatingList.setAdapter(adapter);
-		getPraiseList();
+		getPraiseList(2);
 
 //		btHallRating.setOnClickListener(new View.OnClickListener() {
 //			@Override
@@ -100,7 +100,7 @@ public class OrderFragment extends Fragment {
 		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
 			@Override
 			public void onRefresh() {
-				getPraiseList();
+				getPraiseList(2);
 			}
 		});
 
@@ -132,8 +132,8 @@ public class OrderFragment extends Fragment {
 //		tvStgDesc.setText(Html.fromHtml(gameHall.stgDesc));
 //	}
 
-	public void getPraiseList(){
-		RankWebHelper.getGoodsRank(new IModelResultListener<PraiseMode>() {
+	public void getPraiseList(int type){
+		RankWebHelper.getGoodsRank(type,new IModelResultListener<PraiseMode>() {
 			@Override
 			public boolean onGetResultModel(HttpResultModel resultModel) {
 				pull_content.endRefresh(true);

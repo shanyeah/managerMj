@@ -203,6 +203,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/T2</item>
     </style>
+    <style name="text_18_T5">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/T5</item>
+    </style>
 
     <style name="text_22_white">
         <item name="android:textSize">22sp</item>

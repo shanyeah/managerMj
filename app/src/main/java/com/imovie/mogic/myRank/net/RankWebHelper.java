@@ -19,6 +19,41 @@ import com.imovie.mogic.web.http.HttpHelper;
  */
 
 public class RankWebHelper extends HttpWebHelper{
+
+    /**
+     * 排行榜
+     * @param listener
+     * @param type 类型：0查询所有，1查充值，2查点餐，3查点赞
+     */
+    public static void getGoodsRank(int type,IModelResultListener<PraiseMode> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+        baseReqParamNetMap.put("startTime", "");
+        baseReqParamNetMap.put("endTime", "");
+        baseReqParamNetMap.put("type", type);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_goodsRanking));
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        new HomeWebHelper().sendPostWithTranslate(PraiseMode.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_1,baseReqParamNetMap, listener);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * 点赞排行
      * @param listener
@@ -51,21 +86,7 @@ public class RankWebHelper extends HttpWebHelper{
         new HomeWebHelper().sendPostWithTranslate(PraiseMode.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_1,baseReqParamNetMap, listener);
     }
 
-    /**
-     * 点餐排行
-     * @param listener
-     */
-    public static void getGoodsRank(IModelResultListener<PraiseMode> listener) {
-        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
-        baseReqParamNetMap.put("stgId", organId);
-        baseReqParamNetMap.put("startTime", "");
-        baseReqParamNetMap.put("endTime", "");
-        StringBuffer data = new StringBuffer();
-        data.append(HTTPConfig.getUrlData(HTTPConfig.url_goodsRanking));
-//        data.append("distDate=" + distDate);
-        new HomeWebHelper().sendPostWithTranslate(PraiseMode.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_1,baseReqParamNetMap, listener);
-    }
+
 
     /**
      * 点赞记录

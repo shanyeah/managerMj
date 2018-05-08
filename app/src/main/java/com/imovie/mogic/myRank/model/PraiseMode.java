@@ -9,7 +9,7 @@ import com.imovie.mogic.dbbase.model.BaseModel;
 
 public class PraiseMode extends BaseModel {
     public int adminId;
-    public int amount;
+    public double amount;
     public int count;
     public String fackeImageUrl;
     public String nickName;

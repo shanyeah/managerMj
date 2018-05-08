@@ -130,4 +130,24 @@ public class ViewUtils {
 		pButton.setTextColor(ContextCompat.getColor(mContext, R.color.dodgerblue));
 		pButton.setTypeface(Typeface.DEFAULT_BOLD);
 	}
+
+	public static void showChargeDialog(Context mContext, DialogInterface.OnClickListener onClickListener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		TextView tv = new TextView(mContext);
+		tv.setText("等待用户输入密码?");
+		tv.setTextSize(14);
+		tv.setPadding(ViewUtils.dip2px(mContext, 16), ViewUtils.dip2px(mContext, 16), 0, 0);
+		tv.setTextColor(Color.parseColor("#757575"));
+		AlertDialog alertDialog = builder
+				.setNegativeButton("取消", null)
+				.setCustomTitle(tv)
+				.setPositiveButton("确定", onClickListener)
+				.show();
+		Button nButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+		nButton.setTextColor(ContextCompat.getColor(mContext, R.color.dodgerblue));
+		nButton.setTypeface(Typeface.DEFAULT_BOLD);
+		Button pButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+		pButton.setTextColor(ContextCompat.getColor(mContext, R.color.dodgerblue));
+		pButton.setTypeface(Typeface.DEFAULT_BOLD);
+	}
 }

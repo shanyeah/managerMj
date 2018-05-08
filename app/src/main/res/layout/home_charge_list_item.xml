@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:id="@+id/rlChargeMoneyState"
+                android:background="@drawable/shape_write_r5_l5">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/rlChargeMoneyState"
-        android:background="@drawable/shape_write_r5_l5">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
 
         <TextView
             android:id="@+id/tvChargeAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
             android:text="50"
             android:gravity="center"
-            style="@style/text_14_T5"/>
+            style="@style/text_18_T5"/>
 
         <TextView
             android:id="@+id/tvPresentAmount"
@@ -28,6 +28,7 @@
             android:text="充50送5"
             style="@style/text_14_T3"
             android:gravity="center"
+            android:visibility="gone"
             android:lines="1"/>
     </RelativeLayout>
 </RelativeLayout>

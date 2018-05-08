@@ -58,7 +58,7 @@
                             android:layout_centerVertical="true"
                             android:background="@drawable/home_appreciate0"/>
                         <TextView
-                            android:id="@+id/tvPraiseNum"
+                            android:id="@+id/tvChargeMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/ivPraise"
@@ -69,7 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/ivPraise"
-                            android:layout_below="@+id/tvPraiseNum"
+                            android:layout_below="@+id/tvChargeMonth"
                             android:layout_marginLeft="10dp"
                             android:text="(本月点赞)"
                             style="@style/text_14_T1"/>

@@ -3,6 +3,7 @@ package com.imovie.mogic.home.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -31,6 +32,7 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.manager.ScanPayManager;
 import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
 import com.imovie.mogic.car.CarPayActivity;
+import com.imovie.mogic.car.utils.ViewUtils;
 import com.imovie.mogic.card.model.PresentModel;
 import com.imovie.mogic.card.net.CardWebHelper;
 import com.imovie.mogic.home.BaseActivity;
@@ -97,6 +99,7 @@ public class ChargeFragment extends Fragment {
     public NoScrollGridView gvChargeList;
     public List<ChargeListModel> listCharge = new ArrayList<>();
     public ChargeAdapter chargeAdapter;
+    public String sn;
 
 
     private int userId = -1;
@@ -172,32 +175,32 @@ public class ChargeFragment extends Fragment {
             switch (i){
                 case 0:
                     model.chargeAmount = 50;
-                    model.presentAmount = 5;
+                    model.presentAmount = 0;
                     model.present = 5;
                     break;
                 case 1:
                     model.chargeAmount = 100;
-                    model.presentAmount = 20;
+                    model.presentAmount = 0;
                     model.present = 20;
                     break;
                 case 2:
                     model.chargeAmount = 200;
-                    model.presentAmount = 50;
+                    model.presentAmount = 0;
                     model.present = 50;
                     break;
                 case 3:
                     model.chargeAmount = 500;
-                    model.presentAmount = 100;
+                    model.presentAmount = 0;
                     model.present = 100;
                     break;
                 case 4:
                     model.chargeAmount = 1000;
-                    model.presentAmount = 200;
+                    model.presentAmount = 0;
                     model.present = 200;
                     break;
                 case 5:
                     model.chargeAmount = 2000;
-                    model.presentAmount = 500;
+                    model.presentAmount = 0;
                     model.present = 500;
                     break;
             }
@@ -344,75 +347,6 @@ public class ChargeFragment extends Fragment {
             }
         });
 
-//        llRightOne.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(unSelect) {
-//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
-//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
-//                    return;
-//                }
-//
-//                etChargeNum.setText("");
-//                chargeNum = "50";
-//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
-//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                if(userId != -1)getPresentList(chargeNum+"00",userId);
-//            }
-//        });
-//        llRightTwo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(unSelect) {
-//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
-//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
-//                    return;
-//                }
-//                etChargeNum.setText("");
-//                chargeNum = "100";
-//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
-//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                if(userId != -1)getPresentList(chargeNum+"00",userId);
-//            }
-//        });
-//        llRightThree.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(unSelect) {
-//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
-//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
-//                    return;
-//                }
-//                etChargeNum.setText("");
-//                chargeNum = "200";
-//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
-//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                if(userId != -1)getPresentList(chargeNum+"00",userId);
-//            }
-//        });
-//        llRightFour.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(unSelect) {
-//                    Intent intent = new Intent(getActivity(), SearchMemberActivity.class);
-//                    startActivityForResult(intent, SearchMemberActivity.SELECT_RESULT);
-//                    return;
-//                }
-//                etChargeNum.setText("");
-//                chargeNum = "500";
-//                llRightOne.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightTwo.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightThree.setBackground(getContext().getResources().getDrawable(R.drawable.shape_write_r5_l5));
-//                llRightFour.setBackground(getContext().getResources().getDrawable(R.drawable.bg_line_l7_r3));
-//                if(userId != -1)getPresentList(chargeNum+"00",userId);
-//            }
-//        });
 
         btChargeCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -520,8 +454,8 @@ public class ChargeFragment extends Fragment {
         });
     }
 
-    public void getPreqrCharge(String amount,int userId,int payType, long payCategoryId,int type,String remark,String tn){
-        CardWebHelper.getPreqrCharge(amount,userId,payType, payCategoryId,type,remark,tn , new IModelResultListener<ChargeSuccessModel>() {
+    public void getPreqrCharge(String amount,int userId1,int payType, long payCategoryId,int type,String remark,String tn){
+        CardWebHelper.getPreqrCharge(amount,userId1,payType, payCategoryId,type,remark,tn , new IModelResultListener<ChargeSuccessModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
@@ -533,7 +467,12 @@ public class ChargeFragment extends Fragment {
 //                    Utills.showShortToast(resultMsg);
                     ScanPayManager.enterChargeSuccessActivity(getActivity(), "", resultModel);
                 }else if(resultCode.equals("90016")){
-
+                    ViewUtils.showChargeDialog(getActivity(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getPreqrCharge(chargeNum,userId,1,0,0,"",sn);
+                        }
+                    });
                 }else{
                     Utills.showShortToast(resultMsg);
                 }
@@ -564,12 +503,12 @@ public class ChargeFragment extends Fragment {
 //        Utills.showShortToast(""+requestCode);
         switch (requestCode) {
             case CaptureActivity.MSG_OTHER:
-                String code = data.getStringExtra("code");
-                if(StringHelper.isEmpty(code)){
+                sn = data.getStringExtra("code");
+                if(StringHelper.isEmpty(sn)){
                     Utills.showShortToast("扫码出错");
                     return;
                 }else{
-                    getPreqrCharge(chargeNum,userId,1,0,0,"",code);
+                    getPreqrCharge(chargeNum,userId,1,0,0,"",sn);
 //                    Utills.showShortToast("扫码" + code);
                 }
             break;

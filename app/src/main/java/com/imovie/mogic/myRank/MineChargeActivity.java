@@ -52,7 +52,9 @@ public class MineChargeActivity extends BaseActivity {
     private int stgId;
     private DisplayImageOptions mOption;
     public TextView tvNickname;
-    public TextView tvHallArea;
+    public TextView tvChargeMonth;
+    public TextView tvChargeRewardAmount;
+    public TextView tvChargeRanking;
     public ImageView ivChargeHeader;
 
 
@@ -90,7 +92,9 @@ public class MineChargeActivity extends BaseActivity {
         titleBar.setTitle("我的引导充值");
 
         tvNickname = (TextView) findViewById(R.id.tvNickname);
-//        tvHallOrder = (TextView) view.findViewById(R.id.tvHallOrder);
+        tvChargeMonth = (TextView) findViewById(R.id.tvChargeMonth);
+        tvChargeRewardAmount = (TextView) findViewById(R.id.tvChargeRewardAmount);
+        tvChargeRanking = (TextView) findViewById(R.id.tvChargeRanking);
         ivChargeHeader = (ImageView) findViewById(R.id.ivChargeHeader);
 
         pstTabTitle = (PagerSlidingTabStrip) findViewById(R.id.pst_hall_tabTitle);
@@ -167,13 +171,11 @@ public class MineChargeActivity extends BaseActivity {
             public void onSuccess(String resultCode, MyDataModel resultModel, List<MyDataModel> resultModelList, String resultMsg, String hint) {
 //                pull_content.endRefresh(true);
                 if(resultCode.equals("0")) {
-                    tvNickname.setText(resultModel.nickName);
-//                member.setText(loginModel.card.cardCategoryName);
-//                tvTodayIntegration.setText(DecimalUtil.FormatMoney(loginModel.card.cashBalance));
-//                tvBalance.setText(DecimalUtil.FormatMoney(loginModel.card.exchangeBalance));
-//                tvBean.setText(DecimalUtil.FormatMoney(loginModel.card.presentBalance));
-//                tvTicket.setText(DecimalUtil.FormatMoney(loginModel.card.point));
-                    ImageLoader.getInstance().displayImage(resultModel.fackeImageUrl,ivChargeHeader,mOption);
+//                    tvNickname.setText(resultModel.nickName);
+//                    tvChargeMonth.setText(loginModel.card.cardCategoryName);
+//                    tvChargeRewardAmount.setText(loginModel.card.cardCategoryName);
+//                    tvChargeRanking.setText(loginModel.card.cardCategoryName);
+//                    ImageLoader.getInstance().displayImage(resultModel.fackeImageUrl,ivChargeHeader,mOption);
                 }
 
             }

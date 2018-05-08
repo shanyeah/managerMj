@@ -34,7 +34,6 @@ public class HTTPConfig {
     /* 支付定单 */
     public final static String url_payGoodsOrder = do_main + "clerk/payGoodsBill.do";
 
-
     /* 更新 */
     public final static String url_update = do_main + "clerk/checkAppVersion.do";
     /* 充值下单*/
@@ -46,13 +45,17 @@ public class HTTPConfig {
     /* 当月月绩 */
     public final static String url_businessDetail = do_main + "clerk/clerkBusinessDetail.do";
 
-
     /* 充值记录 */
     public final static String url_chargeRecord = do_main + "clerk/queryMyRechargeList.do";
     /* 充值次数 */
     public final static String url_chargeNum = do_main + "clerk/clerkDateCharge.do";
     /* 点餐记录 */
     public final static String url_goodsPage = do_main + "clerk/queryClerkGoodsList.do";
+    /* 排行榜 */
+    public final static String url_goodsRanking = do_main + "clerk/queryIncomeRanking.do";
+
+
+
 
 
 
@@ -74,12 +77,6 @@ public class HTTPConfig {
     public final static String url_orderList = do_main + "api/goodsorderlist.do";
 
 
-
-
-
-
-
-
     /* 扫码充值 */
     public final static String url_adminQrCharge = do_main + "api/clerk/adminqrcharge.do";
 
@@ -97,8 +94,7 @@ public class HTTPConfig {
     /* 充值排行 */
     public final static String url_chargeRanking = do_main + "api/clerk/clerkchargeranking.do";
 
-    /* 点餐排行 */
-    public final static String url_goodsRanking = do_main + "api/clerk/clerkgoodsranking.do";
+
 
     /* 点赞记录 */
     public final static String url_likePage = do_main + "api/clerk/clerklikepage.do";

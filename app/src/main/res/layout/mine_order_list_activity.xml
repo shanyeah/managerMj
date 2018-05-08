@@ -16,19 +16,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_bar"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_margin="10dp">
         <ImageView
             android:id="@+id/ivChargeHeader"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_centerVertical="true"
+
             android:background="@drawable/person_default_profile"/>
         <TextView
             android:id="@+id/tvNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/ivChargeHeader"
             android:text="名字"
@@ -48,7 +48,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/home_appreciate0"/>
             <TextView
-                android:id="@+id/tvPraiseNum"
+                android:id="@+id/tvChargeMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivPraise"
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivPraise"
-                android:layout_below="@+id/tvPraiseNum"
+                android:layout_below="@+id/tvChargeMonth"
                 android:layout_marginLeft="10dp"
                 android:text="(本月收款)"
                 style="@style/text_14_T1"/>
@@ -80,7 +80,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/home_recharge0"/>
             <TextView
-                android:id="@+id/tvChargeNum"
+                android:id="@+id/tvChargeRewardAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivCharge"
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivCharge"
-                android:layout_below="@+id/tvChargeNum"
+                android:layout_below="@+id/tvChargeRewardAmount"
                 android:layout_marginLeft="10dp"
                 android:text="(本月收款奖金)"
                 style="@style/text_14_T1"/>
@@ -111,7 +111,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/home_wodehuodong"/>
             <TextView
-                android:id="@+id/tvRankingNum"
+                android:id="@+id/tvChargeRanking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivChargeRanking"
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivChargeRanking"
-                android:layout_below="@+id/tvRankingNum"
+                android:layout_below="@+id/tvChargeRanking"
                 android:layout_marginLeft="10dp"
                 android:text="(本月收款排行榜)"
                 style="@style/text_14_T1"/>

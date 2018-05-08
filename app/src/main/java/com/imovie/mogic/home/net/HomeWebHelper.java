@@ -181,11 +181,12 @@ public class HomeWebHelper extends HttpWebHelper{
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
 //        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
 //        baseReqParamNetMap.put("organId", organId);
-        baseReqParamNetMap.put("type", type);
+//        baseReqParamNetMap.put("type", type);
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_businessDetail));
         int organId = MyApplication.getInstance().mPref.getInt("organId",0);
         data.append("&organId=" + organId);
+        data.append("&type=" + type);
         new HomeWebHelper().sendPostWithTranslate(MyDataModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
     }
 

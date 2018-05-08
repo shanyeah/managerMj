@@ -76,7 +76,13 @@ public class ChargeAdapter extends BaseAdapter {
 
 //		holder.rlChargeState.setTag(list.get(position).isSelect);
 		holder.tvChargeAmount.setText(""+ DecimalUtil.FormatMoney(list.get(position).chargeAmount,"#0"));
-		holder.tvPresentAmount.setText("送"+DecimalUtil.FormatMoney(list.get(position).presentAmount,"#0"));
+		if(list.get(position).presentAmount>0){
+			holder.tvPresentAmount.setVisibility(View.VISIBLE);
+			holder.tvPresentAmount.setText("送"+DecimalUtil.FormatMoney(list.get(position).presentAmount,"#0"));
+		}else{
+			holder.tvPresentAmount.setVisibility(View.GONE);
+		}
+
 //		holder.ivClassifyImage.setBackgroundResource(list.get(position).imageId);
 
 		int screenWidth = context.getResources().getDisplayMetrics().widthPixels;

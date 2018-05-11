@@ -12,6 +12,7 @@ public class GoodsTags extends BaseModel {
     public String name;
     public double price;
     public int selectId = -1;
+    public String selectname = "";
 }
 
 

@@ -73,7 +73,7 @@
                         android:gravity="center"
                         android:text="残忍拒绝"
                         android:textColor="@color/T5"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/rlUpdate"
@@ -89,7 +89,7 @@
                     <ImageView
                         android:id="@+id/tv_update"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="60dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/background_update_button" />
                 </RelativeLayout>

@@ -303,10 +303,15 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 	@Override
 	public void onAddClick(View view, FoodBean fb) {
-//		if(adapter.list.size()>0) {
-//			fb.goodsPackList.clear();
-//			fb.goodsPackList.addAll(adapter.list);
-//		}
+		try {
+			if(categorysAdapter.list.size()>0) {
+    //			Utills.showShortToast(""+categorysAdapter.getTags()[1]);
+                fb.setGoodsTags(categorysAdapter.getTags()[0]);
+                fb.setTagsName(categorysAdapter.getTags()[1]);
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 //		Utills.showShortToast(""+adapter.list.size());
 		dealCar(fb);
 		ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
@@ -342,9 +347,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		int p = -1;
 		for (int i = 0; i < flist.size(); i++) {
 			FoodBean fb = flist.get(i);
-			total += fb.getSelectCount();
-			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
 			if (fb.getId() == foodBean.getId()) {
+
 				if(foodBean.getGoodsPackList().size()>0){
 					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
 						hasFood = false;
@@ -357,15 +361,19 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						}
 						if(hasPack){
 							hasFood = false;
-//							foodBean.setSelectCount(1);
+//                            foodBean.setSelectCount(1);
 						}else{
 							hasFood = true;
-//							fb.setSelectCount(fb.getSelectCount()+1);
 							if (foodBean.getSelectCount() == 0) {
 								p = i;
 							} else {
 								carAdapter.setData(i, foodBean);
 							}
+//                            if (typeSelect.containsKey(fb.getType())) {
+//                                typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
+//                            } else {
+//                                typeSelect.put(fb.getType(), fb.getSelectCount());
+//                            }
 						}
 
 					}
@@ -374,20 +382,40 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //                        Log.e("----222",""+hasFood);
 				}else{
 					hasFood = true;
-//					foodBean.setSelectCount(foodBean.getSelectCount()+1);
+//                    foodBean.setSelectCount(foodBean.getSelectCount()+1);
 					if (foodBean.getSelectCount() == 0) {
 						p = i;
 					} else {
 						carAdapter.setData(i, foodBean);
+						total += foodBean.getSelectCount();
+						amount = amount.add(foodBean.getPrice());
 					}
+//                    if (typeSelect.containsKey(foodBean.getType())) {
+//                        typeSelect.put(foodBean.getType(), typeSelect.get(foodBean.getType()) + foodBean.getSelectCount());
+//                    } else {
+//                        typeSelect.put(foodBean.getType(), foodBean.getSelectCount());
+//                    }
 				}
+				total += foodBean.getSelectCount();
+				amount = amount.add(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
+			}else{
+				total += fb.getSelectCount();
+				amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
 			}
+
 
 		}
 		if (p >= 0) {
 			carAdapter.remove(p);
-		} else if (!hasFood && foodBean.getSelectCount() > 0) {
+		} else if (!hasFood) {
+//            foodBean.getSelectCount() > 0
+			foodBean.setSelectCount(1);
 			carAdapter.addData(foodBean);
+//            if (typeSelect.containsKey(foodBean.getType())) {
+//                typeSelect.put(foodBean.getType(), typeSelect.get(foodBean.getType()) + foodBean.getSelectCount());
+//            } else {
+//                typeSelect.put(foodBean.getType(), foodBean.getSelectCount());
+//            }
 			amount = amount.add(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
 			total += foodBean.getSelectCount();
 		}
@@ -395,9 +423,9 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		shopCarView.updateAmount(amount);
 		amountStr = amount.toString();
 		Intent intent = new Intent(SelectTypeActivity.CAR_ACTION);
-		if (foodBean.getId() == this.foodBean.getId()) {
-			intent.putExtra("position", position);
-		}
+//		if (foodBean.getId() == this.foodBean.getId()) {
+//			intent.putExtra("position", position);
+//		}
 		intent.putExtra("foodbean", foodBean);
 		sendBroadcast(intent);
 	}

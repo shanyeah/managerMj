@@ -30,10 +30,27 @@ public class FoodBean implements Serializable{
 	private BigDecimal payAmount;
 	private BigDecimal incomeAmount;
 	private long quantity;
+	private String goodsTags;
+	private String tagsName;
 
 	private List<FoodTagList> goodsPackList = new ArrayList<>();
 
+	public String getTagsName() {
+		return tagsName;
+	}
+
+	public void setTagsName(String tagsName) {
+		this.tagsName = tagsName;
+	}
+
 //	public List<GoodTagList> goodsPackList = new ArrayList<>();
+	public String getGoodsTags() {
+		return goodsTags;
+	}
+
+	public void setGoodsTags(String goodsTags) {
+		this.goodsTags = goodsTags;
+	}
 
 	public int getGoodsId() {
 		return goodsId;
@@ -200,6 +217,8 @@ public class FoodBean implements Serializable{
 		bean.setPayAmount(foodBean.getPayAmount());
 		bean.setPrice(foodBean.getPrice());
 		bean.setType(foodBean.getType());
+		bean.setTagsName(foodBean.getTagsName());
+		bean.setGoodsTags(foodBean.goodsTags);
 		bean.setGoodPackList(foodBean.getGoodsPackList());
 		return bean;
 	}

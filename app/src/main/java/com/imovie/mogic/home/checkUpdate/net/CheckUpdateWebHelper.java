@@ -21,12 +21,14 @@ public class CheckUpdateWebHelper extends HttpWebHelper {
     public static void checkUpdate(IModelResultListener<UpdateModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
 //        String sign = MD5Helper.encode(distDate + "|" + hid + "|iwatchhome");
-        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+//        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        baseReqParamNetMap.put("version", AppConfig.getVersionName());
+        baseReqParamNetMap.put("appId", "10001");
         StringBuffer data = new StringBuffer();
-        data.append(HTTPConfig.url_update);
-        data.append("?version=" + AppConfig.getVersionName());
-//        data.append("&stgId=" + organId);
-        data.append("&appId=" + 10001);
-        new HomeWebHelper().sendPostWithTranslate(UpdateModel.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_update));
+//        data.append("?version=" + AppConfig.getVersionName());
+////        data.append("&stgId=" + organId);
+//        data.append("&appId=" + 10001);
+        new HomeWebHelper().sendPostWithTranslate(UpdateModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
     }
 }

@@ -3,6 +3,7 @@ package com.imovie.mogic.car.adapters;
 
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -10,6 +11,7 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.view.AddWidget;
 import com.imovie.mogic.home.adater.GoodsPayTagAdapter;
+import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.widget.NoScrollListView;
 
 import java.math.BigDecimal;
@@ -34,6 +36,14 @@ public class CarAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 
 //		addWidget.setData(this, helper.getAdapterPosition(), onAddClick);
 		addWidget.setData(onAddClick,item);
+		TextView car_tag_name = helper.getView(R.id.car_tag_name);
+		if(!StringHelper.isEmpty(item.getTagsName())) {
+			car_tag_name.setVisibility(View.VISIBLE);
+			car_tag_name.setText("(" + item.getTagsName() + ")");
+		}else{
+			car_tag_name.setVisibility(View.GONE);
+		}
+
 		NoScrollListView lvCarTagList = (NoScrollListView) helper.getView(R.id.lvCarTagList);
 		if(item.getGoodsPackList().size()>0){
 			lvCarTagList.setVisibility(View.VISIBLE);

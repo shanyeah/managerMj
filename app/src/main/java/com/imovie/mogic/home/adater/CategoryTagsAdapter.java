@@ -107,6 +107,7 @@ public class CategoryTagsAdapter extends BaseAdapter {
 		for(int i=0;i<this.list.size();i++){
 			if(this.list.get(i).id == selectId){
 				this.list.get(i).selectId = this.list.get(i).id;
+				this.list.get(i).selectname = this.list.get(i).name;
 //				this.list.get(i).presentAmount = 5000;
 			}else{
 				this.list.get(i).selectId = -1;

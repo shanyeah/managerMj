@@ -68,8 +68,11 @@ public class GoodsCarAdapter extends BaseAdapter {
         holder.tvGoodNum.setTag(list.get(position).getGoodsPackList());
         List<FoodTagList> lists = (List<FoodTagList>)holder.tvGoodNum.getTag();
         if(lists.size()>0){
+            holder.lvCarTagList.setVisibility(View.VISIBLE);
             GoodsPayTagAdapter adapter = new GoodsPayTagAdapter(context,lists);
             holder.lvCarTagList.setAdapter(adapter);
+        }else{
+            holder.lvCarTagList.setVisibility(View.GONE);
         }
 //        if(list.get(position).isSelect){
 //            holder.viewType.setVisibility(View.VISIBLE);

@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -325,10 +326,12 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	}
 
 
-	private void dealCar(FoodBean foodBean) {
+	private void dealCar(FoodBean food) {
+		FoodBean foodBean = food.getFoodBean(food);
 		BigDecimal amount = new BigDecimal(0.0);
 		int total = 0;
 		boolean hasFood = false;
+		boolean hasPack = false;
 		if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED || foodBean.getId() == this.foodBean.getId() && foodBean.getSelectCount() !=
 				this.foodBean.getSelectCount()) {
 			this.foodBean = foodBean;
@@ -342,13 +345,44 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			total += fb.getSelectCount();
 			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
 			if (fb.getId() == foodBean.getId()) {
-				hasFood = true;
-				if (foodBean.getSelectCount() == 0) {
-					p = i;
-				} else {
-					carAdapter.setData(i, foodBean);
+				if(foodBean.getGoodsPackList().size()>0){
+					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
+						hasFood = false;
+					}else{
+						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
+							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
+								hasPack = true;
+								break;
+							}
+						}
+						if(hasPack){
+							hasFood = false;
+//							foodBean.setSelectCount(1);
+						}else{
+							hasFood = true;
+//							fb.setSelectCount(fb.getSelectCount()+1);
+							if (foodBean.getSelectCount() == 0) {
+								p = i;
+							} else {
+								carAdapter.setData(i, foodBean);
+							}
+						}
+
+					}
+
+//					    Log.e("----111",foodBean.getGoodsPackList().size()+"=:="+fb.getGoodsPackList().size());
+//                        Log.e("----222",""+hasFood);
+				}else{
+					hasFood = true;
+//					foodBean.setSelectCount(foodBean.getSelectCount()+1);
+					if (foodBean.getSelectCount() == 0) {
+						p = i;
+					} else {
+						carAdapter.setData(i, foodBean);
+					}
 				}
 			}
+
 		}
 		if (p >= 0) {
 			carAdapter.remove(p);

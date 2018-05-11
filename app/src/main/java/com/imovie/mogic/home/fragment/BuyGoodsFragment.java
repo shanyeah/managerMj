@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.R;
+import com.imovie.mogic.base.universal_loading.YSBLoadingDialog;
+import com.imovie.mogic.car.CarPayActivity;
 import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.car.adapters.FoodAdapter;
 import com.imovie.mogic.car.adapters.TypeAdapter;
@@ -129,6 +131,17 @@ public class BuyGoodsFragment extends Fragment {
     }
 
     public void getAllGoodList(){
+        YSBLoadingDialog.showLoadingDialog(getActivity(), 2000, new YSBLoadingDialog.OnCancelListener() {
+            @Override
+            public void onTimeout() {
+                YSBLoadingDialog.dismissDialog();
+            }
+
+            @Override
+            public void onCancel() {
+                YSBLoadingDialog.dismissDialog();
+            }
+        });
         HomeWebHelper.getAllGoodList(new IModelResultListener<CardModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {

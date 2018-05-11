@@ -165,6 +165,10 @@ public class FoodBean implements Serializable{
 	public List<FoodTagList> getGoodsPackList() {
 		return goodsPackList;
 	}
+	public void setGoodPackList(List<FoodTagList> packList) {
+		this.goodsPackList.clear();
+		this.goodsPackList.addAll(packList);
+	}
 
 	public void setGoodsPackList(List<GoodTagList> packList) {
 		List<FoodTagList> list = new ArrayList<>();
@@ -183,5 +187,20 @@ public class FoodBean implements Serializable{
 			list.add(foodTag);
 		}
 		this.goodsPackList = list;
+	}
+
+	public  FoodBean getFoodBean(FoodBean foodBean){
+		FoodBean bean = new FoodBean();
+		bean.setName(foodBean.getName());
+		bean.setGoodsId(foodBean.getGoodsId());
+		bean.setId(foodBean.getId());
+		bean.setQuantity(foodBean.getQuantity());
+		bean.setSelectCount(foodBean.getSelectCount());
+		bean.setIncomeAmount(foodBean.getIncomeAmount());
+		bean.setPayAmount(foodBean.getPayAmount());
+		bean.setPrice(foodBean.getPrice());
+		bean.setType(foodBean.getType());
+		bean.setGoodPackList(foodBean.getGoodsPackList());
+		return bean;
 	}
 }

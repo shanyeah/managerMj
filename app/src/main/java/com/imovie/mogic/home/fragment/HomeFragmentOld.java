@@ -656,8 +656,9 @@ public class HomeFragmentOld extends Fragment {
             editor.putInt("organId", organId);
             editor.commit();
             mSpinerPopWindow.dismiss();
-            getHallDetail();
-            getReviewList(organId);
+//            getHallDetail();
+//            getReviewList(organId);
+            refresh();
 
 //            cityId = "" + internetBarModel.id;
 //            if(cityId.equals("0")) cityId="";

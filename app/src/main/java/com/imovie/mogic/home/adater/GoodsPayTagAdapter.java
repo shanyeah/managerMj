@@ -54,7 +54,7 @@ public class GoodsPayTagAdapter extends BaseAdapter {
          }
 
         holder.tvTypeName.setText(list.get(position).getName());
-        holder.tvGoodNum.setText(list.get(position).getName());
+        holder.tvGoodNum.setText("x"+list.get(position).getQuantity());
 //        if(list.get(position).isSelect){
 ////            holder.viewType.setVisibility(View.VISIBLE);
 //            holder.rlNameState.setBackgroundResource(R.color.BG5);

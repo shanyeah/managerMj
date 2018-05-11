@@ -1,14 +1,19 @@
 package com.imovie.mogic.myRank.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.imovie.mogic.R;
+import com.imovie.mogic.car.CarPayDetailActivity;
+import com.imovie.mogic.car.bean.FoodBean;
+import com.imovie.mogic.myRank.ChargeDetailActivity;
 import com.imovie.mogic.myRank.adater.OrderRecordAdapter;
 import com.imovie.mogic.myRank.model.OrderRecord;
 import com.imovie.mogic.myRank.net.RankWebHelper;
@@ -56,6 +61,15 @@ public class ChargeRecordFragment extends Fragment {
 		lvRatingList.setAdapter(adapter);
 		lvRatingList.setEmptyTips("暂无数据");
 		refresh();
+
+		lvRatingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				Intent intent = new Intent(getActivity(), ChargeDetailActivity.class);
+				intent.putExtra("saleBillId", ""+adapter.getItem(i).saleBillId);
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void setPullAndFlexListener(){

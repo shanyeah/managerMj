@@ -1,8 +1,11 @@
 package com.imovie.mogic.web.http;
 
+import android.util.Log;
+
 import com.imovie.mogic.dbbase.model.CoreFuncReturn;
 import com.imovie.mogic.dbbase.util.JsonFormatter;
 import com.imovie.mogic.dbbase.util.JsonHelper;
+import com.imovie.mogic.utills.AliJsonUtil;
 import com.imovie.mogic.web.common.CompressUtil;
 
 import java.io.BufferedWriter;
@@ -419,7 +422,9 @@ public class HttpHelper extends BaseHttpHelper {
 
 
     public void setRequestParam(Map<String, Object> requestParam) {
-        this.requestParam = JsonHelper.map2Json(requestParam);
+//        this.requestParam = JsonHelper.map2Json(requestParam);
+        this.requestParam = AliJsonUtil.toJSONString(requestParam);
+        Log.e("-----111",this.requestParam.toString());
     }
 
     public interface onResultListener {

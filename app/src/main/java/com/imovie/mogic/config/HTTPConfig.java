@@ -31,6 +31,10 @@ public class HTTPConfig {
     public final static String url_saveGoodsOrder = do_main + "clerk/saveGoodsBill.do";
     /* 定单会员价 */
     public final static String url_billMemberPrice = do_main + "clerk/getGoodsBillMemberPrice.do";
+    /* 定单详情 */
+    public final static String url_queryGoodsBillDetail = do_main + "clerk/queryGoodsBillDetail.do";
+    /* 充值定单详情 */
+    public final static String url_queryRechangeDetail = do_main + "clerk/queryUserRechangeDetail.do";
     /* 支付定单 */
     public final static String url_payGoodsOrder = do_main + "clerk/payGoodsBill.do";
 
@@ -51,10 +55,16 @@ public class HTTPConfig {
     public final static String url_chargeNum = do_main + "clerk/clerkDateCharge.do";
     /* 点餐记录 */
     public final static String url_goodsPage = do_main + "clerk/queryClerkGoodsList.do";
+    /* 每日收款 */
+    public final static String url_goodsNum = do_main + "/clerk/clerkDateGoods.do";
     /* 排行榜 */
     public final static String url_goodsRanking = do_main + "clerk/queryIncomeRanking.do";
-
-
+    /* 定单详情 */
+    public final static String url_queryGoodsDetail = do_main + "clerk/queryGoodsDetail.do";
+    /* 评论列表 */
+    public final static String url_reviewList = do_main + "clerk/queryNetbarReviewList.do";
+    /* 改密码 */
+    public final static String url_setPassword = do_main + "clerk/changePassword.do";
 
 
 
@@ -105,8 +115,7 @@ public class HTTPConfig {
 
     /* 点赞次数 */
     public final static String url_likeNum = do_main + "api/clerk/clerkdatelike.do";
-    /* 点餐次数 */
-    public final static String url_goodsNum = do_main + "api/clerk/clerkdategoods.do";
+
 
 
     /* 回复评论 */
@@ -136,8 +145,10 @@ public class HTTPConfig {
     /* 补卡信息 */
     public final static String url_recheckInfo = do_main + "attend/attendextrarecords.do";
 
-    /* 改密码 */
-    public final static String url_setPassword = do_main + "api/clerk/changepass.do";
+
+
+
+
 
     /* 收入汇总 */
     public final static String url_incomeSummary = do_main + "api/clerk/queryClerkRewardSummary.do";
@@ -173,8 +184,7 @@ public class HTTPConfig {
 
     /* 馆详情 */
     public final static String url_stgDetail = do_main + "api/stgdetail.do";
-    /* 评论列表 */
-    public final static String url_reviewList = do_main + "api/reviewlist.do";
+
 
     /* 电影列表 */
     public final static String url_movieList = do_main + "api/movielist.do";

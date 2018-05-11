@@ -238,7 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:background="@drawable/click_white_gray_no_stoke">
 
                 <ImageView
@@ -272,13 +272,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:background="@color/L1" />
             <RelativeLayout
                 android:id="@+id/rlMineInfo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:background="@drawable/click_white_gray_no_stoke">
 
                 <ImageView
@@ -311,6 +312,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:background="@color/L1" />
 
             <RelativeLayout

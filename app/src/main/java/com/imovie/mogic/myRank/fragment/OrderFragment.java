@@ -53,6 +53,7 @@ public class OrderFragment extends Fragment {
 		setPullAndFlexListener();
 		list = new ArrayList<>();
 		adapter = new PraiseAdapter(getContext(),list);
+		adapter.setSelectType(2);
 		lvRatingList.setAdapter(adapter);
 		getPraiseList(2);
 

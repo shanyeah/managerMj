@@ -5,30 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.bean.FoodTagList;
-import com.imovie.mogic.home.model.CardModel;
-import com.imovie.mogic.home.model.GoodTypeModel;
+import com.imovie.mogic.home.model.GoodTagList;
+import com.imovie.mogic.home.model.GoodsModel;
+import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.widget.NoScrollListView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * Created by zhouxinshan on 2016/3/31.
  */
-public class GoodsCarAdapter extends BaseAdapter {
+public class GoodsCarDetailAdapter extends BaseAdapter {
     private Context context;
-    public List<FoodBean> list;
-    public GoodsCarAdapter(Context context, List<FoodBean> list) {
+    public List<GoodsModel> list;
+    public GoodsCarDetailAdapter(Context context, List<GoodsModel> list) {
         this.context = context;
         this.list = list;
     }
@@ -39,7 +37,7 @@ public class GoodsCarAdapter extends BaseAdapter {
     }
 
     @Override
-    public FoodBean getItem(int position) {
+    public GoodsModel getItem(int position) {
         return list.get(position);
     }
 
@@ -62,13 +60,11 @@ public class GoodsCarAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
          }
 
-        holder.tvTypeName.setText(list.get(position).getName());
-        holder.tvGoodMoney.setText(context.getResources().getString(R.string.symbol_of_RMB) + list.get(position).getPrice().multiply(BigDecimal.valueOf(list.get(position).getSelectCount())));
-        holder.tvGoodNum.setText("x"+list.get(position).getSelectCount());
-        holder.tvGoodNum.setTag(list.get(position).getGoodsPackList());
-        List<FoodTagList> lists = (List<FoodTagList>)holder.tvGoodNum.getTag();
-        if(lists.size()>0){
-            GoodsPayTagAdapter adapter = new GoodsPayTagAdapter(context,lists);
+        holder.tvTypeName.setText(list.get(position).goodsName);
+        holder.tvGoodMoney.setText(context.getResources().getString(R.string.symbol_of_RMB) + DecimalUtil.FormatMoney(list.get(position).payAmount));
+        holder.tvGoodNum.setText("x"+list.get(position).quantity);
+        if(list.get(position).childGoodsList.size()>0){
+            GoodsPayDetailAdapter adapter = new GoodsPayDetailAdapter(context,list.get(position).childGoodsList);
             holder.lvCarTagList.setAdapter(adapter);
         }
 //        if(list.get(position).isSelect){
@@ -80,6 +76,9 @@ public class GoodsCarAdapter extends BaseAdapter {
 //        }
         return convertView;
     }
+
+
+
 
 //    public void setSelectIndex(int position){
 //        for(int i=0;i<list.size();i++){
@@ -108,5 +107,24 @@ public class GoodsCarAdapter extends BaseAdapter {
         public TextView tvGoodMoney = null;
         public TextView tvGoodNum = null;
         public NoScrollListView lvCarTagList;
+    }
+
+    public List<FoodTagList> getGoodsPackList(List<GoodTagList> packList) {
+        List<FoodTagList> list = new ArrayList<>();
+        for (GoodTagList tag : packList) {
+            FoodTagList foodTag = new FoodTagList();
+            foodTag.setId(tag.id);
+            foodTag.setGoodsId(tag.goodsId);
+            foodTag.setName(tag.name);
+            foodTag.setPackPrice(tag.packPrice);
+            foodTag.setPrice(tag.price);
+            foodTag.setQuantity(tag.quantity);
+            foodTag.setGoodsTags(tag.goodsTags);
+            foodTag.setImageUrl(tag.imageUrl);
+            foodTag.setPackGroupId(tag.packGroupId);
+            foodTag.setSelectId(tag.selectId);
+            list.add(foodTag);
+        }
+        return list;
     }
 }

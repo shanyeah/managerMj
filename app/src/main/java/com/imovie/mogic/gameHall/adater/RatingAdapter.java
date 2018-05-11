@@ -112,13 +112,13 @@ public class RatingAdapter extends BaseAdapter {
 
         holder.tvReply.setTag(list.get(position).index);
         holder.tvName.setText(list.get(position).name);
-        holder.tvRating.setText(list.get(position).rating+"分");
-        holder.tvReviewText.setText(list.get(position).reviewText);
+        holder.tvRating.setText(list.get(position).avgScore+"分");
+        holder.tvReviewText.setText(list.get(position).content);
         holder.tvCreateTime.setText("在" + list.get(position).createTime + "上机后点评");
 
-        if(list.get(position).replies.size()>0){
+        if(list.get(position).childList.size()>0){
             holder.lvNoCommentList.setVisibility(View.VISIBLE);
-            List<ReviewModel.Replies> commentsList = list.get(position).replies;
+            List<ReviewModel.Replies> commentsList = list.get(position).childList;
             CommetListAdapter adapter = new CommetListAdapter(context,commentsList);
             holder.lvNoCommentList.setAdapter(adapter);
         }
@@ -188,9 +188,9 @@ public class RatingAdapter extends BaseAdapter {
         list.get(index).showComment = true;
 //        list.get(index).commentsCount +=1;
         ReviewModel.Replies replies1 = new ReviewModel.Replies();
-        replies1.reviewText = replies.reviewText;
+        replies1.content = replies.content;
         replies1.name = replies.name;
-        list.get(index).replies.add(0,replies1);
+        list.get(index).childList.add(0,replies1);
     }
 
     public void setIndex(){

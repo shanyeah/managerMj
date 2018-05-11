@@ -27,7 +27,13 @@ public class FoodBean implements Serializable{
 	private long selectCount;
 	private String imageUrl;//类
 	private int goodsId;
-	public List<GoodTagList> goodsPackList = new ArrayList<>();
+	private BigDecimal payAmount;
+	private BigDecimal incomeAmount;
+	private long quantity;
+
+	private List<FoodTagList> goodsPackList = new ArrayList<>();
+
+//	public List<GoodTagList> goodsPackList = new ArrayList<>();
 
 	public int getGoodsId() {
 		return goodsId;
@@ -129,5 +135,53 @@ public class FoodBean implements Serializable{
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public BigDecimal getPayAmount() {
+		return payAmount;
+	}
+
+	public void setPayAmount(BigDecimal payAmount) {
+		this.payAmount = payAmount;
+	}
+
+	public BigDecimal getIncomeAmount() {
+		return incomeAmount;
+	}
+
+	public void setIncomeAmount(BigDecimal incomeAmount) {
+		this.incomeAmount = incomeAmount;
+	}
+
+
+	public long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(long quantity) {
+		this.quantity = quantity;
+	}
+
+	public List<FoodTagList> getGoodsPackList() {
+		return goodsPackList;
+	}
+
+	public void setGoodsPackList(List<GoodTagList> packList) {
+		List<FoodTagList> list = new ArrayList<>();
+		for(GoodTagList tag : packList){
+			FoodTagList foodTag = new FoodTagList();
+			foodTag.setId(tag.id);
+			foodTag.setGoodsId(tag.goodsId);
+			foodTag.setName(tag.name);
+			foodTag.setPackPrice(tag.packPrice);
+			foodTag.setPrice(tag.price);
+			foodTag.setQuantity(tag.quantity);
+			foodTag.setGoodsTags(tag.goodsTags);
+			foodTag.setImageUrl(tag.imageUrl);
+			foodTag.setPackGroupId(tag.packGroupId);
+			foodTag.setSelectId(tag.selectId);
+			list.add(foodTag);
+		}
+		this.goodsPackList = list;
 	}
 }

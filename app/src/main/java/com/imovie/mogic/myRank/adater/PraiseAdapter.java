@@ -25,6 +25,7 @@ public class PraiseAdapter extends BaseAdapter {
     private Context context;
     public List<PraiseMode> list;
     private DisplayImageOptions mOption;
+    public int selectType = 1;
 
     public PraiseAdapter(Context context, List<PraiseMode> list) {
         this.context = context;
@@ -69,11 +70,20 @@ public class PraiseAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
          }
 
-        holder.tvName.setText(list.get(position).nickName);
+        holder.tvName.setText(list.get(position).name);
         holder.tvPraiseRanking.setText("" + list.get(position).ranking);
         holder.tvMemberId.setText("ID:" + list.get(position).adminId);
-        holder.tvRewardAmount.setText(Html.fromHtml("<font color='#565a5c' size=14>奖励金额:</font><font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).rewardAmount/100) +"</font><font color=\'#565a5c\' size=14>元</font>"));
-        holder.tvPraiseCount.setText("点赞次数:"+list.get(position).count);
+        String amountName = "";
+        String rankName = "";
+        if(selectType==1){
+            amountName = "充值金额:";
+            rankName = "充值排名:";
+        }else if(selectType==2){
+            amountName = "点餐金额:";
+            rankName = "充值排名:";
+        }
+        holder.tvRewardAmount.setText(Html.fromHtml("<font color='#565a5c' size=14>" + amountName + "</font><font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).amount) +"</font><font color=\'#565a5c\' size=14>元</font>"));
+        holder.tvPraiseCount.setText(rankName+list.get(position).ranking);
 //        holder.tvCreateTime.setText("在"+DateUtil.TimeFormat(list.get(position).createTime,"yyyy/MM/dd")+"日上机后点评");
 //        RelativeLayout.LayoutParams ivParam=(RelativeLayout.LayoutParams)holder.ivExercises.getLayoutParams();
 //        int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
@@ -87,6 +97,10 @@ public class PraiseAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         return convertView;
+    }
+
+    public void setSelectType(int type){
+        selectType = type;
     }
 
     class ViewHolder {

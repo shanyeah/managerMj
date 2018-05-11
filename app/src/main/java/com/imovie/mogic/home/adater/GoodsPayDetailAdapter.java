@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.R;
@@ -18,10 +17,10 @@ import java.util.List;
 /**
  * Created by zhouxinshan on 2016/3/31.
  */
-public class GoodsPayTagAdapter extends BaseAdapter {
+public class GoodsPayDetailAdapter extends BaseAdapter {
     private Context context;
-    public List<FoodTagList> list;
-    public GoodsPayTagAdapter(Context context, List<FoodTagList> list) {
+    public List<GoodTagList> list;
+    public GoodsPayDetailAdapter(Context context, List<GoodTagList> list) {
         this.context = context;
         this.list = list;
     }
@@ -32,7 +31,7 @@ public class GoodsPayTagAdapter extends BaseAdapter {
     }
 
     @Override
-    public FoodTagList getItem(int position) {
+    public GoodTagList getItem(int position) {
         return list.get(position);
     }
 
@@ -53,8 +52,8 @@ public class GoodsPayTagAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
          }
 
-        holder.tvTypeName.setText(list.get(position).getName());
-        holder.tvGoodNum.setText(list.get(position).getName());
+        holder.tvTypeName.setText(list.get(position).goodsName);
+        holder.tvGoodNum.setText("x"+list.get(position).quantity);
 //        if(list.get(position).isSelect){
 ////            holder.viewType.setVisibility(View.VISIBLE);
 //            holder.rlNameState.setBackgroundResource(R.color.BG5);

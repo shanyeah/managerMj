@@ -137,6 +137,7 @@ public class HomeFragmentOld extends Fragment {
 //        getHallDetail();
         organId = MyApplication.getInstance().mPref.getInt("organId",0);
         getHomeDetail(organId);
+        getReviewList(organId);
         return view;
     }
 
@@ -216,14 +217,14 @@ public class HomeFragmentOld extends Fragment {
             }
         });
 
-        organId = MyApplication.getInstance().mPref.getInt("organId",0);
-        if(organId==0){
-            getHallList();
-        }else{
-            selectPop = 1;
-            getReviewList(organId);
-            getHallList();
-        }
+
+//        if(organId==0){
+//            getHallList();
+//        }else{
+//            selectPop = 1;
+//            getReviewList(organId);
+//            getHallList();
+//        }
 //        getAuthCodeList();
 //        getSchemeList();
     }
@@ -361,7 +362,7 @@ public class HomeFragmentOld extends Fragment {
     public void refresh(){
         organId = MyApplication.getInstance().mPref.getInt("organId",0);
         getHomeDetail(organId);
-        getHallDetail();
+//        getHallDetail();
         getReviewList(organId);
 //        getAuthCodeList();
     }
@@ -403,14 +404,14 @@ public class HomeFragmentOld extends Fragment {
     }
 
     private void refreshData(List<GameHall> list){
-        listHall.clear();
-        for(int i=0;i<list.size();i++){
-            InternetBarModel internetBarModel = new InternetBarModel();
-            internetBarModel.name = list.get(i).name;
-            internetBarModel.id = list.get(i).id;
-            listHall.add(internetBarModel);
-        }
-        mSpinerPopWindow.refreshData(listHall);
+//        listHall.clear();
+//        for(int i=0;i<list.size();i++){
+//            InternetBarModel internetBarModel = new InternetBarModel();
+//            internetBarModel.name = list.get(i).name;
+//            internetBarModel.id = list.get(i).id;
+//            listHall.add(internetBarModel);
+//        }
+//        mSpinerPopWindow.refreshData(listHall);
     }
 
     private void getHomeDetail(int organId){

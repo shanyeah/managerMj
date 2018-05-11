@@ -27,14 +27,15 @@ public class RankWebHelper extends HttpWebHelper{
      */
     public static void getGoodsRank(int type,IModelResultListener<PraiseMode> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        baseReqParamNetMap.put("startTime", "");
-        baseReqParamNetMap.put("endTime", "");
-        baseReqParamNetMap.put("type", type);
+//        baseReqParamNetMap.put("startTime", "");
+//        baseReqParamNetMap.put("endTime", "");
+//        baseReqParamNetMap.put("type", type);
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_goodsRanking));
         int organId = MyApplication.getInstance().mPref.getInt("organId",0);
         data.append("&organId=" + organId);
-        new HomeWebHelper().sendPostWithTranslate(PraiseMode.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_1,baseReqParamNetMap, listener);
+        data.append("&type=" + type);
+        new HomeWebHelper().sendPostWithTranslate(PraiseMode.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_1,baseReqParamNetMap, listener);
     }
 
 
@@ -129,7 +130,7 @@ public class RankWebHelper extends HttpWebHelper{
      */
     public static void getChargeRecord(int pageNum ,int pageSize,IModelResultListener<OrderRecord> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        baseReqParamNetMap.put("rangeTime", "day");
+        baseReqParamNetMap.put("rangeTime", "month");
         baseReqParamNetMap.put("startTime", "");
         baseReqParamNetMap.put("endTime", "");
         baseReqParamNetMap.put("pageNum", pageNum);

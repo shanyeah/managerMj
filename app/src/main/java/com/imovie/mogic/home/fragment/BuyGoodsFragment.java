@@ -156,12 +156,13 @@ public class BuyGoodsFragment extends Fragment {
                                 GoodsModel goodsModel = goodsList.get(j);
 //                                foodBean.setGoodsId(goodsModel.goodsId);
                                 foodBean.setId(goodsModel.goodsId);
+                                foodBean.setGoodsId(goodsModel.goodsId);
                                 foodBean.setImageUrl(goodsModel.imageUrl);
                                 foodBean.setName(goodsModel.name);
                                 BigDecimal price = new BigDecimal(DecimalUtil.FormatMoney(goodsModel.price));
                                 foodBean.setPrice(price);
                                 foodBean.setType(resultModel.categories.get(i).categoryName);
-                                if(goodsModel.goodsPackList.size()>0)foodBean.goodsPackList.addAll(goodsModel.goodsPackList);
+                                if(goodsModel.goodsPackList.size()>0)foodBean.setGoodsPackList(goodsModel.goodsPackList);
                                 foodBeanList.add(foodBean);
                             }
                         }

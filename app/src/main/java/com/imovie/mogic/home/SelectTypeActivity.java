@@ -161,6 +161,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         }else{
             Intent intent = new Intent(SelectTypeActivity.this, CarPayActivity.class);
             intent.putExtra("FoodBeanList", (Serializable) carAdapter.getData());
+            intent.putExtra("fromType", 1);
             intent.putExtra("amountStr",amountStr);
             startActivity(intent);
         }

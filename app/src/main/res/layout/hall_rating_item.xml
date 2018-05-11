@@ -70,6 +70,7 @@
         android:layout_below="@+id/rlReviewState"
         android:layout_marginBottom="6dp"
         android:text="回复"
+        android:visibility="invisible"
         style="@style/text_16_T7"/>
 
     <com.imovie.mogic.widget.NoScrollListView

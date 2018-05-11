@@ -38,11 +38,20 @@ public class HallWebHelper extends HttpWebHelper{
      */
     public static void getReviewList(int stgId, IModelResultListener<ReviewListModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        baseReqParamNetMap.put("stgId", stgId);
+        baseReqParamNetMap.put("organId", stgId);
+        baseReqParamNetMap.put("pageNum", "1");
+        baseReqParamNetMap.put("pageSize", "20");
         StringBuffer data = new StringBuffer();
-        data.append(HTTPConfig.url_reviewList);
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_reviewList));
+//        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+//        data.append("&organId=" + organId);
+
         new HallWebHelper().sendPostWithTranslate(ReviewListModel.class, data.toString(), HttpHelper.TYPE_2,HttpWebHelper.TYPE_3, baseReqParamNetMap, listener);
     }
+
+
+
+
 
     /**
      * 馆详情

@@ -1,15 +1,9 @@
 package com.imovie.mogic.car;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,16 +20,14 @@ import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.SearchMemberActivity;
 import com.imovie.mogic.home.SelectTypeActivity;
 import com.imovie.mogic.home.adater.GoodsCarAdapter;
+import com.imovie.mogic.home.adater.GoodsCarDetailAdapter;
 import com.imovie.mogic.home.model.GoodsModel;
+import com.imovie.mogic.home.model.PayDetailModel;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.home.widget.UserInfoDialog;
 import com.imovie.mogic.login.model.TestModel;
-import com.imovie.mogic.mine.SetingHallActivity;
-import com.imovie.mogic.myRank.fragment.OrderRecordFragment;
-import com.imovie.mogic.myRank.fragment.PraiseNumFragment;
-import com.imovie.mogic.myRank.widget.PagerSlidingTabStrip;
 import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
@@ -44,18 +36,17 @@ import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.NoScrollListView;
 import com.imovie.mogic.widget.TitleBar;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class CarPayActivity extends BaseActivity {
+public class CarPayDetailActivity extends BaseActivity {
 
     public static final int MSG_REFRESH = 600;
     public static final int MSG_WXSEND = 601;
 
     private TitleBar titleBar;
     private LinearLayout llCarPayMember;
+    private TextView tvOrderId;
     private TextView tvName;
     private TextView tvNumber;
     private TextView tvBalance;
@@ -75,8 +66,8 @@ public class CarPayActivity extends BaseActivity {
     private EditText etUserId;
     private EditText etPayRemark;
     private String amount;
-    public List<FoodBean> foodBeanList = new ArrayList<>();
-    public GoodsCarAdapter carAdapter;
+    public List<GoodsModel> foodBeanList = new ArrayList<>();
+    public GoodsCarDetailAdapter carAdapter;
     public int payType = 0;
     public UserInfoDialog dialog;
     public boolean unSelect = true;
@@ -89,17 +80,11 @@ public class CarPayActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.car_pay_activity);
+        setContentView(R.layout.car_pay_detail_activity);
         initView();
         setView();
         try {
-            for(int i=0;i<foodBeanList.size();i++){
-                FoodBean foodBean = foodBeanList.get(i);
-                foodBeanList.get(i).setQuantity(foodBean.getSelectCount());
-                foodBeanList.get(i).setPayAmount(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
-                foodBeanList.get(i).setIncomeAmount(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
-            }
-            saveGoodsOrder(userId,"","","",foodBeanList);
+            queryGoodsBillDetail(getIntent().getStringExtra("saleBillId"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,11 +103,11 @@ public class CarPayActivity extends BaseActivity {
     }
 
     private void initView(){
-        amount = getIntent().getStringExtra("amountStr");
-        foodBeanList = (List<FoodBean>) getIntent().getSerializableExtra("FoodBeanList");
+//        amount = getIntent().getStringExtra("amountStr");
+//        foodBeanList = (List<FoodBean>) getIntent().getSerializableExtra("FoodBeanList");
 //        Utills.showShortToast(""+foodBeanList.size());
         titleBar = (TitleBar) findViewById(R.id.title_bar);
-        titleBar.setTitle("确认订单");
+        titleBar.setTitle("订单详情");
         titleBar.setLeftListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +115,7 @@ public class CarPayActivity extends BaseActivity {
             }
         });
         llCarPayMember = (LinearLayout) findViewById(R.id.llCarPayMember);
+        tvOrderId=(TextView) findViewById(R.id.tvOrderId);
         tvName=(TextView) findViewById(R.id.tv_name);
         tvNumber=(TextView) findViewById(R.id.tvNumber);
         tvBalance = (TextView) findViewById(R.id.tvBalance);
@@ -151,9 +137,9 @@ public class CarPayActivity extends BaseActivity {
     }
 
     private void setView(){
-        stgName.setText(MyApplication.getInstance().mPref.getString("organName",""));
-        tv_amount.setText("总计: ¥"+amount);
-        carAdapter = new GoodsCarAdapter(CarPayActivity.this,foodBeanList);
+//        stgName.setText(MyApplication.getInstance().mPref.getString("organName",""));
+//        tv_amount.setText("总计: ¥"+amount);
+        carAdapter = new GoodsCarDetailAdapter(CarPayDetailActivity.this,foodBeanList);
         lvCarList.setAdapter(carAdapter);
 //        dialog = new UserInfoDialog(CarPayActivity.this);
 //        dialog.setOnSelectListener(new UserInfoDialog.onSelectListener() {
@@ -183,42 +169,42 @@ public class CarPayActivity extends BaseActivity {
         rlScanPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(payType==1){
-                    ivScanPay.setBackground(getResources().getDrawable(R.drawable.box_select));
-                    ivMemberPay.setBackground(getResources().getDrawable(R.drawable.box_unselect));
-                    payType = 0;
-                    llCarPayMember.setVisibility(View.GONE);
-                    unSelect = true;
-                    if(payModel!=null) {
-                        tv_sum_amount.setText("小计：¥" + payModel.payAmount);
-                        tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
-                        tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
-                        tv_amount.setText("总计: ¥" + payModel.incomeAmount);
-                    }
-                }
+//                if(payType==1){
+//                    ivScanPay.setBackground(getResources().getDrawable(R.drawable.box_select));
+//                    ivMemberPay.setBackground(getResources().getDrawable(R.drawable.box_unselect));
+//                    payType = 0;
+//                    llCarPayMember.setVisibility(View.GONE);
+//                    unSelect = true;
+//                    if(payModel!=null) {
+//                        tv_sum_amount.setText("小计：¥" + payModel.payAmount);
+//                        tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
+//                        tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
+//                        tv_amount.setText("总计: ¥" + payModel.incomeAmount);
+//                    }
+//                }
             }
         });
         rlMemberPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(payType==0){
-                    ivScanPay.setBackground(getResources().getDrawable(R.drawable.box_unselect));
-                    ivMemberPay.setBackground(getResources().getDrawable(R.drawable.box_select));
-                    payType = 1;
-                    if(payModelMember!=null) {
-                        tv_sum_amount.setText("小计：¥" + payModelMember.payAmount);
-                        tvIncomeAmount.setText("应付金额：¥" + payModelMember.incomeAmount);
-                        tvDiscountAmount.setText("减免金额：¥" + payModelMember.discountAmount);
-                        tv_amount.setText("总计: ¥" + payModelMember.incomeAmount);
-                    }
-                }else{
-                    tv_sum_amount.setText("小计：¥" + payModel.payAmount);
-                    tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
-                    tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
-                    tv_amount.setText("总计: ¥" + payModel.incomeAmount);
-                }
-                Intent intent = new Intent(CarPayActivity.this,SearchMemberActivity.class);
-                startActivityForResult(intent,SearchMemberActivity.SELECT_RESULT);
+//                if(payType==0){
+//                    ivScanPay.setBackground(getResources().getDrawable(R.drawable.box_unselect));
+//                    ivMemberPay.setBackground(getResources().getDrawable(R.drawable.box_select));
+//                    payType = 1;
+//                    if(payModelMember!=null) {
+//                        tv_sum_amount.setText("小计：¥" + payModelMember.payAmount);
+//                        tvIncomeAmount.setText("应付金额：¥" + payModelMember.incomeAmount);
+//                        tvDiscountAmount.setText("减免金额：¥" + payModelMember.discountAmount);
+//                        tv_amount.setText("总计: ¥" + payModelMember.incomeAmount);
+//                    }
+//                }else{
+//                    tv_sum_amount.setText("小计：¥" + payModel.payAmount);
+//                    tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
+//                    tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
+//                    tv_amount.setText("总计: ¥" + payModel.incomeAmount);
+//                }
+//                Intent intent = new Intent(CarPayDetailActivity.this,SearchMemberActivity.class);
+//                startActivityForResult(intent,SearchMemberActivity.SELECT_RESULT);
 
 //                    dialog.show();
             }
@@ -226,15 +212,15 @@ public class CarPayActivity extends BaseActivity {
         llCarPayMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CarPayActivity.this,SearchMemberActivity.class);
-                startActivityForResult(intent,SearchMemberActivity.SELECT_RESULT);
+//                Intent intent = new Intent(CarPayDetailActivity.this,SearchMemberActivity.class);
+//                startActivityForResult(intent,SearchMemberActivity.SELECT_RESULT);
             }
         });
         car_limit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(payType==0){
-                    ScanPayManager.enterCaptureActivity(CarPayActivity.this,(BaseActivity)CarPayActivity.this);
+                    ScanPayManager.enterCaptureActivity(CarPayDetailActivity.this,(BaseActivity)CarPayDetailActivity.this);
                 }else if(payType==1){
 //                    String seakNo = etUserId.getText().toString();
 //                    String remark = etPayRemark.getText().toString();
@@ -279,8 +265,8 @@ public class CarPayActivity extends BaseActivity {
          }
     }
 
-    public void saveGoodsOrder(int userId,String qrCode,String remark, String seatNo, List<FoodBean> goodsList){
-        YSBLoadingDialog.showLoadingDialog(CarPayActivity.this, 3000, new YSBLoadingDialog.OnCancelListener() {
+    public void queryGoodsBillDetail(String saleBillId){
+        YSBLoadingDialog.showLoadingDialog(CarPayDetailActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
             @Override
             public void onTimeout() {
                 YSBLoadingDialog.dismissDialog();
@@ -291,20 +277,30 @@ public class CarPayActivity extends BaseActivity {
                 YSBLoadingDialog.dismissDialog();
             }
         });
-        HomeWebHelper.saveGoodsOrder(userId,qrCode,remark, seatNo, goodsList,new IModelResultListener<PayResultModel>() {
+        HomeWebHelper.queryGoodsBillDetail(saleBillId,new IModelResultListener<PayDetailModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
             }
 
             @Override
-            public void onSuccess(String resultCode, PayResultModel resultModel, List<PayResultModel> resultModelList, String resultMsg, String hint) {
+            public void onSuccess(String resultCode, PayDetailModel resultModel, List<PayDetailModel> resultModelList, String resultMsg, String hint) {
                 if(resultCode.equals("0")) {
-                    payModel = resultModel;
-                    tv_sum_amount.setText("小计：¥" + payModel.payAmount);
-                    tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
-                    tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
-                    tv_amount.setText("总计: ¥"+resultModel.incomeAmount);
+//                    payModel = resultModel;
+                    tvOrderId.setText(resultModel.orderNo);
+                    stgName.setText(resultModel.organName);
+                    tv_sum_amount.setText("小计：¥" + DecimalUtil.FormatMoney(resultModel.payAmount));
+                    tvIncomeAmount.setText("应付金额：¥" + DecimalUtil.FormatMoney(resultModel.incomeAmount));
+                    tvDiscountAmount.setText("减免金额：¥" + DecimalUtil.FormatMoney(resultModel.discountAmount));
+                    tv_amount.setText("总计: ¥"+DecimalUtil.FormatMoney(resultModel.incomeAmount));
+                    etUserId.setText(resultModel.seatNo);
+                    etPayRemark.setText(resultModel.remark);
+                    if(resultModel.goodsList.size()>0) {
+                        carAdapter.list.clear();
+                        carAdapter.list.addAll(resultModel.goodsList);
+                        carAdapter.notifyDataSetChanged();
+                    }
+
 //                    if(payType == 2){
 //                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
 //                    }else{

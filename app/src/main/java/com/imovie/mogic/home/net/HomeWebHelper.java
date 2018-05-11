@@ -1,6 +1,7 @@
 package com.imovie.mogic.home.net;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
 import com.imovie.mogic.MyApplication;
@@ -9,6 +10,7 @@ import com.imovie.mogic.card.model.InternetBarModel;
 import com.imovie.mogic.card.net.CardWebHelper;
 import com.imovie.mogic.config.AppConfig;
 import com.imovie.mogic.config.HTTPConfig;
+import com.imovie.mogic.dbbase.util.JsonHelper;
 import com.imovie.mogic.gameHall.model.ReviewModel;
 import com.imovie.mogic.home.model.AuthCodeModel;
 import com.imovie.mogic.home.model.CardModel;
@@ -18,6 +20,7 @@ import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.home.model.HallModel;
 import com.imovie.mogic.home.model.OrderModel;
+import com.imovie.mogic.home.model.PayDetailModel;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.model.ReportListModel;
 import com.imovie.mogic.home.model.SearchModel;
@@ -25,13 +28,20 @@ import com.imovie.mogic.home.model.SearchUserModel;
 import com.imovie.mogic.login.model.BaseReqParamNetMap;
 import com.imovie.mogic.login.model.MyDataModel;
 import com.imovie.mogic.login.model.TestModel;
+import com.imovie.mogic.myRank.model.BusinessDetailMode;
+import com.imovie.mogic.myRank.model.ChargeOrderMode;
 import com.imovie.mogic.myRank.model.ExercisesMode;
+import com.imovie.mogic.utills.AliJsonUtil;
 import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.ImageUtil;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.HttpWebHelper;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.http.HttpHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -85,44 +95,66 @@ public class HomeWebHelper extends HttpWebHelper{
      */
     public static void saveGoodsOrder(int userId, String qrCode, String remark, String seatNo, List<FoodBean> goodsList, IModelResultListener<PayResultModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
-        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+
+//        baseReqParamNetMap.put("goodsList", changeGoodsModel(goodsList));
+        baseReqParamNetMap.put("goodsList", goodsList);
+        StringBuffer data = new StringBuffer();        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
         baseReqParamNetMap.put("userId", userId);
         baseReqParamNetMap.put("remark", remark);
         baseReqParamNetMap.put("seatNo", seatNo);
         baseReqParamNetMap.put("qrCode", qrCode);
-        baseReqParamNetMap.put("goodsList", changeGoodsModel(goodsList));
-        StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_saveGoodsOrder));
         data.append("&organId=" + organId);
         new HomeWebHelper().sendPostWithTranslate(PayResultModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
     }
 
-    public static List<OrderModel> changeGoodsModel(List<FoodBean> goodsList){
-        List<OrderModel> list = new ArrayList<>();
-        for(int i=0;i<goodsList.size();i++){
-            OrderModel orderModel = new OrderModel();
-            orderModel.goodsId = goodsList.get(i).getId();
-            orderModel.price = goodsList.get(i).getPrice().toString();
-            orderModel.quantity = goodsList.get(i).getSelectCount();
-            orderModel.payAmount = goodsList.get(i).getPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getSelectCount()));
-            orderModel.incomeAmount = goodsList.get(i).getPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getSelectCount()));
-            if(goodsList.get(i).goodsPackList!=null && goodsList.get(i).goodsPackList.size()>0){
-                List<GoodTagList> listTag = new ArrayList<>();
-                for(int j=0;j<goodsList.get(i).goodsPackList.size();j++){
-                    GoodTagList tagList = new GoodTagList();
-                    tagList.goodsId = goodsList.get(i).goodsPackList.get(j).goodsId;
-                    tagList.quantity = goodsList.get(i).goodsPackList.get(j).quantity;
-                    tagList.packPrice = goodsList.get(i).goodsPackList.get(j).packPrice;
-                    tagList.price = goodsList.get(i).goodsPackList.get(j).price;
-                    tagList.goodsTags = goodsList.get(i).goodsPackList.get(j).goodsTags;
-                    listTag.add(tagList);
-                }
-                orderModel.goodsPackList.addAll(listTag);
-            }
-            list.add(orderModel);
-        }
-        return list;
-    }
+//    public static String changeGoodsModel(List<FoodBean> goodsList){
+//        List<OrderModel> list = new ArrayList<>();
+//        for(int i=0;i<goodsList.size();i++){
+//            OrderModel orderModel = new OrderModel();
+//            orderModel.goodsId = goodsList.get(i).getId();
+//            orderModel.price = goodsList.get(i).getPrice().toString();
+//            orderModel.quantity = goodsList.get(i).getSelectCount();
+//            orderModel.payAmount = goodsList.get(i).getPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getSelectCount()));
+//            orderModel.incomeAmount = goodsList.get(i).getPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getSelectCount()));
+//            if(goodsList.get(i).goodsPackList!=null && goodsList.get(i).goodsPackList.size()>0){
+//                List<GoodTagList> listTag = new ArrayList<>();
+//                for(int j=0;j<goodsList.get(i).goodsPackList.size();j++){
+//                    GoodTagList tagList = new GoodTagList();
+//                    tagList.goodsId = goodsList.get(i).goodsPackList.get(j).goodsId;
+//                    tagList.quantity = goodsList.get(i).goodsPackList.get(j).quantity;
+//                    tagList.packPrice = goodsList.get(i).goodsPackList.get(j).packPrice;
+//                    tagList.price = goodsList.get(i).goodsPackList.get(j).price;
+//                    tagList.goodsTags = goodsList.get(i).goodsPackList.get(j).goodsTags;
+//                    listTag.add(tagList);
+//                }
+//                orderModel.goodsPackList.addAll(listTag);
+//            }
+//            list.add(orderModel);
+//        }
+////        JSONObject jsonObject = JSONObject.fromObject(bean);
+//        JSONArray json = new JSONArray();
+//        String str="";
+//        for(FoodBean foodBean : goodsList){
+//            JSONObject jo = new JSONObject();
+//            try {
+//                jo.put("goodsId",foodBean.getId());
+//                jo.put("price", foodBean.getPrice());
+//                jo.put("quantity",foodBean.getSelectCount());
+//                jo.put("payAmount", foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
+//                jo.put("incomeAmount",foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
+//                json.put(jo);
+//                str = AliJsonUtil.toJSONString(foodBean);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+////        str = AliJsonUtil.toJSONString(foodBean);
+//
+//        Log.e("-----111",json.toString());
+//        return str;
+//    }
 
     /**
      * 定单会员价
@@ -177,7 +209,7 @@ public class HomeWebHelper extends HttpWebHelper{
      * 当月业绩
      * @param listener
      */
-    public static void getBusinessDetail(int type,IModelResultListener<MyDataModel> listener) {
+    public static void getBusinessDetail(int type,IModelResultListener<BusinessDetailMode> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
 //        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
 //        baseReqParamNetMap.put("organId", organId);
@@ -187,10 +219,57 @@ public class HomeWebHelper extends HttpWebHelper{
         int organId = MyApplication.getInstance().mPref.getInt("organId",0);
         data.append("&organId=" + organId);
         data.append("&type=" + type);
-        new HomeWebHelper().sendPostWithTranslate(MyDataModel.class, data.toString(), HttpHelper.TYPE_2, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+        new HomeWebHelper().sendPostWithTranslate(BusinessDetailMode.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
+
+    /**
+     * 商品详情
+     * @param listener
+     */
+    public static void queryGoodsDetail(long goodsId, IModelResultListener<GoodsModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+//        baseReqParamNetMap.put("saleBillId", saleBillId);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_queryGoodsDetail));
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        data.append("&goodsId=" + goodsId);
+        new HomeWebHelper().sendPostWithTranslate(GoodsModel.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
+
+    /**
+     * 定单详情
+     * @param listener
+     */
+    public static void queryGoodsBillDetail(String saleBillId, IModelResultListener<PayDetailModel> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+//        baseReqParamNetMap.put("userId", userId);
+//        baseReqParamNetMap.put("saleBillId", saleBillId);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_queryGoodsBillDetail));
+        data.append("&organId=" + organId);
+        data.append("&saleBillId=" + saleBillId);
+        new HomeWebHelper().sendPostWithTranslate(PayDetailModel.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
     }
 
 
+    /**
+     * 充值定单详情
+     * @param listener
+     */
+    public static void queryRechangeDetail(String saleBillId, IModelResultListener<ChargeOrderMode> listener) {
+        BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
+
+//        baseReqParamNetMap.put("userId", userId);
+//        baseReqParamNetMap.put("saleBillId", saleBillId);
+        StringBuffer data = new StringBuffer();
+        data.append(HTTPConfig.getUrlData(HTTPConfig.url_queryRechangeDetail));
+        int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+        data.append("&organId=" + organId);
+        data.append("&saleBillId=" + saleBillId);
+        new HomeWebHelper().sendPostWithTranslate(ChargeOrderMode.class, data.toString(), HttpHelper.TYPE_3, HttpWebHelper.TYPE_3,baseReqParamNetMap, listener);
+    }
 
 
 

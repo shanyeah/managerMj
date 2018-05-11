@@ -14,9 +14,11 @@ import java.util.List;
 
 public class CarAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 	private AddWidget.OnAddClick onAddClick;
+//	public List<FoodBean> list;
 
 	public CarAdapter(@Nullable List<FoodBean> data, AddWidget.OnAddClick onAddClick) {
 		super(R.layout.item_car, data);
+//		this.list = data;
 		this.onAddClick = onAddClick;
 	}
 

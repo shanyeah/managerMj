@@ -16,6 +16,7 @@
         android:layout_marginRight="10dp"
         android:layout_gravity="center_vertical"
         android:layout_alignParentRight="true"
+        android:visibility="invisible"
         android:background="@drawable/home_more_scan"/>
     <TextView
         android:id="@+id/tvHomeHall"

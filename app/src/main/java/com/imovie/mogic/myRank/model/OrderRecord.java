@@ -39,5 +39,4 @@ public class OrderRecord extends BaseModel {
         public double payAmount;
         public double price;
     }
-
 }

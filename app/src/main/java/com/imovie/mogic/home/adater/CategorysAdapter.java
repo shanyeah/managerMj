@@ -4,13 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.R;
-import com.imovie.mogic.car.bean.FoodTagList;
+import com.imovie.mogic.home.model.CategorysModel;
 import com.imovie.mogic.home.model.GoodTagList;
+import com.imovie.mogic.utills.Utills;
+import com.imovie.mogic.widget.HorizontalListView;
+import com.imovie.mogic.widget.NoScrollGridView;
 
 import java.util.List;
 
@@ -18,10 +22,10 @@ import java.util.List;
 /**
  * Created by zhouxinshan on 2016/3/31.
  */
-public class GoodsPayTagAdapter extends BaseAdapter {
+public class CategorysAdapter extends BaseAdapter {
     private Context context;
-    public List<FoodTagList> list;
-    public GoodsPayTagAdapter(Context context, List<FoodTagList> list) {
+    public List<CategorysModel.Categorys> list;
+    public CategorysAdapter(Context context, List<CategorysModel.Categorys> list) {
         this.context = context;
         this.list = list;
     }
@@ -32,7 +36,7 @@ public class GoodsPayTagAdapter extends BaseAdapter {
     }
 
     @Override
-    public FoodTagList getItem(int position) {
+    public CategorysModel.Categorys getItem(int position) {
         return list.get(position);
     }
 
@@ -45,16 +49,25 @@ public class GoodsPayTagAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.home_pay_tag_item, null);
-            holder.tvGoodNum = (TextView) convertView.findViewById(R.id.tvGoodNum);
+            convertView = LayoutInflater.from(context).inflate(R.layout.home_categorys_item, null);
+            holder.lvCategoryTagsList = (NoScrollGridView) convertView.findViewById(R.id.lvCategoryTagsList);
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
 	  convertView.setTag(holder);
          } else {
             holder = (ViewHolder) convertView.getTag();
          }
 
-        holder.tvTypeName.setText(list.get(position).getName());
-        holder.tvGoodNum.setText(list.get(position).getName());
+        holder.tvTypeName.setText(list.get(position).name);
+        CategoryTagsAdapter tagsAdapter = new CategoryTagsAdapter(context,list.get(position).goodsTags);
+        holder.lvCategoryTagsList.setAdapter(tagsAdapter);
+        holder.lvCategoryTagsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CategoryTagsAdapter tagsAdapter = (CategoryTagsAdapter)adapterView.getAdapter();
+                tagsAdapter.setSelectIndex(tagsAdapter.getItem(i).id);
+            }
+        });
+
 //        if(list.get(position).isSelect){
 ////            holder.viewType.setVisibility(View.VISIBLE);
 //            holder.rlNameState.setBackgroundResource(R.color.BG5);
@@ -77,7 +90,7 @@ public class GoodsPayTagAdapter extends BaseAdapter {
 //    }
 
     class ViewHolder {
-        public TextView tvGoodNum;
+        public NoScrollGridView lvCategoryTagsList;
         public TextView tvTypeName = null;
         public View viewType = null;
     }

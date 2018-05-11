@@ -15,8 +15,10 @@ public class GoodsModel extends BaseModel {
     public String code;
     public String imageUrl;
     public String name;
+    public String goodsName;
     public double price;
     public int type;
+    public int packType;
     public String unit;
     public String category = "";
     public boolean isShow = false;
@@ -25,11 +27,13 @@ public class GoodsModel extends BaseModel {
     public boolean haveTag = false;
     public String tagName;
 
-    public int existTags;
+    public int quantity;
     public int goodsId;
-
+    public double payAmount;
 
     public List<GoodTagList> goodsPackList = new ArrayList<>();
+    public List<CategorysModel> goodsTagsList = new ArrayList<>();
+    public List<GoodTagList> childGoodsList = new ArrayList<>();
 
 }
 

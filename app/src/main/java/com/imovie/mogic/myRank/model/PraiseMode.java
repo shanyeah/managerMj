@@ -12,9 +12,10 @@ public class PraiseMode extends BaseModel {
     public double amount;
     public int count;
     public String fackeImageUrl;
-    public String nickName;
+    public String name;
     public int ranking;
     public double rewardAmount;
     public String chineseWeek;
     public String date;
+
 }

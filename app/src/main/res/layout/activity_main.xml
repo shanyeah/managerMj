@@ -206,6 +206,7 @@
             android:background="@drawable/select_bg12_bg1_r4"
             style="@style/text_16_white"
             android:text="回复"
+            android:visibility="invisible"
             android:paddingBottom="5dp"/>
     </LinearLayout>
 

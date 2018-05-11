@@ -99,13 +99,13 @@ public class ChargeAdapter extends BaseAdapter {
 
 
 		if(list.get(position).present==5000){
-			Log.e("----","111");
+//			Log.e("----","111");
 //			Utills.showShortToast(""+list.get(position).isSelect);
 //            holder.viewType.setVisibility(View.VISIBLE);
 //			holder.rlChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
 			holder.rlChargeState.setBackground(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
 		}else{
-			Log.e("----","0000");
+//			Log.e("----","0000");
 //			Utills.showShortToast(""+list.get(position).isSelect);
 //            holder.viewType.setVisibility(View.GONE);
 //			holder.rlChargeState.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.shape_write_r5_l5));

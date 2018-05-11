@@ -13,14 +13,12 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/shape_write_r5_l5">
-        <ImageView
+        <com.imovie.mogic.widget.RoundedImageView
             android:id="@+id/ivGoodImge"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_margin="3dp"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:background="@drawable/food0"/>
+            android:layout_gravity="center"/>
     </RelativeLayout>
 
     <TextView

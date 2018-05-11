@@ -54,7 +54,7 @@
                 android:layout_toRightOf="@+id/ivPraise"
                 android:layout_marginLeft="10dp"
                 android:text="0次"
-                style="@style/text_14_T1"/>
+                style="@style/text_14_T5"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                 android:layout_toRightOf="@+id/ivCharge"
                 android:layout_marginLeft="10dp"
                 android:text="0.00元"
-                style="@style/text_14_T1"/>
+                style="@style/text_14_T5"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

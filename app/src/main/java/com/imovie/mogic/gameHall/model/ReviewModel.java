@@ -16,12 +16,12 @@ public class ReviewModel extends BaseModel {
     public int id;
     public int stgId;
     public int memberId;
-    public String reviewText;
-    public String rating;
+    public String content;
+    public String avgScore;
     public String createTime;
     public String name;
     public String photoUrl = "";
-    public List<Replies> replies = new ArrayList<>();
+    public List<Replies> childList = new ArrayList<>();
     public boolean showComment = true;
     public int index;
 
@@ -32,8 +32,8 @@ public class ReviewModel extends BaseModel {
         public int memberId;
         public String name;
         public int parentId;
-        public String rating;
-        public String reviewText;
+        public String avgScore;
+        public String content;
         public int stgId;
         public int type;
     }

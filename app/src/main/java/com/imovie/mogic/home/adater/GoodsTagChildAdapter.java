@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.model.GoodTagList;
-import com.imovie.mogic.home.model.GoodTypeModel;
 import com.imovie.mogic.widget.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,11 +21,11 @@ import java.util.List;
 /**
  * Created by zhouxinshan on 2016/3/31.
  */
-public class GoodsTagAdapter extends BaseAdapter {
+public class GoodsTagChildAdapter extends BaseAdapter {
     private Context context;
     public List<GoodTagList> list;
     private DisplayImageOptions mOption;
-    public GoodsTagAdapter(Context context, List<GoodTagList> list) {
+    public GoodsTagChildAdapter(Context context, List<GoodTagList> list) {
         this.context = context;
         this.list = list;
         mOption = new DisplayImageOptions.Builder()
@@ -36,7 +35,6 @@ public class GoodsTagAdapter extends BaseAdapter {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
-
     }
 
     @Override
@@ -58,9 +56,9 @@ public class GoodsTagAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.home_goods_tag_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.home_goods_tag_child_item, null);
             holder.rlGoodBackground = (RelativeLayout) convertView.findViewById(R.id.rlGoodBackground);
-            holder.ivGoodImge = (ImageView) convertView.findViewById(R.id.ivGoodImge);
+            holder.ivGoodImge = (RoundedImageView) convertView.findViewById(R.id.ivGoodImge);
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
 	  convertView.setTag(holder);
          } else {
@@ -84,38 +82,25 @@ public class GoodsTagAdapter extends BaseAdapter {
 
     public void setSelectIndex(long selectId){
         for(int i=0;i<list.size();i++){
-            if(list.get(i).goodsId == selectId){
-                this.list.get(i).selectId = list.get(i).goodsId;
+            if(list.get(i).id == selectId){
+                this.list.get(i).selectId = selectId;
             }else{
                 this.list.get(i).selectId = -1;
             }
         }
         super.notifyDataSetChanged();
     }
-    public void setSelectItem(int selectId,GoodTagList tag){
 
+    public void setIndex(){
         for(int i=0;i<list.size();i++){
-            if(i == selectId){
-                list.get(i).id = tag.id;
-                list.get(i).createTime = tag.createTime;
-                list.get(i).isSelect = tag.isSelect;
-                list.get(i).goodsId = tag.goodsId;
-                list.get(i).name = tag.name;
-                list.get(i).packPrice = tag.packPrice;
-                list.get(i).price = tag.price;
-                list.get(i).quantity = tag.quantity;
-                list.get(i).goodsTags = tag.goodsTags;
-                list.get(i).imageUrl = tag.imageUrl;
-                list.get(i).packGroupId = tag.packGroupId;
-            }
+            list.get(i).id = i;
         }
-
-        super.notifyDataSetChanged();
     }
+
     class ViewHolder {
         public RelativeLayout rlGoodBackground;
+        public RoundedImageView ivGoodImge;
         public TextView tvTypeName = null;
-        public ImageView ivGoodImge;
         public View viewType = null;
     }
 }

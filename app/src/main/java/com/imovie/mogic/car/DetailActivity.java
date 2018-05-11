@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,10 +29,22 @@ import com.imovie.mogic.car.view.AddWidget;
 import com.imovie.mogic.car.view.ShopCarView;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.SelectTypeActivity;
+import com.imovie.mogic.home.adater.CategorysAdapter;
 import com.imovie.mogic.home.adater.GoodsTagAdapter;
+import com.imovie.mogic.home.adater.GoodsTagChildAdapter;
+import com.imovie.mogic.home.model.CategorysModel;
 import com.imovie.mogic.home.model.GoodTagList;
+import com.imovie.mogic.home.model.GoodsModel;
+import com.imovie.mogic.home.model.PayResultModel;
+import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.utills.Utills;
+import com.imovie.mogic.web.IModelResultListener;
+import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.HorizontalListView;
+import com.imovie.mogic.widget.NoScrollListView;
+import com.imovie.mogic.widget.TitleBar;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -40,6 +53,7 @@ import java.util.List;
 
 
 public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick {
+	private TitleBar titleBar;
 	private FoodBean foodBean;
 	private AddWidget detail_add;
 	public BottomSheetBehavior behavior;
@@ -49,11 +63,22 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //	private DetailHeaderBehavior dhb;
 	private View headerView;
 	public HorizontalListView lvGoodsTagList;
+	public HorizontalListView goodsPackList;
+	public GoodsTagChildAdapter tagAdapter;
+	public List<GoodTagList> packsList = new ArrayList<>();
+	public List<GoodTagList> packList = new ArrayList<>();
+	public LinearLayout llPackListState;
 	private int position = -1;
+	private int selectIndex = -1;
 	private TextView detail_sale;
 	private TextView detail_price;
+	private ImageView iv_detail;
 	public GoodsTagAdapter adapter;
 	public String amountStr = "0.00";
+	public NoScrollListView lvCategorysList;
+	public CategorysAdapter categorysAdapter;
+	public List<CategorysModel.Categorys> categorys = new ArrayList<>();
+
 
 
 	protected int getLayoutId() { return R.layout.activity_detail; }
@@ -65,14 +90,24 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		foodBean = (FoodBean) getIntent().getSerializableExtra("food");
 		position = getIntent().getIntExtra("position", -1);
 		initViews();
+		setViews();
+		queryGoodsDetail(foodBean.getId());
 	}
 
 	private void initViews() {
 		detail_main = (CoordinatorLayout) findViewById(R.id.detail_main);
+		titleBar = (TitleBar) findViewById(R.id.title_bar);
+		titleBar.setTitle("订单详情");
+		titleBar.setLeftListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		headerView = findViewById(R.id.headerview);
 //		CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) headerView.getLayoutParams();
 //		dhb = (DetailHeaderBehavior) lp.getBehavior();
-		ImageView iv_detail = (ImageView) findViewById(R.id.iv_detail);
+		iv_detail = (ImageView) findViewById(R.id.iv_detail);
 //		iv_detail.setImageResource(foodBean.getIcon());
 //		TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
 //		toolbar_title.setText(foodBean.getName());
@@ -82,13 +117,15 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //		detail_sale.setText(foodBean.getSale() + " 好评率95%");
 		detail_price = (TextView) findViewById(R.id.detail_price);
 		detail_price.setText(foodBean.getStrPrice(getApplicationContext()));
-
+		lvCategorysList = (NoScrollListView) findViewById(R.id.lvCategorysList);
+		llPackListState = (LinearLayout) findViewById(R.id.llPackListState);
 		lvGoodsTagList = (HorizontalListView) findViewById(R.id.lvGoodsTagList);
-		if(foodBean.goodsPackList.size()>0){
+		goodsPackList = (HorizontalListView) findViewById(R.id.goodsPackList);
+		adapter = new GoodsTagAdapter(DetailActivity.this,packsList);
+		lvGoodsTagList.setAdapter(adapter);
+		if(foodBean.getGoodsPackList().size()>0){
 			detail_sale.setVisibility(View.VISIBLE);
 			lvGoodsTagList.setVisibility(View.VISIBLE);
-			adapter = new GoodsTagAdapter(DetailActivity.this,foodBean.goodsPackList);
-			lvGoodsTagList.setAdapter(adapter);
 		}else{
 			detail_sale.setVisibility(View.GONE);
 			lvGoodsTagList.setVisibility(View.GONE);
@@ -103,14 +140,72 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 //		initRecyclerView();
 
+
+		initShopCar();
+	}
+	private void setViews() {
+		categorysAdapter = new CategorysAdapter(DetailActivity.this,categorys);
+		lvCategorysList.setAdapter(categorysAdapter);
+		tagAdapter = new GoodsTagChildAdapter(DetailActivity.this,packList);
+		goodsPackList.setAdapter(tagAdapter);
+
 		lvGoodsTagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-				GoodTagList tagList = (GoodTagList) adapterView.getItemAtPosition(position);
+//				GoodTagList tagList = (GoodTagList) adapterView.getItemAtPosition(position);
+				selectIndex = position;
+				GoodsTagAdapter goodsTagAdapter = (GoodsTagAdapter) adapterView.getAdapter();
+				goodsTagAdapter.setSelectIndex(goodsTagAdapter.getItem(position).goodsId);
+				if(goodsTagAdapter.getItem(position).packList.size()>0){
+					goodsPackList.setVisibility(View.VISIBLE);
+//					llPackListState.setVisibility(View.VISIBLE);
+					tagAdapter.list.clear();
+					tagAdapter.list.addAll(goodsTagAdapter.getItem(position).packList);
+					tagAdapter.setIndex();
+					tagAdapter.notifyDataSetChanged();
+				}else{
+					goodsPackList.setVisibility(View.GONE);
+//					llPackListState.setVisibility(View.GONE);
+				}
+
+
 //				Utills.showShortToast("tagList"+tagList.name);
 			}
 		});
-		initShopCar();
+
+		goodsPackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//				GoodTagList tagList = (GoodTagList) adapterView.getItemAtPosition(position);
+				GoodsTagChildAdapter childAdapter = (GoodsTagChildAdapter) adapterView.getAdapter();
+				childAdapter.setSelectIndex(childAdapter.getItem(position).id);
+				adapter.setSelectItem(selectIndex,childAdapter.getItem(position));
+				if(foodBean.getGoodsPackList().size()>0) {
+					foodBean.getGoodsPackList().clear();
+					foodBean.setGoodsPackList(adapter.list);
+//					for(int i=0;i<carAdapter.list.size();i++) {
+//						if(carAdapter.list.get(i).getGoodsId()==childAdapter.getItem(position).goodsId){
+//							carAdapter.list.get(i).setGoodsPackList(adapter.list);
+//							break;
+//						}
+//					}
+				}
+
+//				if(goodsTagAdapter.getItem(position).packList.size()>0){
+//					goodsPackList.setVisibility(View.VISIBLE);
+////					llPackListState.setVisibility(View.VISIBLE);
+//					tagAdapter.list.clear();
+//					tagAdapter.list.addAll(goodsTagAdapter.getItem(position).packList);
+//					tagAdapter.notifyDataSetChanged();
+//				}else{
+//					goodsPackList.setVisibility(View.GONE);
+////					llPackListState.setVisibility(View.GONE);
+//				}
+
+
+//				Utills.showShortToast("tagList"+tagList.name);
+			}
+		});
 	}
 
 	public void close(View view) {
@@ -207,6 +302,11 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 	@Override
 	public void onAddClick(View view, FoodBean fb) {
+//		if(adapter.list.size()>0) {
+//			fb.goodsPackList.clear();
+//			fb.goodsPackList.addAll(adapter.list);
+//		}
+//		Utills.showShortToast(""+adapter.list.size());
 		dealCar(fb);
 		ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
 //		if (!dhb.canDrag) {
@@ -289,12 +389,21 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	}
 
 	private void handleCommand(FoodBean foodBean) {
-//		for (int i = 0; i < dAdapter.getData().size(); i++) {
-//			FoodBean fb = dAdapter.getItem(i);
+//		for (int i = 0; i < carAdapter.getData().size(); i++) {
+//			FoodBean fb = carAdapter.getItem(i);
+////			if(fb.getId() == foodBean.getId() && fb.goodsPackList.size()>0 ){
+////				for(int k=0;k<foodBean.goodsPackList.size();k++){
+////
+////				}
+////
+////			}
 //			if (fb.getId() == foodBean.getId() && fb.getSelectCount() != foodBean.getSelectCount()) {
+////				if(fb.goodsPackList.size()>0){
+////
+////				}
 //				fb.setSelectCount(foodBean.getSelectCount());
-//				dAdapter.setData(i, fb);
-//				dAdapter.notifyItemChanged(i);
+//				carAdapter.setData(i, fb);
+//				carAdapter.notifyItemChanged(i);
 //				break;
 //			}
 //		}
@@ -330,6 +439,118 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				sendBroadcast(new Intent(SelectTypeActivity.CLEARCAR_ACTION));
 			}
 		});
+	}
+
+	public void queryGoodsDetail(long saleBillId){
+
+		HomeWebHelper.queryGoodsDetail(saleBillId,new IModelResultListener<GoodsModel>() {
+			@Override
+			public boolean onGetResultModel(HttpResultModel resultModel) {
+				return false;
+			}
+
+			@Override
+			public void onSuccess(String resultCode, GoodsModel resultModel, List<GoodsModel> resultModelList, String resultMsg, String hint) {
+				if(resultCode.equals("0")) {
+					if(resultModel.goodsPackList.size()>0){
+						detail_sale.setVisibility(View.VISIBLE);
+						lvGoodsTagList.setVisibility(View.VISIBLE);
+						llPackListState.setVisibility(View.VISIBLE);
+						adapter.list.clear();
+						adapter.list.addAll(getPackListData(resultModel.goodsPackList));
+						adapter.notifyDataSetChanged();
+//						if(foodBean.goodsPackList.size()>0) {
+//							foodBean.goodsPackList.clear();
+//							foodBean.goodsPackList.addAll(adapter.list);
+//						}
+					}else{
+						detail_sale.setVisibility(View.GONE);
+						lvGoodsTagList.setVisibility(View.GONE);
+						llPackListState.setVisibility(View.GONE);
+						if(resultModel.goodsTagsList.size()>0){
+							lvCategorysList.setVisibility(View.VISIBLE);
+							categorysAdapter.list.clear();
+							categorysAdapter.list.addAll(resultModel.goodsTagsList.get(0).categorys);
+							categorysAdapter.notifyDataSetChanged();
+						}else{
+							lvCategorysList.setVisibility(View.GONE);
+						}
+					}
+
+//					Utills.showShortToast(""+resultModel.goodsTagsList.size());
+//					payModelMember = resultModel;
+//					tv_sum_amount.setText("小计：¥" + payModel.payAmount);
+//					tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
+//					tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
+//					tv_amount.setText("总计: ¥"+resultModel.incomeAmount);
+//                    if(payType == 2){
+//                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
+//                    }else{
+//                        payGoodsOrder(resultModel.saleBillId , resultModel.saleBillId,"");
+//                    }
+					DisplayImageOptions mOption = new DisplayImageOptions.Builder()
+							.showImageOnLoading(R.drawable.food0)
+							.showImageOnFail(R.drawable.food0)
+							.showImageForEmptyUri(R.drawable.food0)
+							.cacheInMemory(true)
+							.cacheOnDisk(true)
+							.build();
+					ImageLoader.getInstance().displayImage(resultModel.imageUrl,iv_detail,mOption);
+
+				}else{
+					Utills.showShortToast(resultMsg);
+				}
+			}
+
+			@Override
+			public void onFail(String resultCode, String resultMsg, String hint) {
+//                lvCard.finishLoading(true);
+			}
+
+			@Override
+			public void onError(String errorMsg) {
+//                lvCard.finishLoading(true);
+			}
+		});
+	}
+
+	public List<GoodTagList> getPackListData(List<GoodTagList> packList){
+		List<GoodTagList> goodsPackList = new ArrayList<>();
+		for(int i=0;i<packList.size();i++){
+			boolean have = true;
+			for(int j=0;j<goodsPackList.size();j++){
+				if(packList.get(i).packGroupId == goodsPackList.get(j).packGroupId){
+					have = false;
+					if(goodsPackList.get(j).packList.size()==0){
+						goodsPackList.get(j).packList.add(changeGoodTag(goodsPackList.get(j)));
+						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
+					}else{
+						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
+					}
+				}else{
+					have = true;
+				}
+			}
+			if(have)goodsPackList.add(packList.get(i));
+		}
+		return goodsPackList;
+	}
+
+	public GoodTagList changeGoodTag(GoodTagList tag){
+
+		GoodTagList goodTag = new GoodTagList();
+		goodTag.id = tag.id;
+		goodTag.createTime = tag.createTime;
+		goodTag.isSelect = tag.isSelect;
+		goodTag.goodsId = tag.goodsId;
+		goodTag.name = tag.name;
+		goodTag.packPrice = tag.packPrice;
+		goodTag.price = tag.price;
+		goodTag.quantity = tag.quantity;
+		goodTag.goodsTags = tag.goodsTags;
+		goodTag.imageUrl = tag.imageUrl;
+		goodTag.packGroupId = tag.packGroupId;
+		return goodTag;
 	}
 
 }

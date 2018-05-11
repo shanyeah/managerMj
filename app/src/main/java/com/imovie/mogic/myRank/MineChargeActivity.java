@@ -14,13 +14,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.login.model.MyDataModel;
 import com.imovie.mogic.myRank.fragment.ChargeRecordFragment;
 import com.imovie.mogic.myRank.fragment.PraiseNumFragment;
+import com.imovie.mogic.myRank.model.BusinessDetailMode;
 import com.imovie.mogic.myRank.widget.PagerSlidingTabStrip;
+import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.FlexibleFrameLayout;
@@ -39,7 +42,7 @@ public class MineChargeActivity extends BaseActivity {
     public static final int MSG_REFRESH = 600;
     public static final int MSG_WXSEND = 601;
 
-    private final List<String> titles = Arrays.asList("引导充值记录","每日引导充值");
+    private final List<String> titles = Arrays.asList("每日引导充值","引导充值记录");
     private List<Fragment> mFragments = new ArrayList<>();
     public FragmentPagerAdapter adapter;
     public ChargeRecordFragment chargeFragment;
@@ -71,7 +74,7 @@ public class MineChargeActivity extends BaseActivity {
                 .cacheOnDisk(true)
                 .build();
 
-        getBusinessDetail(0);
+        getBusinessDetail(1);
     }
 
     @Override
@@ -113,8 +116,9 @@ public class MineChargeActivity extends BaseActivity {
         praiseFragment = new PraiseNumFragment();
         praiseFragment.refreshData(3);
         chargeFragment = new ChargeRecordFragment();
-        mFragments.add(chargeFragment);
         mFragments.add(praiseFragment);
+        mFragments.add(chargeFragment);
+
 
 //        mFragments.add(new ChangeFragment());
 //        mFragments.add(new MissionFragment());
@@ -160,7 +164,7 @@ public class MineChargeActivity extends BaseActivity {
     }
 
     public void getBusinessDetail(int type){
-        HomeWebHelper.getBusinessDetail(type,new IModelResultListener<MyDataModel>() {
+      HomeWebHelper.getBusinessDetail(type,new IModelResultListener<BusinessDetailMode>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
 //                pull_content.endRefresh(true);
@@ -168,14 +172,14 @@ public class MineChargeActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(String resultCode, MyDataModel resultModel, List<MyDataModel> resultModelList, String resultMsg, String hint) {
+            public void onSuccess(String resultCode, BusinessDetailMode resultModel, List<BusinessDetailMode> resultModelList, String resultMsg, String hint) {
 //                pull_content.endRefresh(true);
                 if(resultCode.equals("0")) {
-//                    tvNickname.setText(resultModel.nickName);
-//                    tvChargeMonth.setText(loginModel.card.cardCategoryName);
-//                    tvChargeRewardAmount.setText(loginModel.card.cardCategoryName);
-//                    tvChargeRanking.setText(loginModel.card.cardCategoryName);
-//                    ImageLoader.getInstance().displayImage(resultModel.fackeImageUrl,ivChargeHeader,mOption);
+                    tvNickname.setText(MyApplication.getInstance().mPref.getString("nickName",""));
+                    tvChargeMonth.setText(DecimalUtil.FormatMoney(resultModel.chargeAmount)+"元");
+                    tvChargeRewardAmount.setText(DecimalUtil.FormatMoney(resultModel.chargeRewardAmount)+"元");
+                    tvChargeRanking.setText(resultModel.chargeRanking+"/10");
+                    ImageLoader.getInstance().displayImage(MyApplication.getInstance().mPref.getString("fackeImageUrl",""),ivChargeHeader,mOption);
                 }
 
             }

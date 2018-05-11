@@ -10,17 +10,27 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.BaseActivity;
+import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.myRank.fragment.OrderRecordFragment;
 import com.imovie.mogic.myRank.fragment.PraiseFragment;
 import com.imovie.mogic.myRank.fragment.PraiseNumFragment;
+import com.imovie.mogic.myRank.model.BusinessDetailMode;
 import com.imovie.mogic.myRank.widget.PagerSlidingTabStrip;
+import com.imovie.mogic.utills.DecimalUtil;
+import com.imovie.mogic.web.IModelResultListener;
+import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.TitleBar;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -32,7 +42,7 @@ public class MineOrderActivity extends BaseActivity {
     public static final int MSG_REFRESH = 600;
     public static final int MSG_WXSEND = 601;
 
-    private final List<String> titles = Arrays.asList("收款记录","每日收款");
+    private final List<String> titles = Arrays.asList("每日收款","收款记录");
     private List<Fragment> mFragments = new ArrayList<>();
     public FragmentPagerAdapter adapter;
     public PraiseNumFragment praiseFragment;
@@ -43,12 +53,26 @@ public class MineOrderActivity extends BaseActivity {
     private ViewPager mViewPager;
 
     private int stgId;
+    private DisplayImageOptions mOption;
+    public TextView tvNickname;
+    public TextView tvChargeMonth;
+    public TextView tvChargeRewardAmount;
+    public TextView tvChargeRanking;
+    public ImageView ivChargeHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mine_order_list_activity);
         initView();
+        mOption = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.person_default_profile)
+                .showImageOnFail(R.drawable.person_default_profile)
+                .showImageForEmptyUri(R.drawable.person_default_profile)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        getBusinessDetail(2);
     }
 
     @Override
@@ -68,6 +92,12 @@ public class MineOrderActivity extends BaseActivity {
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.setTitle("我的点餐");
 
+        tvNickname = (TextView) findViewById(R.id.tvNickname);
+        tvChargeMonth = (TextView) findViewById(R.id.tvChargeMonth);
+        tvChargeRewardAmount = (TextView) findViewById(R.id.tvChargeRewardAmount);
+        tvChargeRanking = (TextView) findViewById(R.id.tvChargeRanking);
+        ivChargeHeader = (ImageView) findViewById(R.id.ivChargeHeader);
+
         pstTabTitle = (PagerSlidingTabStrip) findViewById(R.id.pst_hall_tabTitle);
         mViewPager = (ViewPager) findViewById(R.id.vpHallPager);
 
@@ -83,9 +113,9 @@ public class MineOrderActivity extends BaseActivity {
         fixUI();
         recordFragment = new OrderRecordFragment();
         praiseFragment = new PraiseNumFragment();
-        praiseFragment.refreshData(2);
-        mFragments.add(recordFragment);
         mFragments.add(praiseFragment);
+        mFragments.add(recordFragment);
+        praiseFragment.refreshData(2);
 
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
@@ -126,6 +156,39 @@ public class MineOrderActivity extends BaseActivity {
         tabtitleParams.height = 70 * screenWidth/640;
         pstTabTitle.setLayoutParams(tabtitleParams);
         pstTabTitle.setTextSize(16);
+    }
+
+    public void getBusinessDetail(int type){
+        HomeWebHelper.getBusinessDetail(type,new IModelResultListener<BusinessDetailMode>() {
+            @Override
+            public boolean onGetResultModel(HttpResultModel resultModel) {
+//                pull_content.endRefresh(true);
+                return false;
+            }
+
+            @Override
+            public void onSuccess(String resultCode, BusinessDetailMode resultModel, List<BusinessDetailMode> resultModelList, String resultMsg, String hint) {
+//                pull_content.endRefresh(true);
+                if(resultCode.equals("0")) {
+                    tvNickname.setText(MyApplication.getInstance().mPref.getString("nickName",""));
+                    tvChargeMonth.setText(DecimalUtil.FormatMoney(resultModel.goodsAmount)+"元");
+                    tvChargeRewardAmount.setText(DecimalUtil.FormatMoney(resultModel.goodsRewardAmount)+"元");
+                    tvChargeRanking.setText(resultModel.goodsRanking+"/10");
+                    ImageLoader.getInstance().displayImage(MyApplication.getInstance().mPref.getString("fackeImageUrl",""),ivChargeHeader,mOption);
+                }
+
+            }
+
+            @Override
+            public void onFail(String resultCode, String resultMsg, String hint) {
+//                pull_content.endRefresh(true);
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+//                pull_content.endRefresh(true);
+            }
+        });
     }
 
 }

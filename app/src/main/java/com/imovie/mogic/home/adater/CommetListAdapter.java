@@ -60,7 +60,7 @@ public class CommetListAdapter extends BaseAdapter {
          } else {
             holder = (ViewHolder) convertView.getTag();
          }
-        holder.tvCommentContent.setText(list.get(position).name+"："+list.get(position).reviewText);
+        holder.tvCommentContent.setText(list.get(position).name+"："+list.get(position).content);
         return convertView;
     }
 

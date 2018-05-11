@@ -466,6 +466,8 @@ public class ChargeFragment extends Fragment {
                 if(resultCode.equals("0")) {
 //                    Utills.showShortToast(resultMsg);
                     ScanPayManager.enterChargeSuccessActivity(getActivity(), "", resultModel);
+                    rlUserData.setVisibility(View.GONE);
+                    rlNoUserData.setVisibility(View.VISIBLE);
                 }else if(resultCode.equals("90016")){
                     ViewUtils.showChargeDialog(getActivity(), new DialogInterface.OnClickListener() {
                         @Override

@@ -75,26 +75,25 @@ dependencies {
     //    compile 'com.android.support:support-core-ui:25.3.1'
     //    compile 'com.android.support:support-fragment:25.3.1'
     //    compile files('libs/core-3.2.2.jar')
-//    compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile files('libs/jackson-all-1.9.9.jar')
     compile files('libs/libammsdk.jar')
     compile files('libs/android-async-http-1.4.4.jar')
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.google.zxing:core:3.3.0'
-//    compile project(path: ':easeui')
+    //    compile project(path: ':easeui')
     compile 'com.android.support:multidex:1.0.1'
     compile files('libs/parse-android-1.13.0.jar')
-//    compile files('libs/bolts-tasks-1.4.0.jar')
+    //    compile files('libs/bolts-tasks-1.4.0.jar')
     //    compile files('libs/alipaySingle-20170510.jar')
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.google.code.findbugs:jsr305:3.0.0'
     compile 'com.google.guava:guava:18.0'
     compile 'joda-time:joda-time:2.9.4'
     compile 'com.google.code.gson:gson:2.7'
-
-//    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    //    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.facebook.fresco:fresco:1.2.0'
     compile 'jp.wasabeef:fresco-processors:2.1.0'
@@ -102,4 +101,5 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.25'
     compile 'com.github.florent37:viewanimator:1.0.5'
     compile files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/fastjson-1.2.29.jar')
 }

@@ -55,7 +55,7 @@ public class PraiseNumFragment extends Fragment {
 		list = new ArrayList<>();
 		adapter = new PraiseNumAdapter(getContext(),list);
 		lvRatingList.setAdapter(adapter);
-		lvRatingList.setEmptyTips("暂无数据");
+//		lvRatingList.setEmptyTips("暂无数据");
 		getPraiseList(typeNum);
 
 //		btHallRating.setOnClickListener(new View.OnClickListener() {
@@ -168,8 +168,8 @@ public class PraiseNumFragment extends Fragment {
 
 			@Override
 			public void onError(String errorMsg) {
-				pull_content.endRefresh(true);
-				lvRatingList.finishLoading(true);
+//				pull_content.endRefresh(true);
+//				lvRatingList.finishLoading(true);
 			}
 		});
 	}

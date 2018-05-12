@@ -84,7 +84,7 @@ public class AddWidget extends FrameLayout {
 						;
 					}
 				}
-				count++;
+//				count++;
 				if(!btAdd)tv_count.setText(count + "");
 				foodBean.setSelectCount(count);
 				if (onAddClick != null) {

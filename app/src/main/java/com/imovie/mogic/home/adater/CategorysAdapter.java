@@ -85,7 +85,7 @@ public class CategorysAdapter extends BaseAdapter {
     public String[] getTags(){
         String tags="";
         String tagsName="";
-        Utills.showShortToast(""+list.size());
+//        Utills.showShortToast(""+list.size());
         for(int i=0;i<list.size();i++){
             List<GoodsTags> goodsTags = list.get(i).goodsTags;
             boolean has = false;

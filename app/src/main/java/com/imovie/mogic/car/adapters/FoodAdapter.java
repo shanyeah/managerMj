@@ -45,7 +45,7 @@ public class FoodAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 		;
 		AddWidget addWidget = helper.getView(R.id.addwidget);
 //		addWidget.setData(this, helper.getAdapterPosition(), onAddClick);
-//		addWidget.setState(item.getSelectCount());
+		addWidget.setState(2);
 		addWidget.setData( onAddClick,item);
 		ImageView iv_food = helper.getView(R.id.iv_food);
 		try {

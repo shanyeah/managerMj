@@ -44,6 +44,9 @@ public class BuyGoodsFragment extends Fragment {
     public ArrayList<GoodsModel> listSearch = new ArrayList<>();
     private ListContainer listContainer;
     public TextView tvCount;
+
+    public List<TypeBean> typeList = new ArrayList<>();
+    public List<FoodBean> foodBeanList = new ArrayList<>();
     public BuyGoodsFragment() {
 
     }
@@ -130,6 +133,13 @@ public class BuyGoodsFragment extends Fragment {
         getAllGoodList();
     }
 
+    public void refreshGoodlist(){
+        for(int i=0;i<foodBeanList.size();i++){
+            foodBeanList.get(i).setSelectCount(0);
+        }
+        listContainer.refreshTypeAdater(typeList,foodBeanList);
+    }
+
     public void getAllGoodList(){
         YSBLoadingDialog.showLoadingDialog(getActivity(), 2000, new YSBLoadingDialog.OnCancelListener() {
             @Override
@@ -156,8 +166,6 @@ public class BuyGoodsFragment extends Fragment {
 //                lvCard.finishLoading(true);
                 if(resultCode.equals("0")) {
                     if(resultModel.categories.size()>0){
-                        List<TypeBean> typeList = new ArrayList<>();
-                        List<FoodBean> foodBeanList = new ArrayList<>();
                         for(int i=0;i<resultModel.categories.size();i++){
                             TypeBean typeBean = new TypeBean();
                             typeBean.setName(resultModel.categories.get(i).categoryName);

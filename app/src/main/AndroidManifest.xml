@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.imovie.mogic"
     android:versionCode="1"
-    android:versionName="1.0.10">
+    android:versionName="1.0.30">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-feature android:name="android.hardware.camera" />

@@ -50,6 +50,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -288,7 +289,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		});
 
 		((DefaultItemAnimator) carRecView.getItemAnimator()).setSupportsChangeAnimations(false);
-		ArrayList<FoodBean> flist = new ArrayList<>();
+		List<FoodBean> flist = new ArrayList<>();
+//		List<FoodBean> list = SelectTypeActivity.carAdapter.getData();
+//		for(int i= 0;i<list.size();i++){
+//			FoodBean food = new FoodBean();
+//			food.getFoodBean(list.get(i));
+//			flist.add(food.getFoodBean(list.get(i)));
+//		}
 		flist.addAll(SelectTypeActivity.carAdapter.getData());
 		carAdapter = new CarAdapter(flist, this);
 		carAdapter.bindToRecyclerView(carRecView);
@@ -296,7 +303,9 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		shopCarView.post(new Runnable() {
 			@Override
 			public void run() {
-				dealCar(foodBean);
+//				dealCar(foodBean);
+//                addOneCar(foodBean);
+				dealBeginCar(foodBean);
 			}
 		});
 	}
@@ -313,7 +322,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			e.printStackTrace();
 		}
 //		Utills.showShortToast(""+adapter.list.size());
-		dealCar(fb);
+//		dealCar(fb);
+		addOneCar(fb);
 		ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
 //		if (!dhb.canDrag) {
 //			ViewAnimator.animate(headerView).alpha(1, -4).duration(410).onStop(new AnimationListener.Stop() {
@@ -327,7 +337,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 	@Override
 	public void onSubClick(FoodBean fb) {
-		dealCar(fb);
+//		dealCar(fb);
+		subOneCar(fb);
 	}
 
 
@@ -613,6 +624,188 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		goodTag.imageUrl = tag.imageUrl;
 		goodTag.packGroupId = tag.packGroupId;
 		return goodTag;
+	}
+
+	private void addOneCar(FoodBean food) {
+		FoodBean foodBean = food.getFoodBean(food);
+		HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
+		BigDecimal amount = new BigDecimal(0.0);
+		int total = 0;
+		boolean hasFood = false;
+		boolean hasPack = false;
+        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED || foodBean.getId() == this.foodBean.getId() && foodBean.getSelectCount() !=
+            this.foodBean.getSelectCount()) {
+            this.foodBean = foodBean;
+            detail_add.expendAdd(foodBean.getSelectCount());
+            handleCommand(foodBean);
+        }
+		List<FoodBean> flist = carAdapter.getData();
+		int p = -1;
+		for (int i = 0; i < flist.size(); i++) {
+			FoodBean fb = flist.get(i);
+			if (fb.getId() == foodBean.getId()) {
+				if(foodBean.getGoodsPackList().size()>0){
+					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
+						hasFood = false;
+					}else{
+						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
+							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
+								hasPack = true;
+								break;
+							}
+						}
+						if(hasPack){
+							hasFood = false;
+						}else{
+							hasFood = true;
+							fb.setSelectCount(fb.getSelectCount()+1);
+							carAdapter.setData(i, fb);
+						}
+					}
+				}else{
+					hasFood = true;
+					fb.setSelectCount(fb.getSelectCount()+1);
+					carAdapter.setData(i, fb);
+				}
+
+			}
+			total += fb.getSelectCount();
+			if (typeSelect.containsKey(fb.getType())) {
+				typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
+			} else {
+				typeSelect.put(fb.getType(), fb.getSelectCount());
+			}
+			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+
+
+		}
+		if (p >= 0) {
+			carAdapter.remove(p);
+		} else if (!hasFood) {
+//            foodBean.getSelectCount() > 0
+//            foodBean.setSelectCount(1);
+			carAdapter.addData(foodBean);
+			if (typeSelect.containsKey(foodBean.getType())) {
+				typeSelect.put(foodBean.getType(), typeSelect.get(foodBean.getType()) + foodBean.getSelectCount());
+			} else {
+				typeSelect.put(foodBean.getType(), foodBean.getSelectCount());
+			}
+			amount = amount.add(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
+			total += foodBean.getSelectCount();
+		}
+
+		shopCarView.showBadge(total);
+//		buyGoodsFragment.getTypeAdapter().updateBadge(typeSelect);
+		shopCarView.updateAmount(amount);
+		amountStr = amount.toString();
+
+		Intent intent = new Intent(SelectTypeActivity.CAR_ACTION);
+//        if (foodBean.getId() == this.foodBean.getId()) {
+//            intent.putExtra("position", position);
+//        }
+		intent.putExtra("foodbean", foodBean);
+		sendBroadcast(intent);
+	}
+
+	private void subOneCar(FoodBean foodBean) {
+//        FoodBean foodBean = food.getFoodBean(food);
+		HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
+		BigDecimal amount = new BigDecimal(0.0);
+		int total = 0;
+		boolean hasFood = false;
+		boolean hasPack = false;
+		if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//			buyGoodsFragment.getFoodAdapter().notifyDataSetChanged();
+		}
+		List<FoodBean> flist = carAdapter.getData();
+		int p = -1;
+		for (int i = 0; i < flist.size(); i++) {
+			FoodBean fb = flist.get(i);
+			if (fb.getId() == foodBean.getId()) {
+				if(foodBean.getGoodsPackList().size()>0){
+					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
+						hasFood = false;
+					}else{
+						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
+							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
+								hasPack = true;
+								break;
+							}
+						}
+						if(hasPack){
+							hasFood = false;
+						}else{
+							hasFood = true;
+//                            fb.setSelectCount(fb.getSelectCount()+1);
+							carAdapter.setData(i, fb);
+
+						}
+					}
+				}else{
+					hasFood = true;
+//                    fb.setSelectCount(fb.getSelectCount()+1);
+					carAdapter.setData(i, fb);
+				}
+
+			}
+			total += fb.getSelectCount();
+			if (typeSelect.containsKey(fb.getType())) {
+				typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
+			} else {
+				typeSelect.put(fb.getType(), fb.getSelectCount());
+			}
+			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+
+			if(fb.getSelectCount()<=0){
+				carAdapter.remove(i);
+			}
+
+
+		}
+
+		shopCarView.showBadge(total);
+//		buyGoodsFragment.getTypeAdapter().updateBadge(typeSelect);
+		shopCarView.updateAmount(amount);
+		amountStr = amount.toString();
+
+		Intent intent = new Intent(SelectTypeActivity.SUB_ACTION);
+//        if (foodBean.getId() == this.foodBean.getId()) {
+//            intent.putExtra("position", position);
+//        }
+		intent.putExtra("foodbean", foodBean);
+		sendBroadcast(intent);
+	}
+
+	private void dealBeginCar(FoodBean food) {
+//		FoodBean foodBean = food.getFoodBean(food);
+		BigDecimal amount = new BigDecimal(0.0);
+		int total = 0;
+		boolean hasFood = false;
+		boolean hasPack = false;
+		if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED || foodBean.getId() == this.foodBean.getId() && foodBean.getSelectCount() !=
+				this.foodBean.getSelectCount()) {
+			this.foodBean = foodBean;
+			detail_add.expendAdd(foodBean.getSelectCount());
+			handleCommand(foodBean);
+		}
+		List<FoodBean> flist = carAdapter.getData();
+		for (int i = 0; i < flist.size(); i++) {
+			FoodBean fb = flist.get(i);
+			total += fb.getSelectCount();
+			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+			if(fb.getSelectCount()<=0){
+				carAdapter.remove(i);
+			}
+
+		}
+
+		shopCarView.showBadge(total);
+//		buyGoodsFragment.getTypeAdapter().updateBadge(typeSelect);
+		shopCarView.updateAmount(amount);
+		amountStr = amount.toString();
+		shopCarView.showBadge(total);
+		shopCarView.updateAmount(amount);
+		amountStr = amount.toString();
 	}
 
 }

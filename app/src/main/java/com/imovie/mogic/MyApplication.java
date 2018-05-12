@@ -7,13 +7,17 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
+import android.support.v4.content.FileProvider;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
+import com.imovie.mogic.mine.UpdateMyInfoActivity;
+import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.utills.baidu.GetLocation;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -90,8 +94,23 @@ public class MyApplication extends Application {
             //Runtime.getRuntime().exec("pm install -r "+apkFilePath);//+";am start -n cn.com.imovie.player/cn.com.imovie.player.activity.SplashActivity;");
             File apkfile = new File(apkFilePath);
             if (apkfile.exists()){
+
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setDataAndType(Uri.parse("file://" + apkFilePath),"application/vnd.android.package-archive");
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M){
+                    i.setDataAndType(Uri.parse("file://" + apkFilePath),"application/vnd.android.package-archive");
+                }else{
+                    /**
+                     * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+                     * 并且这样可以解决MIUI系统上拍照返回size为0的情况
+                     */
+
+                    Uri uriForFile = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + ".provider", apkfile);
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    i.setDataAndType(uriForFile, getApplicationContext().getContentResolver().getType(uriForFile));
+                    i.setDataAndType(uriForFile,"application/vnd.android.package-archive");
+                }
+
                 context.startActivity(i);
                 System.exit(0);
             }

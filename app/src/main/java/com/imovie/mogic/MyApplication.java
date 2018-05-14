@@ -16,6 +16,7 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
+import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.mine.UpdateMyInfoActivity;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.utills.baidu.GetLocation;
@@ -26,6 +27,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhou on 2017/3/7 0007.
@@ -38,6 +41,7 @@ public class MyApplication extends Application {
     private double latitude = -1;
     private double longitude = -1;
     private String address = "";
+    private List<FoodBean> carList = new ArrayList<>();
 
     public static MyApplication getInstance() {
         return instance;
@@ -161,4 +165,7 @@ public class MyApplication extends Application {
         MultiDex.install(this);
     }
 
+    public List<FoodBean> getCarListData(){
+        return carList;
+    }
 }

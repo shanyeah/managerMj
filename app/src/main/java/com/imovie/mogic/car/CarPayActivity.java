@@ -119,7 +119,8 @@ public class CarPayActivity extends BaseActivity {
 
     private void initView(){
         amount = getIntent().getStringExtra("amountStr");
-        foodBeanList = (List<FoodBean>) getIntent().getSerializableExtra("FoodBeanList");
+//        foodBeanList = (List<FoodBean>) getIntent().getSerializableExtra("FoodBeanList");
+        foodBeanList = MyApplication.getInstance().getCarListData();
 //        Utills.showShortToast(""+foodBeanList.size());
         titleBar = (TitleBar) findViewById(R.id.title_bar);
         titleBar.setTitle("确认订单");

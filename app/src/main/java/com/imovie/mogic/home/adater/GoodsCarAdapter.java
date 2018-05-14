@@ -15,6 +15,7 @@ import com.imovie.mogic.car.bean.FoodTagList;
 import com.imovie.mogic.home.model.CardModel;
 import com.imovie.mogic.home.model.GoodTypeModel;
 import com.imovie.mogic.utills.StringHelper;
+import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.widget.NoScrollListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -77,10 +78,12 @@ public class GoodsCarAdapter extends BaseAdapter {
         }else{
             holder.lvCarTagList.setVisibility(View.GONE);
         }
-
+//       if(!StringHelper.isEmpty(list.get(position).getTagsName()))
+//           holder.car_tag_name.setTag(list.get(position).getTagsName());
+//        Utills.showShortToast("333"+list.get(position).getTagsName());
         if(!StringHelper.isEmpty(list.get(position).getTagsName())) {
             holder.car_tag_name.setVisibility(View.VISIBLE);
-            holder.car_tag_name.setTag("(" + list.get(position).getTagsName() + ")");
+            holder.car_tag_name.setText("(" + list.get(position).getTagsName() + ")");
         }else{
             holder.car_tag_name.setVisibility(View.GONE);
         }

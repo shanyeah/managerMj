@@ -180,6 +180,7 @@ public class BuyGoodsFragment extends Fragment {
                                 foodBean.setGoodsId(goodsModel.goodsId);
                                 foodBean.setImageUrl(goodsModel.imageUrl);
                                 foodBean.setName(goodsModel.name);
+                                foodBean.setTagsName("");
                                 BigDecimal price = new BigDecimal(DecimalUtil.FormatMoney(goodsModel.price));
                                 foodBean.setPrice(price);
                                 foodBean.setType(resultModel.categories.get(i).categoryName);

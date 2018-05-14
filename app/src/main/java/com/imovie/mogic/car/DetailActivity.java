@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
@@ -303,8 +304,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //			food.getFoodBean(list.get(i));
 //			flist.add(food.getFoodBean(list.get(i)));
 //		}
-		flist.addAll(SelectTypeActivity.carAdapter.getData());
-		carAdapter = new CarAdapter(flist, this);
+//		flist.addAll(SelectTypeActivity.carAdapter.getData());
+		carAdapter = new CarAdapter(MyApplication.getInstance().getCarListData(), this);
 		carAdapter.bindToRecyclerView(carRecView);
 		handleCommand(foodBean);
 		shopCarView.post(new Runnable() {
@@ -513,7 +514,9 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 					FoodBean fb = flist.get(i);
 					fb.setSelectCount(0);
 				}
-				carAdapter.setNewData(new ArrayList<FoodBean>());
+				MyApplication.getInstance().getCarListData().clear();
+				carAdapter.notifyDataSetChanged();
+//				carAdapter.setNewData(new ArrayList<FoodBean>());
 				shopCarView.showBadge(0);
 				shopCarView.updateAmount(new BigDecimal(0.0));
 				sendBroadcast(new Intent(SelectTypeActivity.CLEARCAR_ACTION));

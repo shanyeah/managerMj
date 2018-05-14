@@ -21,6 +21,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.ScanPay.zxing.activity.CaptureActivity;
 import com.imovie.mogic.car.CarPayActivity;
@@ -243,7 +244,9 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             FoodBean fb = flist.get(i);
             fb.setSelectCount(0);
         }
-        carAdapter.setNewData(new ArrayList<FoodBean>());
+//        carAdapter.setNewData(new ArrayList<FoodBean>());
+        MyApplication.getInstance().getCarListData().clear();
+        carAdapter.notifyDataSetChanged();
         buyGoodsFragment.refreshGoodlist();
         buyGoodsFragment.getFoodAdapter().notifyDataSetChanged();
         shopCarView.showBadge(0);
@@ -279,17 +282,25 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
 //		carRecView.setNestedScrollingEnabled(false);
         carRecView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         ((DefaultItemAnimator) carRecView.getItemAnimator()).setSupportsChangeAnimations(false);
-        carAdapter = new CarAdapter(new ArrayList<FoodBean>(), this);
+        carAdapter = new CarAdapter(MyApplication.getInstance().getCarListData(), this);
         carAdapter.bindToRecyclerView(carRecView);
         carRecView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
                 Utills.showShortToast("999"+position);
+//                if (view.getId() == R.id.car_main) {
+//                    Intent intent = new Intent(SelectTypeActivity.this, DetailActivity.class);
+//                    intent.putExtra("food", (FoodBean) adapter.getData().get(position));
+//                    intent.putExtra("FoodBeanList", (Serializable) carAdapter.getData());
+//                    intent.putExtra("position", position);
+//                    startActivity(intent);
+//                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                }
+
                 if (view.getId() == R.id.car_main) {
                     Intent intent = new Intent(SelectTypeActivity.this, DetailActivity.class);
                     intent.putExtra("food", (FoodBean) adapter.getData().get(position));
-                    intent.putExtra("FoodBeanList", (Serializable) carAdapter.getData());
                     intent.putExtra("position", position);
                     startActivity(intent);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

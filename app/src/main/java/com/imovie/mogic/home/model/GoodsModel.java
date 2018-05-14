@@ -34,6 +34,7 @@ public class GoodsModel extends BaseModel {
     public List<GoodTagList> goodsPackList = new ArrayList<>();
     public List<CategorysModel> goodsTagsList = new ArrayList<>();
     public List<GoodTagList> childGoodsList = new ArrayList<>();
+    public List<PackReplaceList> packReplaceList = new ArrayList<>();
 
 }
 

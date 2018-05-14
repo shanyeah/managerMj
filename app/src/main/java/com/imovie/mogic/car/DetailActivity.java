@@ -36,6 +36,7 @@ import com.imovie.mogic.home.adater.GoodsTagChildAdapter;
 import com.imovie.mogic.home.model.CategorysModel;
 import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodsModel;
+import com.imovie.mogic.home.model.PackReplaceList;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.utills.Utills;
@@ -69,6 +70,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	public GoodsTagChildAdapter tagAdapter;
 	public List<GoodTagList> packsList = new ArrayList<>();
 	public List<GoodTagList> packList = new ArrayList<>();
+	public List<PackReplaceList> packReplaceLists = new ArrayList<>();
 	public LinearLayout llPackListState;
 	private int position = -1;
 	private int selectIndex = -1;
@@ -158,18 +160,23 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				selectIndex = position;
 				GoodsTagAdapter goodsTagAdapter = (GoodsTagAdapter) adapterView.getAdapter();
 				goodsTagAdapter.setSelectIndex(goodsTagAdapter.getItem(position).goodsId);
-				if(goodsTagAdapter.getItem(position).packList.size()>0){
-					goodsPackList.setVisibility(View.VISIBLE);
+				int packGroupId = goodsTagAdapter.getItem(position).packGroupId;
+				if(packReplaceLists.size()>0) {
+					for (int i = 0; i < packReplaceLists.size(); i++) {
+						if(packGroupId == packReplaceLists.get(i).packGroupId){
+							goodsPackList.setVisibility(View.VISIBLE);
 //					llPackListState.setVisibility(View.VISIBLE);
-					tagAdapter.list.clear();
-					tagAdapter.list.addAll(goodsTagAdapter.getItem(position).packList);
-					tagAdapter.setIndex();
-					tagAdapter.notifyDataSetChanged();
-				}else{
-					goodsPackList.setVisibility(View.GONE);
+							tagAdapter.list.clear();
+							tagAdapter.list.addAll(packReplaceLists.get(i).replaceList);
+							tagAdapter.setIndex();
+							tagAdapter.notifyDataSetChanged();
+						}else{
+							goodsPackList.setVisibility(View.GONE);
 //					llPackListState.setVisibility(View.GONE);
-				}
+						}
 
+					}
+				}
 
 //				Utills.showShortToast("tagList"+tagList.name);
 			}
@@ -530,8 +537,11 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						lvGoodsTagList.setVisibility(View.VISIBLE);
 						llPackListState.setVisibility(View.VISIBLE);
 						adapter.list.clear();
-						adapter.list.addAll(getPackListData(resultModel.goodsPackList));
+						adapter.list.addAll(resultModel.goodsPackList);
 						adapter.notifyDataSetChanged();
+						if(resultModel.packReplaceList.size()>0) {
+							packReplaceLists.addAll(resultModel.packReplaceList);
+						}
 //						if(foodBean.goodsPackList.size()>0) {
 //							foodBean.goodsPackList.clear();
 //							foodBean.goodsPackList.addAll(adapter.list);
@@ -587,44 +597,44 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		});
 	}
 
-	public List<GoodTagList> getPackListData(List<GoodTagList> packList){
-		List<GoodTagList> goodsPackList = new ArrayList<>();
-		for(int i=0;i<packList.size();i++){
-			boolean have = true;
-			for(int j=0;j<goodsPackList.size();j++){
-				if(packList.get(i).packGroupId == goodsPackList.get(j).packGroupId){
-					have = false;
-					if(goodsPackList.get(j).packList.size()==0){
-						goodsPackList.get(j).packList.add(changeGoodTag(goodsPackList.get(j)));
-						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
-					}else{
-						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
-					}
-				}else{
-					have = true;
-				}
-			}
-			if(have)goodsPackList.add(packList.get(i));
-		}
-		return goodsPackList;
-	}
-
-	public GoodTagList changeGoodTag(GoodTagList tag){
-
-		GoodTagList goodTag = new GoodTagList();
-		goodTag.id = tag.id;
-		goodTag.createTime = tag.createTime;
-		goodTag.isSelect = tag.isSelect;
-		goodTag.goodsId = tag.goodsId;
-		goodTag.name = tag.name;
-		goodTag.packPrice = tag.packPrice;
-		goodTag.price = tag.price;
-		goodTag.quantity = tag.quantity;
-		goodTag.goodsTags = tag.goodsTags;
-		goodTag.imageUrl = tag.imageUrl;
-		goodTag.packGroupId = tag.packGroupId;
-		return goodTag;
-	}
+//	public List<GoodTagList> getPackListData(List<GoodTagList> packList){
+//		List<GoodTagList> goodsPackList = new ArrayList<>();
+//		for(int i=0;i<packList.size();i++){
+//			boolean have = true;
+//			for(int j=0;j<goodsPackList.size();j++){
+//				if(packList.get(i).packGroupId == goodsPackList.get(j).packGroupId){
+//					have = false;
+//					if(goodsPackList.get(j).packList.size()==0){
+//						goodsPackList.get(j).packList.add(changeGoodTag(goodsPackList.get(j)));
+//						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
+//					}else{
+//						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
+//					}
+//				}else{
+//					have = true;
+//				}
+//			}
+//			if(have)goodsPackList.add(packList.get(i));
+//		}
+//		return goodsPackList;
+//	}
+//
+//	public GoodTagList changeGoodTag(GoodTagList tag){
+//
+//		GoodTagList goodTag = new GoodTagList();
+//		goodTag.id = tag.id;
+//		goodTag.createTime = tag.createTime;
+//		goodTag.isSelect = tag.isSelect;
+//		goodTag.goodsId = tag.goodsId;
+//		goodTag.name = tag.name;
+//		goodTag.packPrice = tag.packPrice;
+//		goodTag.price = tag.price;
+//		goodTag.quantity = tag.quantity;
+//		goodTag.goodsTags = tag.goodsTags;
+//		goodTag.imageUrl = tag.imageUrl;
+//		goodTag.packGroupId = tag.packGroupId;
+//		return goodTag;
+//	}
 
 	private void addOneCar(FoodBean food) {
 		FoodBean foodBean = food.getFoodBean(food);

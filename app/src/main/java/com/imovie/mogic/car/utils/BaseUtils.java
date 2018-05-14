@@ -2,13 +2,18 @@ package com.imovie.mogic.car.utils;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.BottomSheetBehavior;
 
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.car.bean.CommentBean;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.bean.TypeBean;
+import com.imovie.mogic.home.SelectTypeActivity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -59,4 +64,6 @@ public class BaseUtils {
 		}
 		return cList;
 	}
+
+
 }

@@ -30,8 +30,8 @@ public class FoodBean implements Serializable{
 	private BigDecimal payAmount;
 	private BigDecimal incomeAmount;
 	private long quantity;
-	private String goodsTags;
-	private String tagsName;
+	private String goodsTags = "";
+	private String tagsName = "";
 
 	private List<FoodTagList> goodsPackList = new ArrayList<>();
 

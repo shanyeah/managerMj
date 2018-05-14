@@ -101,7 +101,7 @@ public class ViewUtils {
 		textView.setText("1");
 		textView.setTextColor(Color.WHITE);
 		textView.setGravity(Gravity.CENTER);
-		CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(fromView.getWidth(), fromView.getHeight());
+		CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(fromView.getHeight(), fromView.getHeight());
 		rootview.addView(textView, lp);
 		ViewAnimator.animate(textView).path(path).accelerate().duration(400).onStop(new AnimationListener.Stop() {
 			@Override

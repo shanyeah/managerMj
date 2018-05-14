@@ -76,7 +76,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:visibility="gone"
                         app:sub_anim="true"/>
+                <TextView
+                    android:id="@+id/tvAddOneCar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加入购物车"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/select_bg7_bg1_r15"
+                    style="@style/text_14_white"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 

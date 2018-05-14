@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.github.florent37.viewanimator.AnimationListener;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.adapters.CarAdapter;
@@ -77,6 +79,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	private int selectIndex = -1;
 	private TextView detail_sale;
 	private TextView detail_price;
+    private TextView tvAddOneCar;
 	private ImageView iv_detail;
 	public GoodsTagAdapter adapter;
 	public String amountStr = "0.00";
@@ -114,7 +117,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //		dhb = (DetailHeaderBehavior) lp.getBehavior();
 		iv_detail = (ImageView) findViewById(R.id.iv_detail);
 //		iv_detail.setImageResource(foodBean.getIcon());
-//		TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+		tvAddOneCar = (TextView) findViewById(R.id.tvAddOneCar);
 //		toolbar_title.setText(foodBean.getName());
 		TextView detail_name = (TextView) findViewById(R.id.detail_name);
 		detail_name.setText(foodBean.getName());
@@ -216,7 +219,26 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //				Utills.showShortToast("tagList"+tagList.name);
 			}
 		});
+
+        tvAddOneCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+				try {
+					if(categorysAdapter.list.size()>0) {
+						//			Utills.showShortToast(""+categorysAdapter.getTags()[1]);
+						foodBean.setGoodsTags(categorysAdapter.getTags()[0]);
+						foodBean.setTagsName(categorysAdapter.getTags()[1]);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+                addOneCar(foodBean);
+                ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
+            }
+        });
 	}
+
+
 
 	public void close(View view) {
 		finish();
@@ -418,8 +440,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				total += foodBean.getSelectCount();
 				amount = amount.add(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
 			}else{
-				total += fb.getSelectCount();
-				amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+//				total += fb.getSelectCount();
+//				amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
 			}
 
 
@@ -648,7 +670,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		boolean hasPack = false;
         if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED || foodBean.getId() == this.foodBean.getId() && foodBean.getSelectCount() !=
             this.foodBean.getSelectCount()) {
-            this.foodBean = foodBean;
+//            this.foodBean = foodBean;
             detail_add.expendAdd(foodBean.getSelectCount());
             handleCommand(foodBean);
         }
@@ -676,9 +698,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						}
 					}
 				}else{
-					hasFood = true;
-					fb.setSelectCount(fb.getSelectCount()+1);
-					carAdapter.setData(i, fb);
+					if(!fb.getTagsName().equals(foodBean.getTagsName())){
+						hasFood = false;
+					}else {
+						hasFood = true;
+						fb.setSelectCount(fb.getSelectCount() + 1);
+						carAdapter.setData(i, fb);
+					}
 				}
 
 			}

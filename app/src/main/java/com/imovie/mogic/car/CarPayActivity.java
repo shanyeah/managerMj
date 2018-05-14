@@ -240,15 +240,15 @@ public class CarPayActivity extends BaseActivity {
 //                    String seakNo = etUserId.getText().toString();
 //                    String remark = etPayRemark.getText().toString();
 //                    payGoodsOrder(payModel.saleBillId,userId,seakNo,2, 0,payModel.incomeAmount,remark);
-                    payOrder("",2);
+                    payOrder("",2,payModelMember.incomeAmount);
                 }
             }
         });
     }
-    public void payOrder(String sn,int payType){
+    public void payOrder(String sn,int payType,double incomeAmount){
         String seakNo = etUserId.getText().toString();
         String remark = etPayRemark.getText().toString();
-        payGoodsOrder(payModel.saleBillId,userId,seakNo,payType, 0,payModel.incomeAmount,remark,sn);
+        payGoodsOrder(payModel.saleBillId,userId,seakNo,payType, 0,incomeAmount,remark,sn);
     }
 
 
@@ -341,9 +341,9 @@ public class CarPayActivity extends BaseActivity {
             public void onSuccess(String resultCode, PayResultModel resultModel, List<PayResultModel> resultModelList, String resultMsg, String hint) {
                 if(resultCode.equals("0")) {
                     payModelMember = resultModel;
-                    tv_sum_amount.setText("小计：¥" + payModel.payAmount);
-                    tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
-                    tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
+                    tv_sum_amount.setText("小计：¥" + resultModel.payAmount);
+                    tvIncomeAmount.setText("应付金额：¥" + resultModel.incomeAmount);
+                    tvDiscountAmount.setText("减免金额：¥" + resultModel.discountAmount);
                     tv_amount.setText("总计: ¥"+resultModel.incomeAmount);
 //                    if(payType == 2){
 //                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
@@ -412,7 +412,7 @@ public class CarPayActivity extends BaseActivity {
                     Utills.showShortToast("扫码出错");
                     return;
                 }else{
-                    payOrder(code,1);
+                    payOrder(code,1,payModel.incomeAmount);
 //                    Utills.showShortToast("扫码" + code);
                 }
                 break;

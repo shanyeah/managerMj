@@ -465,7 +465,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                         }
                     }
                 }else{
-                    if(fb.getTagsName()!=foodBean.getTagsName()){
+                    if(!fb.getTagsName().equals(foodBean.getTagsName())){
                         hasFood = false;
                     }else {
                         hasFood = true;
@@ -587,8 +587,6 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
         BigDecimal amount = new BigDecimal(0.0);
         int total = 0;
-        boolean hasFood = false;
-        boolean hasPack = false;
         if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             buyGoodsFragment.getFoodAdapter().notifyDataSetChanged();
         }
@@ -596,36 +594,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         int p = -1;
         for (int i = 0; i < flist.size(); i++) {
             FoodBean fb = flist.get(i);
-            if (fb.getId() == foodBean.getId()) {
-//                if(foodBean.getGoodsPackList().size()>0){
-//                    if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-//                        hasFood = false;
-//                    }else{
-//                        for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-//                            if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-//                                hasPack = true;
-//                                break;
-//                            }
-//                        }
-//                        if(hasPack){
-//                            hasFood = false;
-//                        }else{
-//                            hasFood = true;
-////                            fb.setSelectCount(fb.getSelectCount()+1);
-////                            carAdapter.setData(i, fb);
-//                        }
-//                    }
-//                }else{
-//                    if(fb.getTagsName()!=foodBean.getTagsName()){
-//                        hasFood = false;
-//                    }else {
-//                        hasFood = true;
-////                        fb.setSelectCount(fb.getSelectCount() + 1);
-////                        carAdapter.setData(i, fb);
-//                    }
-//                }
 
-            }
             total += fb.getSelectCount();
             if (typeSelect.containsKey(fb.getType())) {
                 typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
@@ -634,22 +603,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             }
             amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
 
-
         }
-//        if (p >= 0) {
-//            carAdapter.remove(p);
-//        } else if (!hasFood) {
-////            foodBean.getSelectCount() > 0
-////            foodBean.setSelectCount(1);
-//            carAdapter.addData(foodBean);
-//            if (typeSelect.containsKey(foodBean.getType())) {
-//                typeSelect.put(foodBean.getType(), typeSelect.get(foodBean.getType()) + foodBean.getSelectCount());
-//            } else {
-//                typeSelect.put(foodBean.getType(), foodBean.getSelectCount());
-//            }
-//            amount = amount.add(foodBean.getPrice().multiply(BigDecimal.valueOf(foodBean.getSelectCount())));
-//            total += foodBean.getSelectCount();
-//        }
 
         shopCarView.showBadge(total);
         buyGoodsFragment.getTypeAdapter().updateBadge(typeSelect);
@@ -658,9 +612,6 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         carAdapter.notifyDataSetChanged();
 
         Intent intent = new Intent(SelectTypeActivity.LIST_ACTION);
-//        if (foodBean.getId() == this.foodBean.getId()) {
-//            intent.putExtra("position", position);
-//        }
         intent.putExtra("foodbean", foodBean);
         sendBroadcast(intent);
     }

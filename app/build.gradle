@@ -13,7 +13,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.imovie.mogicManage"
+        applicationId "com.imovie.liandaxia"
 //        applicationId "com.imovie.mogic"
 //        applicationId "com.imovie.mogicDingCan"
         minSdkVersion 19

@@ -38,6 +38,7 @@ import com.imovie.mogic.home.model.GameHall;
 import com.imovie.mogic.home.model.HallModel;
 import com.imovie.mogic.home.model.HomeModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
+import com.imovie.mogic.login.LoginActivity;
 import com.imovie.mogic.login.model.LoginModel;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.mine.MapActivity;
@@ -448,6 +449,18 @@ public class HomeFragmentOld extends Fragment {
                                 }
                             }
                         }
+                    }else if(resultCode.equals("90006")){
+                        SharedPreferences.Editor editor = MyApplication.getInstance().mPref.edit();
+                        editor.putString("phone","");
+                        editor.putString("password","");
+                        editor.putBoolean("isLogin",false);
+                        editor.putInt("memberId",0);
+                        editor.putInt("status",0);
+                        editor.putInt("cardNo",0);
+                        editor.commit();
+                        Intent intent = new Intent(getActivity(),LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
                     }else{
                         llAuthCodeList.setVisibility(View.GONE);
                     }

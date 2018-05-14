@@ -56,6 +56,8 @@ public class LoginActivity extends BaseActivity {
     private void getLogin(){
         String phone = etUserName.getText().toString();
         String password = etPassword.getText().toString();
+//        String phone = "zhouxinshan";
+//        String password = "123456";
         if (StringHelper.isEmpty(phone)) {
             Toast.makeText(this,"请输入正确的帐号",Toast.LENGTH_SHORT).show();
             return;

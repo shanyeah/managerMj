@@ -27,17 +27,19 @@
     <RelativeLayout
         android:id="@+id/rlReviewState"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/ivPhotoImage"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp">
         <TextView
             android:id="@+id/tvName"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text=""
+            android:text="2222"
             android:lines="1"
             android:ellipsize="end"
+            android:layout_centerVertical="true"
             android:textColor="@color/T1"
             android:textSize="16sp"/>
 
@@ -48,6 +50,7 @@
             android:layout_below="@+id/tvName"
             android:layout_marginTop="3dp"
             android:text="111"
+            android:visibility="gone"
             android:textColor="@color/T3"
             android:textSize="14sp"/>
 
@@ -56,9 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text=""
+            android:text="11"
             android:layout_marginTop="15dp"
             android:gravity="center"
+            android:layout_centerVertical="true"
             android:textColor="@color/T2"
             android:textSize="14sp"/>
         <TextView
@@ -67,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvName"
+            android:visibility="gone"
             android:layout_marginTop="3dp"
             android:text="12"
             android:textColor="@color/T2"

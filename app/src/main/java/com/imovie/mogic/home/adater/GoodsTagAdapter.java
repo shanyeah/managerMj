@@ -62,6 +62,7 @@ public class GoodsTagAdapter extends BaseAdapter {
             holder.rlGoodBackground = (RelativeLayout) convertView.findViewById(R.id.rlGoodBackground);
             holder.ivGoodImge = (ImageView) convertView.findViewById(R.id.ivGoodImge);
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
+            holder.tvChangeText = (TextView) convertView.findViewById(R.id.tvChangeText);
 	  convertView.setTag(holder);
          } else {
             holder = (ViewHolder) convertView.getTag();
@@ -74,6 +75,14 @@ public class GoodsTagAdapter extends BaseAdapter {
         }else{
             holder.rlGoodBackground.setBackground(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
         }
+
+        if(list.get(position).hasChild){
+            holder.tvChangeText.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvChangeText.setVisibility(View.GONE);
+        }
+
+
         try {
             ImageLoader.getInstance().displayImage(list.get(position).imageUrl,holder.ivGoodImge,mOption);
         } catch (Exception e) {
@@ -82,9 +91,9 @@ public class GoodsTagAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setSelectIndex(long selectId){
+    public void setSelectIndex(int selectId){
         for(int i=0;i<list.size();i++){
-            if(list.get(i).goodsId == selectId){
+            if(i == selectId){
                 this.list.get(i).selectId = list.get(i).goodsId;
             }else{
                 this.list.get(i).selectId = -1;
@@ -117,5 +126,6 @@ public class GoodsTagAdapter extends BaseAdapter {
         public TextView tvTypeName = null;
         public ImageView ivGoodImge;
         public View viewType = null;
+        public TextView tvChangeText;
     }
 }

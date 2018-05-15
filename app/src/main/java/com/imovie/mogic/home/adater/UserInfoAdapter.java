@@ -60,7 +60,7 @@ public class UserInfoAdapter extends BaseAdapter {
          }
 
         SearchUserModel internetBarModel = (SearchUserModel)getItem(position);
-        holder.tvName.setText("会员："+internetBarModel.name);
+        holder.tvName.setText(internetBarModel.name+"("+ internetBarModel.mobile +")");
         holder.tvNumber.setText("证件号：" + internetBarModel.idNumber);
         holder.tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.balance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
         holder.tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>充值:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));

@@ -159,7 +159,7 @@
                         android:textColor="@color/T1"/>
                     <EditText
                         android:id="@+id/etChargeNum"
-                        android:layout_width="200dp"
+                        android:layout_width="130dp"
                         android:layout_height="40dp"
                         android:textColor="@color/T4"
                         android:padding="5dp"

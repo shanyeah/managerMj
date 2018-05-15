@@ -6,8 +6,8 @@
     android:gravity="center" >
     <RelativeLayout
         android:id="@+id/rlGoodBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -21,6 +21,17 @@
             android:layout_gravity="center"
             android:scaleType="fitXY"
             android:background="@drawable/food0"/>
+        <TextView
+            android:id="@+id/tvChangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="换"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            style="@style/text_14_white"
+            android:background="@drawable/bg_bg7_r3"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <TextView

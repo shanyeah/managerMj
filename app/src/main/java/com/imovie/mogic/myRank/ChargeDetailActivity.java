@@ -191,7 +191,7 @@ public class ChargeDetailActivity extends BaseActivity {
                     tvChargeCount.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(resultModel.userWallet.cashAmount) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
                     tvPrecentNum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(resultModel.userWallet.presentAmount) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
                     tv_order_number.setText(resultModel.orderNo);
-                    tvPayType.setText(resultModel.typeName);
+                    tvPayType.setText(resultModel.payInfo);
                     tvPayTime.setText(resultModel.createTime);
                     if(resultModel.type==0) {
                         tvPayState.setText("成功");

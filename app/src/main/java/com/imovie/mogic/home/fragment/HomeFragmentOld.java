@@ -45,6 +45,7 @@ import com.imovie.mogic.mine.MapActivity;
 import com.imovie.mogic.myRank.widget.SpinerPopWindow;
 import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.StringHelper;
+import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.webview.WebViewManager;
@@ -347,6 +348,10 @@ public class HomeFragmentOld extends Fragment {
 //                if(classifyAdapter.getItem(position).id==4){
 //                    WebViewManager.enterWebView(getContext(),classifyAdapter.getItem(position).url,false);
 //                }else {
+                if(classifyAdapter.getItem(position).code.equals("ATTEND_CARD")){
+                    Utills.showShortToast("暂未开放");
+                    return;
+                }
                 try {
                     Intent intent = new Intent(getContext(), SelectTypeActivity.class);
                     intent.putExtra("classifyModel", classifyAdapter.getItem(position));
@@ -543,7 +548,7 @@ public class HomeFragmentOld extends Fragment {
                     pull_content.endRefresh(true);
                     lvRatingList.finishLoading(true);
                     if(resultModel.list.size()>0){
-                        tvCommentNum.setText("(" +resultModel.endRow +")");
+                        tvCommentNum.setText("(" + resultModel.list.size() +")");
                         adapter.list = resultModel.list;
                         adapter.setIndex();
                         adapter.notifyDataSetChanged();

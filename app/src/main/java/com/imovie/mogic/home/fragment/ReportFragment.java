@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.card.model.InternetBarModel;
+import com.imovie.mogic.config.AppConfig;
+import com.imovie.mogic.config.HTTPConfig;
 import com.imovie.mogic.home.SelectTypeActivity;
 import com.imovie.mogic.home.adater.ClassifyAdapter;
 import com.imovie.mogic.home.adater.GameHallAdapter;
@@ -44,6 +48,7 @@ import com.imovie.mogic.widget.YSBPageListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,7 +182,23 @@ public class ReportFragment extends Fragment {
 //                    intent.putExtra("classifyModel", classifyAdapter.getItem(position));
 //                    startActivity(intent);
 //                    WebViewManager.enterWebView(getActivity(),reportAdapter.getItem(position).imgUrl,false);
-                    WebViewManager.enterTitleWebView(getActivity(),reportAdapter.getItem(position).imgUrl,reportAdapter.getItem(position).name,false);
+                    String code = reportAdapter.getItem(position).code;
+                    StringBuffer data = new StringBuffer();
+                    if(code.equals("INCOME_REPORT") || code.equals("AMOUNT_REPORT")|| code.equals("TIME_REPORT")|| code.equals("PAY_WAY_REPORT")|| code.equals("GOODS_REPORT")
+                        || code.equals("USER_REG_REPORT")|| code.equals("NET_CONSUME_REPORT")|| code.equals("WX_FOLLOW_REPORT")|| code.equals("CHARGE_RANKING_REPORT")
+                            || code.equals("CUSTOMER_RANKING_REPORT")|| code.equals("CUSTOMER_LOSE_REPORT")|| code.equals("USER_NET_REPORT")){
+                        data.append(HTTPConfig.getUrlData("http://www.liandaxia.com/report/#/report/"));
+                    }else {
+                        data.append(HTTPConfig.getUrlData("http://www.liandaxia.com/report/#/reportChart/"));
+                    }
+
+                    int organId = MyApplication.getInstance().mPref.getInt("organId",0);
+                    data.append("&organId=" + organId);
+                    data.append("&code=" + reportAdapter.getItem(position).code);
+                    data.append("&name=" + URLEncoder.encode(reportAdapter.getItem(position).name));
+                    data.append("&url=" + URLEncoder.encode(reportAdapter.getItem(position).url));
+                    Log.e("----",data.toString());
+                    WebViewManager.enterTitleWebView(getActivity(),data.toString(),reportAdapter.getItem(position).name,false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

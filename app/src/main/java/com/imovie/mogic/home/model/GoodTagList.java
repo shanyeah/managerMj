@@ -24,6 +24,7 @@ public class GoodTagList extends BaseModel {
     public String imageUrl;
     public int packGroupId;
     public long selectId = -1;
+    public boolean hasChild = false;
 
 //    childGoodsList":[{"goodsName":"卤肉流心蛋饭","incomeAmount":25.0,"payAmount":25.0,"quantity":1},
 }

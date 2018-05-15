@@ -53,6 +53,7 @@ public class CarPayDetailActivity extends BaseActivity {
     private TextView tvPresentBalance;
     private TextView tvPhone;
     private TextView stgName;
+    private TextView tvPayInfo;
     private NoScrollListView lvCarList;
     private TextView tv_amount;
     private RelativeLayout rlScanPay;
@@ -63,8 +64,8 @@ public class CarPayDetailActivity extends BaseActivity {
     private TextView tv_sum_amount;
     private TextView tvIncomeAmount;
     private TextView tvDiscountAmount;
-    private EditText etUserId;
-    private EditText etPayRemark;
+    private TextView etUserId;
+    private TextView etPayRemark;
     private String amount;
     public List<GoodsModel> foodBeanList = new ArrayList<>();
     public GoodsCarDetailAdapter carAdapter;
@@ -121,6 +122,7 @@ public class CarPayDetailActivity extends BaseActivity {
         tvBalance = (TextView) findViewById(R.id.tvBalance);
         tvPresentBalance = (TextView) findViewById(R.id.tvPresentBalance);
         tvPhone=(TextView) findViewById(R.id.tvPhone);
+        tvPayInfo=(TextView) findViewById(R.id.tvPayInfo);
         stgName = (TextView) findViewById(R.id.stgName);
         tv_amount = (TextView) findViewById(R.id.tv_amount);
         lvCarList = (NoScrollListView) findViewById(R.id.lvCarList);
@@ -132,8 +134,8 @@ public class CarPayDetailActivity extends BaseActivity {
         tv_sum_amount = (TextView) findViewById(R.id.tv_sum_amount);
         tvIncomeAmount = (TextView) findViewById(R.id.tvIncomeAmount);
         tvDiscountAmount = (TextView) findViewById(R.id.tvDiscountAmount);
-        etUserId = (EditText) findViewById(R.id.etUserId);
-        etPayRemark = (EditText) findViewById(R.id.etPayRemark);
+        etUserId = (TextView) findViewById(R.id.etUserId);
+        etPayRemark = (TextView) findViewById(R.id.etPayRemark);
     }
 
     private void setView(){
@@ -293,6 +295,7 @@ public class CarPayDetailActivity extends BaseActivity {
                     tvIncomeAmount.setText("应付金额：¥" + DecimalUtil.FormatMoney(resultModel.incomeAmount));
                     tvDiscountAmount.setText("减免金额：¥" + DecimalUtil.FormatMoney(resultModel.discountAmount));
                     tv_amount.setText("总计: ¥"+DecimalUtil.FormatMoney(resultModel.incomeAmount));
+                    tvPayInfo.setText(resultModel.payInfo);
                     etUserId.setText(resultModel.seatNo);
                     etPayRemark.setText(resultModel.remark);
                     if(resultModel.goodsList.size()>0) {

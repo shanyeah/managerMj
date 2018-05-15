@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">链大侠</string>
+    <string name="app_name">链大侠管家</string>
 
     <string name="database_version">1</string>
     <string name="open_log">true</string>

@@ -24,6 +24,7 @@ public class ChargeOrderMode extends BaseModel {
     public int type;
     public String typeName;
     public int userId;
+    public String payInfo;
 
     public UserWallet userWallet;
 

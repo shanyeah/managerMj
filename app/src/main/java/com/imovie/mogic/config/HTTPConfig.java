@@ -10,8 +10,10 @@ public class HTTPConfig {
 
     /* 正式地址*/
     public final static String do_main = "http://api.liandaxia.com/";
+    public final static String do_main1 = "http://api.liandaxia.com";
     /* 测试地址*/
 //    public final static String do_main = "http://local.api.liandaxia.com/";
+//    public final static String do_main1 = "http://www.liandaxia.com";
 
     /* 正式地址*/
 //    public final static String do_main = "http://api.mjdj.cn/";

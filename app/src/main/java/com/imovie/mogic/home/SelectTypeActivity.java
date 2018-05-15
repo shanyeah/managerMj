@@ -320,6 +320,12 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         fman = getSupportFragmentManager();
         FragmentTransaction ft = fman.beginTransaction();
         if(classifyModel.code.equals("GOODS_ORDER")){
+            titleBar.enableRightImageView(R.drawable.home_refresh, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    buyGoodsFragment.refresh();
+                }
+            });
             buyGoodsFragment = new BuyGoodsFragment();
             ft.add(R.id.ll_fragment, buyGoodsFragment, "0");
             ft.show(buyGoodsFragment);

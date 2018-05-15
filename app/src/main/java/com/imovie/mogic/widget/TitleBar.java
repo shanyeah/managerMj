@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.R;
@@ -24,7 +25,7 @@ public class TitleBar extends LinearLayout {
     public ImageView ivNavLeft;
     public LinearLayout llNavMiddle;
     public TextView tvNavMiddle;
-    public LinearLayout llNavRight; // 建议
+    public RelativeLayout llNavRight; // 建议
     public TextView tvNavRight; // 右布局基本文字
     public ImageView ivNavRight; //  右布局基本图片
     
@@ -52,7 +53,7 @@ public class TitleBar extends LinearLayout {
         tvNavMiddle = (TextView) view.findViewById(R.id.tvNavMiddle);
 
         ivNavRight = (ImageView) view.findViewById(R.id.ivNavRight);
-        llNavRight = (LinearLayout) view.findViewById(R.id.llNavRight);
+        llNavRight = (RelativeLayout) view.findViewById(R.id.llNavRight);
         tvNavRight = (TextView) view.findViewById(R.id.tvNavRight);
         ivNavRight.setVisibility(GONE);
         tvNavRight.setVisibility(GONE);

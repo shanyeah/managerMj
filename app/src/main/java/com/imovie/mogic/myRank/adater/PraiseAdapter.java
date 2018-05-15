@@ -62,9 +62,9 @@ public class PraiseAdapter extends BaseAdapter {
             holder.ivPhotoImage = (RoundedImageView) convertView.findViewById(R.id.ivPhotoImage);
             holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
             holder.tvPraiseRanking = (TextView) convertView.findViewById(R.id.tvPraiseRanking);
-            holder.tvMemberId = (TextView) convertView.findViewById(R.id.tvMemberId);
+//            holder.tvMemberId = (TextView) convertView.findViewById(R.id.tvMemberId);
             holder.tvRewardAmount = (TextView) convertView.findViewById(R.id.tvRewardAmount);
-            holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tvPraiseCount);
+//            holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tvPraiseCount);
 	  convertView.setTag(holder);
          } else {
             holder = (ViewHolder) convertView.getTag();
@@ -72,7 +72,7 @@ public class PraiseAdapter extends BaseAdapter {
 
         holder.tvName.setText(list.get(position).name);
         holder.tvPraiseRanking.setText("" + list.get(position).ranking);
-        holder.tvMemberId.setText("ID:" + list.get(position).adminId);
+//        holder.tvMemberId.setText("ID:" + list.get(position).adminId);
         String amountName = "";
         String rankName = "";
         if(selectType==1){
@@ -83,7 +83,7 @@ public class PraiseAdapter extends BaseAdapter {
             rankName = "充值排名:";
         }
         holder.tvRewardAmount.setText(Html.fromHtml("<font color='#565a5c' size=14>" + amountName + "</font><font color='#fd5c02' size=14>"+ DecimalUtil.FormatMoney(list.get(position).amount) +"</font><font color=\'#565a5c\' size=14>元</font>"));
-        holder.tvPraiseCount.setText(rankName+list.get(position).ranking);
+//        holder.tvPraiseCount.setText(rankName+list.get(position).ranking);
 //        holder.tvCreateTime.setText("在"+DateUtil.TimeFormat(list.get(position).createTime,"yyyy/MM/dd")+"日上机后点评");
 //        RelativeLayout.LayoutParams ivParam=(RelativeLayout.LayoutParams)holder.ivExercises.getLayoutParams();
 //        int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
@@ -107,8 +107,8 @@ public class PraiseAdapter extends BaseAdapter {
         public RoundedImageView ivPhotoImage = null;
         public TextView tvName = null;
         public TextView tvPraiseRanking = null;
-        public TextView tvMemberId = null;
+//        public TextView tvMemberId = null;
         public TextView tvRewardAmount = null;
-        public TextView tvPraiseCount;
+//        public TextView tvPraiseCount;
     }
 }

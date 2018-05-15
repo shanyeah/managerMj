@@ -68,9 +68,9 @@ public class GoodsTagChildAdapter extends BaseAdapter {
         holder.tvTypeName.setText(list.get(position).name);
 
         if(list.get(position).selectId==-1){
-            holder.rlGoodBackground.setBackground(context.getResources().getDrawable(R.drawable.shape_write_r5_l5));
+            holder.rlGoodBackground.setBackground(context.getResources().getDrawable(R.drawable.home_good_unselect));
         }else{
-            holder.rlGoodBackground.setBackground(context.getResources().getDrawable(R.drawable.bg_line_l7_r3));
+            holder.rlGoodBackground.setBackground(context.getResources().getDrawable(R.drawable.home_good_select));
         }
         try {
             ImageLoader.getInstance().displayImage(list.get(position).imageUrl,holder.ivGoodImge,mOption);

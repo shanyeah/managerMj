@@ -163,7 +163,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //				GoodTagList tagList = (GoodTagList) adapterView.getItemAtPosition(position);
 				selectIndex = position;
 				GoodsTagAdapter goodsTagAdapter = (GoodsTagAdapter) adapterView.getAdapter();
-				goodsTagAdapter.setSelectIndex(goodsTagAdapter.getItem(position).goodsId);
+				goodsTagAdapter.setSelectIndex(position);
 				int packGroupId = goodsTagAdapter.getItem(position).packGroupId;
 				if(packReplaceLists.size()>0) {
 					for (int i = 0; i < packReplaceLists.size(); i++) {
@@ -561,12 +561,23 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						detail_sale.setVisibility(View.VISIBLE);
 						lvGoodsTagList.setVisibility(View.VISIBLE);
 						llPackListState.setVisibility(View.VISIBLE);
+
+						if(resultModel.packReplaceList.size()>0) {
+							packReplaceLists.addAll(resultModel.packReplaceList);
+
+							for (int i = 0; i < resultModel.goodsPackList.size(); i++) {
+								for (int j = 0; j < packReplaceLists.size(); j++) {
+									if(resultModel.goodsPackList.get(i).packGroupId == packReplaceLists.get(j).packGroupId){
+										resultModel.goodsPackList.get(i).hasChild = true;
+										break;
+									}
+								}
+							}
+						}
+
 						adapter.list.clear();
 						adapter.list.addAll(resultModel.goodsPackList);
 						adapter.notifyDataSetChanged();
-						if(resultModel.packReplaceList.size()>0) {
-							packReplaceLists.addAll(resultModel.packReplaceList);
-						}
 //						if(foodBean.goodsPackList.size()>0) {
 //							foodBean.goodsPackList.clear();
 //							foodBean.goodsPackList.addAll(adapter.list);

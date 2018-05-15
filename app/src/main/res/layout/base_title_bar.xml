@@ -44,15 +44,14 @@
         </LinearLayout>
 
         <!--  右 -->
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llNavRight"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:gravity="right">
             <TextView
                 android:id="@+id/tvNavRight"
                 android:layout_width="wrap_content"
@@ -64,9 +63,10 @@
                 android:id="@+id/ivNavRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="6dp"/>
-        </LinearLayout>
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

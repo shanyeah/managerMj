@@ -141,7 +141,7 @@ public class BuyGoodsFragment extends Fragment {
     }
 
     public void getAllGoodList(){
-        YSBLoadingDialog.showLoadingDialog(getActivity(), 2000, new YSBLoadingDialog.OnCancelListener() {
+        YSBLoadingDialog.showLoadingDialog(getContext(), 3000, new YSBLoadingDialog.OnCancelListener() {
             @Override
             public void onTimeout() {
                 YSBLoadingDialog.dismissDialog();

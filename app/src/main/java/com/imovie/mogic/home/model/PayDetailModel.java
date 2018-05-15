@@ -19,6 +19,7 @@ public class PayDetailModel extends BaseModel {
     public int organId;
     public String organName;
     public double payAmount;
+    public String payInfo;
     public String remark;
     public long saleBillId;
     public String seatNo;

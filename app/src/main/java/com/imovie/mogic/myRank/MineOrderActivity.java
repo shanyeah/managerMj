@@ -1,5 +1,6 @@
 package com.imovie.mogic.myRank;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.MyApplication;
@@ -59,6 +61,7 @@ public class MineOrderActivity extends BaseActivity {
     public TextView tvChargeRewardAmount;
     public TextView tvChargeRanking;
     public ImageView ivChargeHeader;
+    public RelativeLayout rlChargeRanking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class MineOrderActivity extends BaseActivity {
         tvChargeRewardAmount = (TextView) findViewById(R.id.tvChargeRewardAmount);
         tvChargeRanking = (TextView) findViewById(R.id.tvChargeRanking);
         ivChargeHeader = (ImageView) findViewById(R.id.ivChargeHeader);
+        rlChargeRanking = (RelativeLayout) findViewById(R.id.rlChargeRanking);
 
         pstTabTitle = (PagerSlidingTabStrip) findViewById(R.id.pst_hall_tabTitle);
         mViewPager = (ViewPager) findViewById(R.id.vpHallPager);
@@ -148,6 +152,15 @@ public class MineOrderActivity extends BaseActivity {
         mViewPager.setOffscreenPageLimit(2);
         pstTabTitle.setViewPager(mViewPager);
         mViewPager.setCurrentItem(0);
+
+        rlChargeRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MineOrderActivity.this, MineRankActivity.class);
+                intent.putExtra("stgId",21);
+                startActivity(intent);
+            }
+        });
     }
 
     private void fixUI() {

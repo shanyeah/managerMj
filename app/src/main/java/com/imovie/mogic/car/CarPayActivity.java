@@ -372,6 +372,17 @@ public class CarPayActivity extends BaseActivity {
 
 
     public void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn){
+        YSBLoadingDialog.showLoadingDialog(CarPayActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
+            @Override
+            public void onTimeout() {
+                YSBLoadingDialog.dismissDialog();
+            }
+
+            @Override
+            public void onCancel() {
+                YSBLoadingDialog.dismissDialog();
+            }
+        });
         HomeWebHelper.payGoodsOrder(saleBillId, userId,seatNo,payType, payCategoryId,incomeAmount,remark,tn,new IModelResultListener<TestModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {

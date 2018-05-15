@@ -345,7 +345,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		try {
 			if(categorysAdapter.list.size()>0) {
     //			Utills.showShortToast(""+categorysAdapter.getTags()[1]);
-                fb.setGoodsTags(categorysAdapter.getTags()[0]);
+                fb.setGoodsTags(categorysAdapter.getTags()[1]);
                 fb.setTagsName(categorysAdapter.getTags()[1]);
             }
 		} catch (Exception e) {
@@ -756,37 +756,38 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
 //			buyGoodsFragment.getFoodAdapter().notifyDataSetChanged();
 		}
+		carAdapter.notifyDataSetChanged();
 		List<FoodBean> flist = carAdapter.getData();
 		int p = -1;
 		for (int i = 0; i < flist.size(); i++) {
 			FoodBean fb = flist.get(i);
-			if (fb.getId() == foodBean.getId()) {
-				if(foodBean.getGoodsPackList().size()>0){
-					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-						hasFood = false;
-					}else{
-						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-								hasPack = true;
-								break;
-							}
-						}
-						if(hasPack){
-							hasFood = false;
-						}else{
-							hasFood = true;
-//                            fb.setSelectCount(fb.getSelectCount()+1);
-							carAdapter.setData(i, fb);
-
-						}
-					}
-				}else{
-					hasFood = true;
-//                    fb.setSelectCount(fb.getSelectCount()+1);
-					carAdapter.setData(i, fb);
-				}
-
-			}
+//			if (fb.getId() == foodBean.getId()) {
+//				if(foodBean.getGoodsPackList().size()>0){
+//					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
+//						hasFood = false;
+//					}else{
+//						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
+//							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
+//								hasPack = true;
+//								break;
+//							}
+//						}
+//						if(hasPack){
+//							hasFood = false;
+//						}else{
+//							hasFood = true;
+////                            fb.setSelectCount(fb.getSelectCount()+1);
+//							carAdapter.setData(i, fb);
+//
+//						}
+//					}
+//				}else{
+//					hasFood = true;
+////                    fb.setSelectCount(fb.getSelectCount()+1);
+//					carAdapter.setData(i, fb);
+//				}
+//
+//			}
 			total += fb.getSelectCount();
 			if (typeSelect.containsKey(fb.getType())) {
 				typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());

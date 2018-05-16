@@ -330,7 +330,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             ft.add(R.id.ll_fragment, buyGoodsFragment, "0");
             ft.show(buyGoodsFragment);
             shopCarView.setVisibility(View.VISIBLE);
-            buyGoodsFragment.refresh();
+//            buyGoodsFragment.getCasheDate();
         }else if(classifyModel.code.equals("USER_RECHARGE")){
             shopCarView.setVisibility(View.GONE);
             chargeFragment = new ChargeFragment();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,17 @@ import com.imovie.mogic.home.SelectTypeActivity;
 import com.imovie.mogic.home.model.CardModel;
 import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
+import com.imovie.mogic.utills.ACache;
+import com.imovie.mogic.utills.AliJsonUtil;
 import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
 import com.imovie.mogic.widget.ClearButtonEditText;
+
+import org.json.JSONArray;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +54,9 @@ public class BuyGoodsFragment extends Fragment {
 
     public List<TypeBean> typeList = new ArrayList<>();
     public List<FoodBean> foodBeanList = new ArrayList<>();
+
+    private ACache mCache;
+
     public BuyGoodsFragment() {
 
     }
@@ -67,14 +77,18 @@ public class BuyGoodsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mCache = ACache.get(getContext());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_goods, container, false);
+        View v = inflater.inflate(R.layout.fragment_goods, container, false);
         initView(v);
         setView();
+        getCasheDate();
         return v;
     }
 
@@ -111,7 +125,7 @@ public class BuyGoodsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 String chargeFee = editable.toString();
-                if(!StringHelper.isEmpty(chargeFee)){
+                if (!StringHelper.isEmpty(chargeFee)) {
                     listSearch.clear();
 //                    for(int i = 0;i<listAllCard.size();i++){
 //                        if(listAllCard.get(i).name.contains(chargeFee)){
@@ -129,15 +143,33 @@ public class BuyGoodsFragment extends Fragment {
     }
 
 
-    public void refresh(){
+    public void refresh() {
         getAllGoodList();
     }
 
-    public void refreshGoodlist(){
-        for(int i=0;i<foodBeanList.size();i++){
+    public void refreshGoodlist() {
+        for (int i = 0; i < foodBeanList.size(); i++) {
             foodBeanList.get(i).setSelectCount(0);
         }
-        listContainer.refreshTypeAdater(typeList,foodBeanList);
+        listContainer.refreshTypeAdater(typeList, foodBeanList);
+    }
+
+    public void getCasheDate() {
+        try {
+            JSONArray testJsonArray = mCache.getAsJSONArray("typeList");
+            JSONArray jsonArray = mCache.getAsJSONArray("foodBeanList");
+            if (StringHelper.isEmpty(testJsonArray.toString())){
+                getAllGoodList();
+                Log.e("----1111", "===" + foodBeanList.size());
+            }else{
+                typeList = AliJsonUtil.parseList(testJsonArray.toString(), TypeBean.class);
+                foodBeanList = AliJsonUtil.parseList(jsonArray.toString(), FoodBean.class);
+                listContainer.refreshTypeAdater(typeList,foodBeanList);
+                Log.e("----2222", "===" + foodBeanList.size());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void getAllGoodList(){
@@ -189,6 +221,10 @@ public class BuyGoodsFragment extends Fragment {
                             }
                         }
                         listContainer.refreshTypeAdater(typeList,foodBeanList);
+
+                        mCache.put("typeList", AliJsonUtil.toJSONString(typeList),600);
+                        mCache.put("foodBeanList", AliJsonUtil.toJSONString(foodBeanList),600);
+
                     }
                 }
             }

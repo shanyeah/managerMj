@@ -1,6 +1,8 @@
 package com.imovie.mogic.home.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -156,17 +158,17 @@ public class BuyGoodsFragment extends Fragment {
 
     public void getCasheDate() {
         try {
-            JSONArray testJsonArray = mCache.getAsJSONArray("typeList");
-            JSONArray jsonArray = mCache.getAsJSONArray("foodBeanList");
-            if (StringHelper.isEmpty(testJsonArray.toString())){
-                getAllGoodList();
-                Log.e("----1111", "===" + foodBeanList.size());
-            }else{
+            if(mCache.getAsJSONArray("typeList")!=null){
+                JSONArray testJsonArray = mCache.getAsJSONArray("typeList");
+                JSONArray jsonArray = mCache.getAsJSONArray("foodBeanList");
                 typeList = AliJsonUtil.parseList(testJsonArray.toString(), TypeBean.class);
                 foodBeanList = AliJsonUtil.parseList(jsonArray.toString(), FoodBean.class);
                 listContainer.refreshTypeAdater(typeList,foodBeanList);
-                Log.e("----2222", "===" + foodBeanList.size());
+            }else{
+                getAllGoodList();
+                Log.e("----1111", "===" + foodBeanList.size());
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -216,7 +218,9 @@ public class BuyGoodsFragment extends Fragment {
                                 BigDecimal price = new BigDecimal(DecimalUtil.FormatMoney(goodsModel.price));
                                 foodBean.setPrice(price);
                                 foodBean.setType(resultModel.categories.get(i).categoryName);
-                                if(goodsModel.goodsPackList.size()>0)foodBean.setGoodsPackList(goodsModel.goodsPackList);
+                                if(goodsModel.goodsPackList.size()>0){
+                                    foodBean.setGoodsPackList(goodsModel.goodsPackList);
+                                }
                                 foodBeanList.add(foodBean);
                             }
                         }
@@ -242,5 +246,8 @@ public class BuyGoodsFragment extends Fragment {
             }
         });
     }
+
+
+
 
 }

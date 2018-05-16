@@ -42,6 +42,7 @@ import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.home.model.PackReplaceList;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
+import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
@@ -196,12 +197,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				if(foodBean.getGoodsPackList().size()>0) {
 					foodBean.getGoodsPackList().clear();
 					foodBean.setGoodsPackList(adapter.list);
-//					for(int i=0;i<carAdapter.list.size();i++) {
-//						if(carAdapter.list.get(i).getGoodsId()==childAdapter.getItem(position).goodsId){
-//							carAdapter.list.get(i).setGoodsPackList(adapter.list);
-//							break;
-//						}
-//					}
+					double totalPrices = 0;
+					for(int i=0;i<adapter.list.size();i++){
+						totalPrices += adapter.list.get(i).packPrice;
+					}
+					foodBean.setPrice(new BigDecimal(Double.toString(totalPrices)));
+					detail_price.setText("¥"+DecimalUtil.FormatMoney(totalPrices));
+
 				}
 
 //				if(goodsTagAdapter.getItem(position).packList.size()>0){
@@ -759,7 +761,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 	private void subOneCar(FoodBean foodBean) {
 //        FoodBean foodBean = food.getFoodBean(food);
-		HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
+//		HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
 		BigDecimal amount = new BigDecimal(0.0);
 		int total = 0;
 		boolean hasFood = false;
@@ -767,59 +769,60 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
 //			buyGoodsFragment.getFoodAdapter().notifyDataSetChanged();
 		}
-		carAdapter.notifyDataSetChanged();
+
 		List<FoodBean> flist = carAdapter.getData();
 		int p = -1;
 		for (int i = 0; i < flist.size(); i++) {
 			FoodBean fb = flist.get(i);
-//			if (fb.getId() == foodBean.getId()) {
-//				if(foodBean.getGoodsPackList().size()>0){
-//					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-//						hasFood = false;
-//					}else{
-//						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-//							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-//								hasPack = true;
-//								break;
-//							}
-//						}
-//						if(hasPack){
-//							hasFood = false;
-//						}else{
-//							hasFood = true;
-////                            fb.setSelectCount(fb.getSelectCount()+1);
-//							carAdapter.setData(i, fb);
-//
-//						}
-//					}
-//				}else{
-//					hasFood = true;
-////                    fb.setSelectCount(fb.getSelectCount()+1);
-//					carAdapter.setData(i, fb);
-//				}
-//
-//			}
+			if (fb.getId() == foodBean.getId()) {
+				if(foodBean.getGoodsPackList().size()>0){
+					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
+						hasFood = false;
+					}else{
+						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
+							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
+								hasPack = true;
+								break;
+							}
+						}
+						if(hasPack){
+							hasFood = false;
+						}else{
+							hasFood = true;
+							fb.setSelectCount(fb.getSelectCount()-1);
+							carAdapter.setData(i, fb);
+						}
+					}
+				}else{
+					if(!fb.getTagsName().equals(foodBean.getTagsName())){
+						hasFood = false;
+					}else {
+						hasFood = true;
+						fb.setSelectCount(fb.getSelectCount() -1);
+						carAdapter.setData(i, fb);
+					}
+				}
+
+			}
 			total += fb.getSelectCount();
-			if (typeSelect.containsKey(fb.getType())) {
-				typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
-			} else {
-				typeSelect.put(fb.getType(), fb.getSelectCount());
-			}
+//			if (typeSelect.containsKey(fb.getType())) {
+//				typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
+//			} else {
+//				typeSelect.put(fb.getType(), fb.getSelectCount());
+//			}
 			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
-
-			if(fb.getSelectCount()<=0){
-				carAdapter.remove(i);
+			if (fb.getSelectCount() <= 0) {
+				p=i;
 			}
-
-
 		}
 
 		shopCarView.showBadge(total);
 //		buyGoodsFragment.getTypeAdapter().updateBadge(typeSelect);
 		shopCarView.updateAmount(amount);
 		amountStr = amount.toString();
+		if(p>=0)carAdapter.remove(p);
 
-		Intent intent = new Intent(SelectTypeActivity.SUB_ACTION);
+		Intent intent = new Intent(SelectTypeActivity.CAR_ACTION);
 //        if (foodBean.getId() == this.foodBean.getId()) {
 //            intent.putExtra("position", position);
 //        }

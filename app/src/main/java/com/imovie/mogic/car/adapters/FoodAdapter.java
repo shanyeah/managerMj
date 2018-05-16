@@ -3,7 +3,9 @@ package com.imovie.mogic.car.adapters;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -39,14 +41,20 @@ public class FoodAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 	protected void convert(BaseViewHolder helper, FoodBean item) {
 		helper.setText(R.id.tv_name, item.getName())
 				.setText(R.id.tv_price,item.getStrPrice(mContext))
-				.setText(R.id.tv_sale, item.getSale())
 				.setImageResource(R.id.iv_food, item.getIcon()).addOnClickListener(R.id.addwidget)
 				.addOnClickListener(R.id.food_main)
 		;
 		AddWidget addWidget = helper.getView(R.id.addwidget);
+		TextView tv_summary = helper.getView(R.id.tv_summary);
 //		addWidget.setData(this, helper.getAdapterPosition(), onAddClick);
 		addWidget.setState(2);
 		addWidget.setData( onAddClick,item);
+
+		if(item.getGoodsPackList().size()>0){
+			tv_summary.setVisibility(View.VISIBLE);
+		}else{
+			tv_summary.setVisibility(View.GONE);
+		}
 		ImageView iv_food = helper.getView(R.id.iv_food);
 		try {
             DisplayImageOptions mOption = new DisplayImageOptions.Builder()

@@ -103,7 +103,7 @@ public class AddWidget extends FrameLayout {
 				}
 				count--;
 				tv_count.setText(count == 0 ? "1" : count + "");
-				foodBean.setSelectCount(count);
+//				foodBean.setSelectCount(count);
 				if (onAddClick != null) {
 					onAddClick.onSubClick(foodBean);
 				}

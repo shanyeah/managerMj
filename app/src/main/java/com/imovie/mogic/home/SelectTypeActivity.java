@@ -60,6 +60,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
     public static final String SUB_ACTION = "handleSub";
     public static final String LIST_ACTION = "handleList";
     public static final String CLEARCAR_ACTION = "clearCar";
+    public static final String CAR_REFRESH = "carRefresh";
     private TitleBar titleBar;
     private FragmentManager fman;
     public ChargeFragment chargeFragment;
@@ -83,6 +84,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         IntentFilter intentFilter = new IntentFilter(CAR_ACTION);
         intentFilter.addAction(LIST_ACTION);
         intentFilter.addAction(SUB_ACTION);
+        intentFilter.addAction(CAR_REFRESH);
         intentFilter.addAction(CLEARCAR_ACTION);
         registerReceiver(broadcastReceiver, intentFilter);
 
@@ -331,6 +333,9 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             ft.show(buyGoodsFragment);
             shopCarView.setVisibility(View.VISIBLE);
 //            buyGoodsFragment.getCasheDate();
+            Message msg = new Message();
+            msg.what = MSG_REFRESH;
+            uiHandler.sendMessageDelayed(msg,3000);
         }else if(classifyModel.code.equals("USER_RECHARGE")){
             shopCarView.setVisibility(View.GONE);
             chargeFragment = new ChargeFragment();
@@ -372,7 +377,8 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_REFRESH:
-                    activity.get().webviewFragment.setWebviewUrl(activity.get().classifyModel.iconUrl);
+//                    activity.get().webviewFragment.setWebviewUrl(activity.get().classifyModel.iconUrl);
+                    activity.get().dealBeginCar();
                     break;
                 case MSG_WXSEND:
 //                    Intent intent1 = new Intent(activity.get(), SetingHallActivity.class);
@@ -393,23 +399,15 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             switch (intent.getAction()) {
                 case CAR_ACTION:
                     FoodBean fb= (FoodBean) intent.getSerializableExtra("foodbean");
-//                    addOneCar(fb);
                     refreshCar(fb);
-//                    dealCar(fb);
-//                    FoodBean food= (FoodBean) intent.getSerializableExtra("foodbean");
-//                    FoodBean fb = foodBean;
-//                    for (int i = 0; i < buyGoodsFragment.getFoodAdapter().getItemCount(); i++) {
-//                        FoodBean fbean = buyGoodsFragment.getFoodAdapter().getItem(i);
-//                        if (fbean.getId() == fb.getId()) {
-//                            fbean.setSelectCount(fb.getSelectCount());
-//                            buyGoodsFragment.getFoodAdapter().setData(i, fb);
-//                            break;
-//                        }
-//                    }
                     break;
                 case SUB_ACTION:
                     FoodBean f= (FoodBean) intent.getSerializableExtra("foodbean");
                     subOneCar(f);
+                    break;
+
+                case CAR_REFRESH:
+                    dealBeginCar();
                     break;
 
                 case LIST_ACTION:
@@ -548,15 +546,18 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                             hasFood = false;
                         }else{
                             hasFood = true;
-//                            fb.setSelectCount(fb.getSelectCount()+1);
+                            fb.setSelectCount(fb.getSelectCount()-1);
                             carAdapter.setData(i, fb);
-
                         }
                     }
                 }else{
-                    hasFood = true;
-//                    fb.setSelectCount(fb.getSelectCount()+1);
-                    carAdapter.setData(i, fb);
+                    if(!fb.getTagsName().equals(foodBean.getTagsName())){
+                        hasFood = false;
+                    }else {
+                        hasFood = true;
+                        fb.setSelectCount(fb.getSelectCount() -1);
+                        carAdapter.setData(i, fb);
+                    }
                 }
 
             }
@@ -567,12 +568,9 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                 typeSelect.put(fb.getType(), fb.getSelectCount());
             }
             amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
-
-            if(fb.getSelectCount()<=0){
-                carAdapter.remove(i);
+            if (fb.getSelectCount() <= 0) {
+                p=i;
             }
-
-
         }
 
         shopCarView.showBadge(total);
@@ -580,12 +578,15 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         shopCarView.updateAmount(amount);
         amountStr = amount.toString();
 
+        if(p>=0)carAdapter.remove(p);
+
         Intent intent = new Intent(SelectTypeActivity.LIST_ACTION);
 //        if (foodBean.getId() == this.foodBean.getId()) {
 //            intent.putExtra("position", position);
 //        }
         intent.putExtra("foodbean", foodBean);
         sendBroadcast(intent);
+
     }
 
     private void refreshCar(FoodBean food) {
@@ -620,6 +621,49 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         Intent intent = new Intent(SelectTypeActivity.LIST_ACTION);
         intent.putExtra("foodbean", foodBean);
         sendBroadcast(intent);
+    }
+
+    private void dealBeginCar() {
+        try {
+            if(MyApplication.getInstance().getCarListData().size()>0) {
+    //		FoodBean foodBean = food.getFoodBean(food);
+                BigDecimal amount = new BigDecimal(0.0);
+                HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
+                int total = 0;
+
+                List<FoodBean> flist = carAdapter.getData();
+//                for (int i = 0; i < flist.size(); i++) {
+//                    FoodBean fb = flist.get(i);
+//                    total += fb.getSelectCount();
+//                    amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+//
+//                }
+                for (int i = 0; i < flist.size(); i++) {
+                    FoodBean fb = flist.get(i);
+                    if (fb.getSelectCount() <= 0) {
+                        carAdapter.remove(i);
+                        continue;
+                    }
+                    total += fb.getSelectCount();
+                    if (typeSelect.containsKey(fb.getType())) {
+                        typeSelect.put(fb.getType(), typeSelect.get(fb.getType()) + fb.getSelectCount());
+                    } else {
+                        typeSelect.put(fb.getType(), fb.getSelectCount());
+                    }
+                    amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+
+                }
+                shopCarView.showBadge(total);
+    		    buyGoodsFragment.getTypeAdapter().updateBadge(typeSelect);
+                shopCarView.updateAmount(amount);
+                amountStr = amount.toString();
+                shopCarView.showBadge(total);
+                shopCarView.updateAmount(amount);
+                amountStr = amount.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

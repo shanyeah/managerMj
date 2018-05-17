@@ -26,6 +26,8 @@ import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
+import com.imovie.mogic.widget.FlexibleFrameLayout;
+import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.TitleBar;
 
 import java.lang.ref.WeakReference;
@@ -40,6 +42,8 @@ public class ChargeDetailActivity extends BaseActivity {
     private LoginModel loginModel = new LoginModel();
 
     private TitleBar titleBar;
+    private PullToRefreshFrameLayout pull_content;
+    private FlexibleFrameLayout ff_list;
     private TextView tvName;
     private TextView tvMemberMobile;
     private TextView tv_member_number;
@@ -89,7 +93,8 @@ public class ChargeDetailActivity extends BaseActivity {
                 finish();
             }
         });
-
+        pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
+        ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
         tvName = (TextView) findViewById(R.id.tvName);
         tvMemberMobile = (TextView) findViewById(R.id.tvMemberMobile);
         tv_member_number = (TextView) findViewById(R.id.tv_member_number);
@@ -108,35 +113,32 @@ public class ChargeDetailActivity extends BaseActivity {
     }
 
     private void setView(){
-//        tvPushMessage.setText(Html.fromHtml("<font color='#f92387' size=18>影片《</font><font color=\'#2962FF\' size=20>"+ title +"</font><font color=\'#f92387\' size=18>"+content+"</font>"));
-//        userModel = (ChargeSuccessModel) getIntent().getSerializableExtra("userModel");
-//        data = getIntent().getStringExtra("data");
-//        if(userModel.status == 1){
-//            ivChargeState.setBackgroundResource(R.drawable.card_charge_success);
-//            tvChargeState.setText("充值成功");
-////            rlChargeNumState.setVisibility(View.GONE);
-////            btChargeScan.setVisibility(View.GONE);
-////            btChargeReset.setVisibility(View.GONE);
-//        }else {
-////            ivChargeState.setBackgroundResource(R.drawable.card_charge_fail);
-////            tvChargeState.setText("充值失败");
-////            tvChargeNum.setText(DecimalUtil.FormatMoney(userModel.afterBalance) + getResources().getString(R.string.symbol_RMB));
-////            tvChargeNum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ userModel.chargeNum + ".00</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
-////
-////            rlChargeNumState.setVisibility(View.VISIBLE);
-////            btChargeScan.setVisibility(View.VISIBLE);
-////            btChargeReset.setVisibility(View.VISIBLE);
-//        }
-//        tvMemberNumber.setText(userModel.idNumber);
-//        tvCardCategoryName.setText(userModel.name);
-//        tvCashBalance.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.afterBalance) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
-//        tvGiveSum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.afterCashBalance) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
-//        tvChargeNum.setText(Html.fromHtml("<font color=\'#fd5c02\' size=16>"+ DecimalUtil.FormatMoney(userModel.afterPresentBalance) + "</font><font color=\'#565a5c\' size=16>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
-//
+        setPullAndFlexListener();
 
-//        String orderNo = getIntent().getStringExtra("orderNo");
-//        getCardDetail();
-//        getChargeDetail(orderNo);
+    }
+
+    private void setPullAndFlexListener(){
+//		ff_list.setFlexView(ll_ad);
+        ff_list.setFlexible(true);
+
+        ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
+            @Override
+            public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
+                if (isOnTop) {
+                    pull_content.setPullEnable(true);
+                } else {
+                    pull_content.setPullEnable(false);
+                }
+            }
+
+        });
+        pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryRechangeDetail(getIntent().getStringExtra("saleBillId"));
+            }
+        });
+
 
     }
 
@@ -159,25 +161,27 @@ public class ChargeDetailActivity extends BaseActivity {
     }
 
     public void queryRechangeDetail(String saleBillId){
-        YSBLoadingDialog.showLoadingDialog(ChargeDetailActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
-            @Override
-            public void onTimeout() {
-                YSBLoadingDialog.dismissDialog();
-            }
-
-            @Override
-            public void onCancel() {
-                YSBLoadingDialog.dismissDialog();
-            }
-        });
+//        YSBLoadingDialog.showLoadingDialog(ChargeDetailActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
+//            @Override
+//            public void onTimeout() {
+//                YSBLoadingDialog.dismissDialog();
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                YSBLoadingDialog.dismissDialog();
+//            }
+//        });
         HomeWebHelper.queryRechangeDetail(saleBillId,new IModelResultListener<ChargeOrderMode>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
+                pull_content.endRefresh(true);
                 return false;
             }
 
             @Override
             public void onSuccess(String resultCode, ChargeOrderMode resultModel, List<ChargeOrderMode> resultModelList, String resultMsg, String hint) {
+                pull_content.endRefresh(true);
                 if(resultCode.equals("0")) {
 //                    tvMemberNumber.setText(resultModel.idNumber);
 //                    tvCardCategoryName.setText(userModel.name);
@@ -206,12 +210,12 @@ public class ChargeDetailActivity extends BaseActivity {
 
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
-//                lvCard.finishLoading(true);
+                pull_content.endRefresh(true);
             }
 
             @Override
             public void onError(String errorMsg) {
-//                lvCard.finishLoading(true);
+                pull_content.endRefresh(true);
             }
         });
     }

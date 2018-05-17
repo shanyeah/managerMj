@@ -13,6 +13,7 @@ import com.imovie.mogic.car.bean.FoodTagList;
 import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodsModel;
 import com.imovie.mogic.utills.DecimalUtil;
+import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.widget.NoScrollListView;
 
 import java.math.BigDecimal;
@@ -54,6 +55,7 @@ public class GoodsCarDetailAdapter extends BaseAdapter {
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
             holder.tvGoodNum = (TextView) convertView.findViewById(R.id.tvGoodNum);
             holder.tvGoodMoney = (TextView) convertView.findViewById(R.id.tvGoodMoney);
+            holder.car_tag_name = (TextView) convertView.findViewById(R.id.car_tag_name);
             holder.lvCarTagList = (NoScrollListView) convertView.findViewById(R.id.lvCarTagList);
 	  convertView.setTag(holder);
          } else {
@@ -66,6 +68,13 @@ public class GoodsCarDetailAdapter extends BaseAdapter {
         if(list.get(position).childGoodsList.size()>0){
             GoodsPayDetailAdapter adapter = new GoodsPayDetailAdapter(context,list.get(position).childGoodsList);
             holder.lvCarTagList.setAdapter(adapter);
+        }
+
+        if(!StringHelper.isEmpty(list.get(position).goodsTags)) {
+            holder.car_tag_name.setVisibility(View.VISIBLE);
+            holder.car_tag_name.setText("(" + list.get(position).goodsTags + ")");
+        }else{
+            holder.car_tag_name.setVisibility(View.GONE);
         }
 //        if(list.get(position).isSelect){
 //            holder.viewType.setVisibility(View.VISIBLE);
@@ -107,6 +116,7 @@ public class GoodsCarDetailAdapter extends BaseAdapter {
         public TextView tvGoodMoney = null;
         public TextView tvGoodNum = null;
         public NoScrollListView lvCarTagList;
+        public TextView car_tag_name;
     }
 
     public List<FoodTagList> getGoodsPackList(List<GoodTagList> packList) {

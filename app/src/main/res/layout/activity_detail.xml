@@ -8,136 +8,144 @@
     android:layout_height="match_parent"
     android:descendantFocusability= "beforeDescendants"
     tools:context="com.imovie.mogic.car.DetailActivity">
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <com.imovie.mogic.widget.TitleBar
+            android:id="@+id/title_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
-            <com.imovie.mogic.widget.TitleBar
-                android:id="@+id/title_bar"
+            android:layout_height="50dp">
+        </com.imovie.mogic.widget.TitleBar>
+        <com.imovie.mogic.widget.PullToRefreshFrameLayout
+            android:id="@+id/pull_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.imovie.mogic.widget.FlexibleFrameLayout
+                android:id="@+id/ff_list"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
-            </com.imovie.mogic.widget.TitleBar>
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_collapseMode="parallax">
-
-                <ImageView
-                    android:id="@+id/iv_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_detail"/>
-                <ImageView
-                    android:id="@+id/ic_close"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="5dp"
-                    android:visibility="gone"
-                    android:onClick="close"
-                    android:alpha="70"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/icon_detail_back"/>
-            </FrameLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <TextView
-                android:id="@+id/detail_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:text="各种各种早知道发大水发大水"
-                android:textColor="@color/T1"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-                    <TextView
-                        android:id="@+id/detail_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0.00"
-                        style="@style/text_14_T5"
-                        android:layout_gravity="center_vertical" />
-
-                    <com.imovie.mogic.car.view.AddWidget
-                        android:id="@+id/detail_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:visibility="gone"
-                        app:sub_anim="true"/>
-                <TextView
-                    android:id="@+id/tvAddOneCar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="加入购物车"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:background="@drawable/select_bg7_bg1_r15"
-                    style="@style/text_14_white"
-                    android:layout_alignParentRight="true" />
-
-            </RelativeLayout>
-
-            <com.imovie.mogic.widget.NoScrollListView
-                android:id="@+id/lvCategorysList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone"
-                android:divider="@null"/>
-
-            <TextView
-                android:id="@+id/detail_sale"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="套餐详情"
-                android:gravity="center"
-                android:background="@color/BG2"
-                android:textColor="@color/T2"/>
-
-                <com.imovie.mogic.widget.HorizontalListView
-                    android:id="@+id/lvGoodsTagList"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                android:layout_height="match_parent">
                 <LinearLayout
-                    android:id="@+id/llPackListState"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:background="@drawable/car_good_detail"
-                    android:visibility="gone"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <com.imovie.mogic.widget.HorizontalListView
-                        android:id="@+id/goodsPackList"
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_collapseMode="parallax">
+
+                        <ImageView
+                            android:id="@+id/iv_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="230dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_detail"/>
+                        <ImageView
+                            android:id="@+id/ic_close"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_marginTop="5dp"
+                            android:visibility="gone"
+                            android:onClick="close"
+                            android:alpha="70"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/icon_detail_back"/>
+                    </FrameLayout>
+                    <TextView
+                        android:id="@+id/detail_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="40dp"/>
+                        android:layout_marginTop="10dp"
+                        android:text="各种各种早知道发大水发大水"
+                        android:textColor="@color/T1"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+                        <TextView
+                            android:id="@+id/detail_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.00"
+                            style="@style/text_14_T5"
+                            android:layout_gravity="center_vertical" />
+
+                        <com.imovie.mogic.car.view.AddWidget
+                            android:id="@+id/detail_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:visibility="gone"
+                            app:sub_anim="true"/>
+                        <TextView
+                            android:id="@+id/tvAddOneCar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="加入购物车"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:background="@drawable/select_bg7_bg1_r15"
+                            style="@style/text_14_white"
+                            android:layout_alignParentRight="true" />
+
+                    </RelativeLayout>
+
+                    <com.imovie.mogic.widget.NoScrollListView
+                        android:id="@+id/lvCategorysList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"
+                        android:divider="@null"/>
+
+                    <TextView
+                        android:id="@+id/detail_sale"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="套餐详情"
+                        android:gravity="center"
+                        android:background="@color/BG2"
+                        android:textColor="@color/T2"/>
+
+                    <com.imovie.mogic.widget.HorizontalListView
+                        android:id="@+id/lvGoodsTagList"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <LinearLayout
+                        android:id="@+id/llPackListState"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:background="@drawable/car_good_detail"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+                        <com.imovie.mogic.widget.HorizontalListView
+                            android:id="@+id/goodsPackList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="40dp"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+            </com.imovie.mogic.widget.FlexibleFrameLayout>
+        </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_close"
         android:layout_width="wrap_content"

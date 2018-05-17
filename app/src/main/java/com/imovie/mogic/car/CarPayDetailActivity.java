@@ -33,7 +33,9 @@ import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
+import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.NoScrollListView;
+import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class CarPayDetailActivity extends BaseActivity {
     public static final int MSG_WXSEND = 601;
 
     private TitleBar titleBar;
+    private PullToRefreshFrameLayout pull_content;
+    private FlexibleFrameLayout ff_list;
     private LinearLayout llCarPayMember;
     private TextView tvOrderId;
     private TextView tvName;
@@ -115,6 +119,8 @@ public class CarPayDetailActivity extends BaseActivity {
                 finish();
             }
         });
+        pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
+        ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
         llCarPayMember = (LinearLayout) findViewById(R.id.llCarPayMember);
         tvOrderId=(TextView) findViewById(R.id.tvOrderId);
         tvName=(TextView) findViewById(R.id.tv_name);
@@ -141,6 +147,7 @@ public class CarPayDetailActivity extends BaseActivity {
     private void setView(){
 //        stgName.setText(MyApplication.getInstance().mPref.getString("organName",""));
 //        tv_amount.setText("总计: ¥"+amount);
+        setPullAndFlexListener();
         carAdapter = new GoodsCarDetailAdapter(CarPayDetailActivity.this,foodBeanList);
         lvCarList.setAdapter(carAdapter);
 //        dialog = new UserInfoDialog(CarPayActivity.this);
@@ -232,6 +239,31 @@ public class CarPayDetailActivity extends BaseActivity {
             }
         });
     }
+
+    private void setPullAndFlexListener(){
+//		ff_list.setFlexView(ll_ad);
+        ff_list.setFlexible(true);
+
+        ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
+            @Override
+            public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
+                if (isOnTop) {
+                    pull_content.setPullEnable(true);
+                } else {
+                    pull_content.setPullEnable(false);
+                }
+            }
+
+        });
+        pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryGoodsBillDetail(getIntent().getStringExtra("saleBillId"));
+            }
+        });
+
+
+    }
     public void payOrder(String sn,int payType){
         String seakNo = etUserId.getText().toString();
         String remark = etPayRemark.getText().toString();
@@ -268,25 +300,27 @@ public class CarPayDetailActivity extends BaseActivity {
     }
 
     public void queryGoodsBillDetail(String saleBillId){
-        YSBLoadingDialog.showLoadingDialog(CarPayDetailActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
-            @Override
-            public void onTimeout() {
-                YSBLoadingDialog.dismissDialog();
-            }
-
-            @Override
-            public void onCancel() {
-                YSBLoadingDialog.dismissDialog();
-            }
-        });
+//        YSBLoadingDialog.showLoadingDialog(CarPayDetailActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
+//            @Override
+//            public void onTimeout() {
+//                YSBLoadingDialog.dismissDialog();
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                YSBLoadingDialog.dismissDialog();
+//            }
+//        });
         HomeWebHelper.queryGoodsBillDetail(saleBillId,new IModelResultListener<PayDetailModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
+                pull_content.endRefresh(true);
                 return false;
             }
 
             @Override
             public void onSuccess(String resultCode, PayDetailModel resultModel, List<PayDetailModel> resultModelList, String resultMsg, String hint) {
+                pull_content.endRefresh(true);
                 if(resultCode.equals("0")) {
 //                    payModel = resultModel;
                     tvOrderId.setText(resultModel.orderNo);
@@ -317,12 +351,12 @@ public class CarPayDetailActivity extends BaseActivity {
 
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
-//                lvCard.finishLoading(true);
+                pull_content.endRefresh(true);
             }
 
             @Override
             public void onError(String errorMsg) {
-//                lvCard.finishLoading(true);
+                pull_content.endRefresh(true);
             }
         });
     }
@@ -370,7 +404,7 @@ public class CarPayDetailActivity extends BaseActivity {
 
 
     public void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn){
-        HomeWebHelper.payGoodsOrder(saleBillId, userId,seatNo,payType, payCategoryId,incomeAmount,remark,tn,new IModelResultListener<TestModel>() {
+        HomeWebHelper.payGoodsOrder(saleBillId, userId,seatNo,payType, payCategoryId,incomeAmount,remark,tn,"",new IModelResultListener<TestModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;

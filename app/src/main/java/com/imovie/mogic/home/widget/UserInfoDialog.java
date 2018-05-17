@@ -38,7 +38,7 @@ public class UserInfoDialog extends Dialog implements View.OnClickListener{
 	public Button btChargeSelect;
 	public EditText etUserId;
 	public interface onSelectListener {
-		void onSelect(SearchUserModel userModel);
+		void onSelect(String str);
 	}
 	private onSelectListener listener;
 	public void setOnSelectListener(onSelectListener listener) {
@@ -49,31 +49,12 @@ public class UserInfoDialog extends Dialog implements View.OnClickListener{
 		super(context,R.style.Theme_TranslucentDlg);
 		setContentView(R.layout.home_user_info_dialog);
 		this.context = context;
-		btChargeSelect = (Button) findViewById(R.id.btChargeSelect);
 		etUserId = (EditText) findViewById(R.id.etUserId);
-		lvGoodsTagList = (ListView) findViewById(R.id.lvGoodsTagList);
-		adapter = new UserInfoAdapter(context,list);
-		lvGoodsTagList.setAdapter(adapter);
-		lvGoodsTagList.setDivider(null);
-//		if(list.size()>0) {
-//			adapter.setSelectIndex(0);
-//			goodTagList = adapter.getItem(0);
-//		}
+
 		tvOk = (TextView) findViewById(R.id.tvOk);
 		tvCancel = (TextView) findViewById(R.id.tvCancel);
 		tvOk.setOnClickListener(this);
 		tvCancel.setOnClickListener(this);
-		btChargeSelect.setOnClickListener(this);
-		lvGoodsTagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//				adapter.setSelectIndex(i);
-				userModel = adapter.getItem(i);
-				listener.onSelect(userModel);
-				dismiss();
-			}
-		});
-
 	}
 
 	@Override
@@ -82,22 +63,16 @@ public class UserInfoDialog extends Dialog implements View.OnClickListener{
 		switch (v.getId()) {
 
 		case R.id.tvOk:
-//			this.listener.onSelect(goodTagList,this.view);
-
-//			Intent intent = new Intent(context,YaoZhangGuiIntegralHelp.class);
-//			context.startActivity(intent);
+			String password = etUserId.getText().toString();
+			if(StringHelper.isEmpty(password)){
+				Utills.showShortToast("请输入支付密码");
+				return;
+			}
+			listener.onSelect(password);
 			dismiss();
 			break;
 		case R.id.tvCancel:
 			dismiss();
-			break;
-		case R.id.btChargeSelect:
-			String user = etUserId.getText().toString();
-			if(StringHelper.isEmail(user)) {
-				Utills.showShortToast("请输入充值用户");
-				return;
-			}
-			getCheckUserInfo(user);
 			break;
 
 		default:
@@ -106,37 +81,4 @@ public class UserInfoDialog extends Dialog implements View.OnClickListener{
 		
 	}
 
-	public void getCheckUserInfo(String input){
-		HomeWebHelper.getCheckUserInfo(input,new IModelResultListener<SearchModel>() {
-			@Override
-			public boolean onGetResultModel(HttpResultModel resultModel) {
-				return false;
-			}
-
-			@Override
-			public void onSuccess(String resultCode, SearchModel resultModel, List<SearchModel> resultModelList, String resultMsg, String hint) {
-//                Log.e("----city:",""+resultCode);
-				if(resultCode.equals("0")) {
-					adapter.list.clear();
-					if (resultModel.list.size() > 0) {
-						adapter.list.addAll(resultModel.list);
-						adapter.notifyDataSetChanged();
-					}
-				}
-
-			}
-
-			@Override
-			public void onFail(String resultCode, String resultMsg, String hint) {
-
-			}
-
-			@Override
-			public void onError(String errorMsg) {
-
-			}
-		});
-	}
-
-	
 }

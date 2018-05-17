@@ -26,6 +26,7 @@ public class GoodsModel extends BaseModel {
     public int goodsTagCategory;
     public boolean haveTag = false;
     public String tagName;
+    public String goodsTags;
 
     public int quantity;
     public int goodsId;

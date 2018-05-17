@@ -175,7 +175,7 @@ public class HomeWebHelper extends HttpWebHelper{
      * 支付定单
      * @param listener
      */
-    public static void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn,IModelResultListener<TestModel> listener) {
+    public static void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn,String payPassword,IModelResultListener<TestModel> listener) {
         BaseReqParamNetMap baseReqParamNetMap = new BaseReqParamNetMap();
         baseReqParamNetMap.put("saleBillId", saleBillId);
         baseReqParamNetMap.put("userId", userId);
@@ -185,6 +185,8 @@ public class HomeWebHelper extends HttpWebHelper{
         baseReqParamNetMap.put("incomeAmount",incomeAmount);
         baseReqParamNetMap.put("remark",remark);
         baseReqParamNetMap.put("tn",tn);
+        baseReqParamNetMap.put("payPassword",payPassword);
+
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_payGoodsOrder));
         int organId = MyApplication.getInstance().mPref.getInt("organId",0);

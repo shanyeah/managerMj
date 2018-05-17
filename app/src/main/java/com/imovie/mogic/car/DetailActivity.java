@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,8 +47,10 @@ import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
+import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.HorizontalListView;
 import com.imovie.mogic.widget.NoScrollListView;
+import com.imovie.mogic.widget.PullToRefreshFrameLayout;
 import com.imovie.mogic.widget.TitleBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -67,6 +70,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	private ShopCarView shopCarView;
 	private CarAdapter carAdapter;
 	private CoordinatorLayout detail_main;
+	private PullToRefreshFrameLayout pull_content;
+	private FlexibleFrameLayout ff_list;
 //	private DetailHeaderBehavior dhb;
 	private View headerView;
 	public HorizontalListView lvGoodsTagList;
@@ -113,6 +118,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				finish();
 			}
 		});
+		pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
+		ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
 		headerView = findViewById(R.id.headerview);
 //		CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) headerView.getLayoutParams();
 //		dhb = (DetailHeaderBehavior) lp.getBehavior();
@@ -153,6 +160,8 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		initShopCar();
 	}
 	private void setViews() {
+		setPullAndFlexListener();
+
 		categorysAdapter = new CategorysAdapter(DetailActivity.this,categorys);
 		lvCategorysList.setAdapter(categorysAdapter);
 		tagAdapter = new GoodsTagChildAdapter(DetailActivity.this,packList);
@@ -238,6 +247,31 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
                 ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
             }
         });
+	}
+
+	private void setPullAndFlexListener(){
+//		ff_list.setFlexView(ll_ad);
+		ff_list.setFlexible(true);
+
+		ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
+			@Override
+			public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
+				if (isOnTop) {
+					pull_content.setPullEnable(true);
+				} else {
+					pull_content.setPullEnable(false);
+				}
+			}
+
+		});
+		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+			@Override
+			public void onRefresh() {
+				queryGoodsDetail(foodBean.getId());
+			}
+		});
+
+
 	}
 
 
@@ -553,11 +587,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		HomeWebHelper.queryGoodsDetail(saleBillId,new IModelResultListener<GoodsModel>() {
 			@Override
 			public boolean onGetResultModel(HttpResultModel resultModel) {
+				pull_content.endRefresh(true);
 				return false;
 			}
 
 			@Override
 			public void onSuccess(String resultCode, GoodsModel resultModel, List<GoodsModel> resultModelList, String resultMsg, String hint) {
+				pull_content.endRefresh(true);
 				if(resultCode.equals("0")) {
 					if(resultModel.goodsPackList.size()>0){
 						detail_sale.setVisibility(View.VISIBLE);
@@ -626,11 +662,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			@Override
 			public void onFail(String resultCode, String resultMsg, String hint) {
 //                lvCard.finishLoading(true);
+				pull_content.endRefresh(true);
 			}
 
 			@Override
 			public void onError(String errorMsg) {
 //                lvCard.finishLoading(true);
+				pull_content.endRefresh(true);
 			}
 		});
 	}

@@ -81,6 +81,7 @@ public class CarPayActivity extends BaseActivity {
     public UserInfoDialog dialog;
     public boolean unSelect = true;
     public int userId = 0;
+    public int needPayPass = 0;
     public PayResultModel payModel = new PayResultModel();
     public PayResultModel payModelMember = new PayResultModel();
 
@@ -240,21 +241,34 @@ public class CarPayActivity extends BaseActivity {
 //                    String seakNo = etUserId.getText().toString();
 //                    String remark = etPayRemark.getText().toString();
 //                    payGoodsOrder(payModel.saleBillId,userId,seakNo,2, 0,payModel.incomeAmount,remark);
-                    payOrder("",2,payModelMember.incomeAmount);
+                    if(needPayPass == 1){
+                        dialog = new UserInfoDialog(CarPayActivity.this);
+                        dialog.setOnSelectListener(new UserInfoDialog.onSelectListener() {
+                            @Override
+                            public void onSelect(String str) {
+                                payOrder("",2,payModelMember.incomeAmount,str);
+
+                            }
+                        });
+                        dialog.show();
+                    }else{
+                        payOrder("",2,payModelMember.incomeAmount,"");
+                    }
                 }
             }
         });
     }
-    public void payOrder(String sn,int payType,double incomeAmount){
+    public void payOrder(String sn,int payType,double incomeAmount,String payPassword){
         String seakNo = etUserId.getText().toString();
         String remark = etPayRemark.getText().toString();
-        payGoodsOrder(payModel.saleBillId,userId,seakNo,payType, 0,incomeAmount,remark,sn);
+        payGoodsOrder(payModel.saleBillId,userId,seakNo,payType, 0,incomeAmount,remark,sn,payPassword);
     }
 
 
     public void setUserData(SearchUserModel userModel){
         unSelect = false;
         userId = userModel.userId;
+        needPayPass = userModel.needPayPass;
         llCarPayMember.setVisibility(View.VISIBLE);
         tvName.setText(""+userModel.name);
         tvNumber.setText("证件号：" + userModel.idNumber);
@@ -371,7 +385,7 @@ public class CarPayActivity extends BaseActivity {
 
 
 
-    public void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn){
+    public void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn,String payPassword){
         YSBLoadingDialog.showLoadingDialog(CarPayActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
             @Override
             public void onTimeout() {
@@ -383,7 +397,7 @@ public class CarPayActivity extends BaseActivity {
                 YSBLoadingDialog.dismissDialog();
             }
         });
-        HomeWebHelper.payGoodsOrder(saleBillId, userId,seatNo,payType, payCategoryId,incomeAmount,remark,tn,new IModelResultListener<TestModel>() {
+        HomeWebHelper.payGoodsOrder(saleBillId, userId,seatNo,payType, payCategoryId,incomeAmount,remark,tn,payPassword,new IModelResultListener<TestModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 return false;
@@ -423,7 +437,7 @@ public class CarPayActivity extends BaseActivity {
                     Utills.showShortToast("扫码出错");
                     return;
                 }else{
-                    payOrder(code,1,payModel.incomeAmount);
+                    payOrder(code,1,payModel.incomeAmount,"");
 //                    Utills.showShortToast("扫码" + code);
                 }
                 break;

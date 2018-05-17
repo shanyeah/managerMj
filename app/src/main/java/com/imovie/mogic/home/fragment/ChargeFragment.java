@@ -52,6 +52,7 @@ import com.imovie.mogic.login.model.MyDataModel;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.myRank.MinePraiseActivity;
 import com.imovie.mogic.myRank.MineRankActivity;
+import com.imovie.mogic.utills.DateUtil;
 import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;

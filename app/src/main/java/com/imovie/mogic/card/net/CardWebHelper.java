@@ -7,6 +7,7 @@ import com.imovie.mogic.home.model.ChargeListModel;
 import com.imovie.mogic.home.model.ChargeSuccessModel;
 import com.imovie.mogic.login.model.BaseReqParamNetMap;
 import com.imovie.mogic.login.model.TestModel;
+import com.imovie.mogic.utills.DateUtil;
 import com.imovie.mogic.web.HttpWebHelper;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.http.HttpHelper;
@@ -45,7 +46,7 @@ public class CardWebHelper extends HttpWebHelper{
 //        baseReqParamNetMap.put("payCategoryId",payCategoryId);
         baseReqParamNetMap.put("remark",remark);
         baseReqParamNetMap.put("tn",tn);
-        baseReqParamNetMap.put("outTradeNo",tn);
+        baseReqParamNetMap.put("outTradeNo", DateUtil.getDateString()+tn);
 
         StringBuffer data = new StringBuffer();
         data.append(HTTPConfig.getUrlData(HTTPConfig.url_preqrcharge));

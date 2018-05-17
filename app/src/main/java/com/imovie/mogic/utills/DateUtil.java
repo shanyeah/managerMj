@@ -109,5 +109,16 @@ public class DateUtil {
         return calender.getTime();
     }
 
+    /** 获取日期 */
+    public static String getDateString() {
+//        Date date = new Date(System.currentTimeMillis());
+        Calendar calender = Calendar.getInstance();
+//        calender.setTime(date);
+        String year = ""+calender.get(Calendar.YEAR);
+        String month = ""+(calender.get(Calendar.MONTH)+1);
+        String day = ""+calender.get(Calendar.DATE);
+        return year + month + day;
+    }
+
 
 }

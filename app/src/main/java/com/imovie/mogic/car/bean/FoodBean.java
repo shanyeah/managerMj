@@ -218,7 +218,7 @@ public class FoodBean implements Serializable{
 		bean.setPrice(foodBean.getPrice());
 		bean.setType(foodBean.getType());
 		bean.setTagsName(foodBean.getTagsName());
-		bean.setGoodsTags(foodBean.goodsTags);
+		bean.setGoodsTags(foodBean.getTagsName());
 		bean.setGoodPackList(foodBean.getGoodsPackList());
 		return bean;
 	}

@@ -108,6 +108,17 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		queryGoodsDetail(foodBean.getId());
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		shopCarView.post(new Runnable() {
+			@Override
+			public void run() {
+				dealBeginCar(foodBean);
+			}
+		});
+	}
+
 	private void initViews() {
 		detail_main = (CoordinatorLayout) findViewById(R.id.detail_main);
 		titleBar = (TitleBar) findViewById(R.id.title_bar);
@@ -332,7 +343,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		});
 		shopCarView.setBehavior(behavior);
 		RecyclerView carRecView = (RecyclerView) findViewById(R.id.car_recyclerview);
-		carRecView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+		carRecView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
 
 		carRecView.addOnItemTouchListener(new OnItemClickListener() {
 			@Override

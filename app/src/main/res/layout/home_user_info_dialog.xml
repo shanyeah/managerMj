@@ -36,7 +36,7 @@
                 android:paddingLeft="5dp"
                 android:gravity="center_vertical"
                 android:layout_centerHorizontal="true"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:background="@drawable/shape_write_r5_l5"
                 android:hint="输入支付密码"
                 android:textSize="14sp"/>

@@ -128,16 +128,38 @@ public class BuyGoodsFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String chargeFee = editable.toString();
                 if (!StringHelper.isEmpty(chargeFee)) {
-                    listSearch.clear();
-//                    for(int i = 0;i<listAllCard.size();i++){
-//                        if(listAllCard.get(i).name.contains(chargeFee)){
-//                            listSearch.add(listAllCard.get(i));
-//                        }
-//                    }
-//                    if(listSearch.size()>0) {
-//                        goodsAdapter.list = listSearch;
-//                        goodsAdapter.notifyDataSetChanged();
-//                    }
+                    List<TypeBean> lType = new ArrayList<>();
+                    List<FoodBean> foodList = new ArrayList<>();
+                    for(int i = 0;i<foodBeanList.size();i++){
+                        if(foodBeanList.get(i).getName().contains(chargeFee)){
+                            foodList.add(foodBeanList.get(i));
+                            if(lType.size()==0){
+                                TypeBean bean = new TypeBean();
+                                bean.setCategoryId(0);
+                                bean.setName(foodBeanList.get(i).getType());
+                                lType.add(bean);
+                            }else{
+                                boolean has = true;
+                                for(int j=0;j<lType.size();j++){
+                                    if(foodBeanList.get(i).getType().equals(lType.get(j).getName())){
+                                        has = false;
+                                        break;
+                                    }
+                                }
+                                if(has){
+                                    TypeBean bean = new TypeBean();
+                                    bean.setCategoryId(i);
+                                    bean.setName(foodBeanList.get(i).getType());
+                                    lType.add(bean);
+                                }
+                            }
+                        }
+                    }
+                    if(foodList.size()>0) {
+                        listContainer.refreshTypeAdater(lType,foodList);
+                    }
+                }else{
+                    listContainer.refreshTypeAdater(typeList,foodBeanList);
                 }
             }
         });

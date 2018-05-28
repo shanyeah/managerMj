@@ -79,6 +79,7 @@ public class ChargeFragment extends Fragment {
     private TextView tvName;
     private TextView tvNumber;
     private TextView tvBalance;
+    private TextView tvCashBalance;
     private TextView tvPresentBalance;
     private TextView tvPhone;
     private RelativeLayout rlNoUserData;
@@ -150,6 +151,7 @@ public class ChargeFragment extends Fragment {
         tvName=(TextView) view.findViewById(R.id.tv_name);
         tvNumber=(TextView) view.findViewById(R.id.tvNumber);
         tvBalance = (TextView) view.findViewById(R.id.tvBalance);
+        tvCashBalance = (TextView) view.findViewById(R.id.tvCashBalance);
         tvPresentBalance = (TextView) view.findViewById(R.id.tvPresentBalance);
         tvPhone=(TextView) view.findViewById(R.id.tvPhone);
         rlNoUserData = (RelativeLayout) view.findViewById(R.id.rlNoUserData);
@@ -228,6 +230,7 @@ public class ChargeFragment extends Fragment {
         tvNumber.setText("证件号：" + userModel.idNumber);
         tvPhone.setText("" + userModel.mobile);
         tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.balance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>现金:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
 
     }

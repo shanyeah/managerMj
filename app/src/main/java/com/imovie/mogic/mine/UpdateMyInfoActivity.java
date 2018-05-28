@@ -290,6 +290,7 @@ public class UpdateMyInfoActivity extends BaseActivity {
             @Override
             public void onSuccess(String resultCode, MyDataModel resultModel, List<MyDataModel> resultModelList, String resultMsg, String hint) {
                 pull_content.endRefresh(true);
+                YSBLoadingDialog.dismissDialog();
                 Utills.showShortToast(resultMsg);
                 if(resultCode.equals("0")) {
                     SharedPreferences.Editor editor = MyApplication.getInstance().mPref.edit();

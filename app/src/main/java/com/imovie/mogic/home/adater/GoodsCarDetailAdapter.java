@@ -66,8 +66,11 @@ public class GoodsCarDetailAdapter extends BaseAdapter {
         holder.tvGoodMoney.setText(context.getResources().getString(R.string.symbol_of_RMB) + DecimalUtil.FormatMoney(list.get(position).payAmount));
         holder.tvGoodNum.setText("x"+list.get(position).quantity);
         if(list.get(position).childGoodsList.size()>0){
+            holder.lvCarTagList.setVisibility(View.VISIBLE);
             GoodsPayDetailAdapter adapter = new GoodsPayDetailAdapter(context,list.get(position).childGoodsList);
             holder.lvCarTagList.setAdapter(adapter);
+        }else{
+            holder.lvCarTagList.setVisibility(View.GONE);
         }
 
         if(!StringHelper.isEmpty(list.get(position).goodsTags)) {

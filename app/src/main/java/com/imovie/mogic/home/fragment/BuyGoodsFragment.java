@@ -188,7 +188,7 @@ public class BuyGoodsFragment extends Fragment {
                 listContainer.refreshTypeAdater(typeList,foodBeanList);
             }else{
                 getAllGoodList();
-                Log.e("----1111", "===" + foodBeanList.size());
+//                Log.e("----1111", "===" + foodBeanList.size());
             }
 
         } catch (Exception e) {
@@ -220,8 +220,11 @@ public class BuyGoodsFragment extends Fragment {
             public void onSuccess(String resultCode, CardModel resultModel, List<CardModel> resultModelList, String resultMsg, String hint) {
 
 //                lvCard.finishLoading(true);
+                YSBLoadingDialog.dismissDialog();
                 if(resultCode.equals("0")) {
                     if(resultModel.categories.size()>0){
+                        typeList.clear();
+                        foodBeanList.clear();
                         for(int i=0;i<resultModel.categories.size();i++){
                             TypeBean typeBean = new TypeBean();
                             typeBean.setName(resultModel.categories.get(i).categoryName);

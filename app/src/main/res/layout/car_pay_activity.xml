@@ -48,16 +48,25 @@
                         style="@style/text_18_T1"/>
 
                     <TextView
-                        android:id="@+id/tvBalance"
+                        android:id="@+id/tvNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:layout_below="@+id/tv_name"
+                        android:text="565223"
+                        style="@style/text_14_T2" />
+                    <TextView
+                        android:id="@+id/tvBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_below="@+id/tvNumber"
                         android:text="5"
                         style="@style/text_14_T5"/>
                     <TextView
-                        android:id="@+id/tvPresentBalance"
+                        android:id="@+id/tvCashBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -66,16 +75,15 @@
                         android:gravity="center_vertical"
                         android:text="0"
                         style="@style/text_14_T5" />
-
                     <TextView
-                        android:id="@+id/tvNumber"
+                        android:id="@+id/tvPresentBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:layout_below="@+id/tvBalance"
-                        android:text="565223"
-                        style="@style/text_14_T2" />
+                        android:text="5"
+                        style="@style/text_14_T5"/>
 
                     <ImageView
                         android:layout_width="wrap_content"

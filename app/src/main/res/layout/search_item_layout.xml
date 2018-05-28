@@ -26,14 +26,7 @@
             android:layout_below="@+id/tv_name"
             android:text="565223"
             style="@style/text_14_T2" />
-        <TextView
-            android:id="@+id/tvBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:text="5"
-            style="@style/text_14_T5"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -42,12 +35,20 @@
         android:layout_marginTop="3dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="5"
+            style="@style/text_14_T5"/>
         <TextView
             android:id="@+id/tvCashBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="3dp"
             android:text="0"
             style="@style/text_14_T5"/>
@@ -57,9 +58,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginLeft="3dp"
-            android:text=""
-            style="@style/text_14_T5"
-            android:layout_alignParentRight="true"/>
+            android:layout_below="@+id/tvBalance"
+            android:text="0"
+            style="@style/text_14_T5"/>
     </RelativeLayout>
 
 

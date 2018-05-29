@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.imovie.mogic.R;
 import com.imovie.mogic.home.model.GoodTagList;
 import com.imovie.mogic.home.model.GoodTypeModel;
+import com.imovie.mogic.home.widget.UserInfoDialog;
+import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.widget.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,6 +28,13 @@ public class GoodsTagAdapter extends BaseAdapter {
     private Context context;
     public List<GoodTagList> list;
     private DisplayImageOptions mOption;
+    public interface onSelectListener {
+        void onSelect(GoodTagList tag);
+    }
+    private onSelectListener listener;
+    public void setOnSelectListener(onSelectListener listener) {
+        this.listener = listener;
+    }
     public GoodsTagAdapter(Context context, List<GoodTagList> list) {
         this.context = context;
         this.list = list;
@@ -63,6 +72,7 @@ public class GoodsTagAdapter extends BaseAdapter {
             holder.ivGoodImge = (ImageView) convertView.findViewById(R.id.ivGoodImge);
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
             holder.tvChangeText = (TextView) convertView.findViewById(R.id.tvChangeText);
+            holder.tvSelectType = (TextView) convertView.findViewById(R.id.tvSelectType);
 	  convertView.setTag(holder);
          } else {
             holder = (ViewHolder) convertView.getTag();
@@ -81,6 +91,14 @@ public class GoodsTagAdapter extends BaseAdapter {
         }else{
             holder.tvChangeText.setVisibility(View.GONE);
         }
+
+        holder.tvSelectType.setTag(getItem(position));
+        holder.tvSelectType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onSelect((GoodTagList)view.getTag());
+            }
+        });
 
 
         try {
@@ -127,5 +145,6 @@ public class GoodsTagAdapter extends BaseAdapter {
         public ImageView ivGoodImge;
         public View viewType = null;
         public TextView tvChangeText;
+        public TextView tvSelectType;
     }
 }

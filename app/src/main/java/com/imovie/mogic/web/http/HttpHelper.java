@@ -2,6 +2,8 @@ package com.imovie.mogic.web.http;
 
 import android.util.Log;
 
+import com.imovie.mogic.MyApplication;
+import com.imovie.mogic.R;
 import com.imovie.mogic.dbbase.model.CoreFuncReturn;
 import com.imovie.mogic.dbbase.util.JsonFormatter;
 import com.imovie.mogic.dbbase.util.JsonHelper;
@@ -137,6 +139,9 @@ public class HttpHelper extends BaseHttpHelper {
                                     httpURLConnection.setDoOutput(false);
                                     httpURLConnection.setRequestMethod(Constant.METHOD_GET);
                                     int respondCode = httpURLConnection.getResponseCode();
+                                    if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                                        System.out.print("\n---接口返回respondCode：" + respondCode);
+                                    }
                                     if (respondCode == HttpURLConnection.HTTP_OK) {
 
                                     InputStream inputStream = httpURLConnection.getInputStream();
@@ -205,6 +210,9 @@ public class HttpHelper extends BaseHttpHelper {
                                     bufferedWriter.close();
                                     os.close();
                                     int respondCode = httpURLConnection.getResponseCode();
+                                    if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                                        System.out.print("\n---接口返回respondCode：" + respondCode);
+                                    }
                                     if (respondCode == HttpURLConnection.HTTP_OK) {
                                         InputStream is = httpURLConnection.getInputStream();
 
@@ -227,9 +235,12 @@ public class HttpHelper extends BaseHttpHelper {
 
                                         result = CompressUtil.deCompress(bos.toByteArray());
 //                           result = changeInputStream(is, "UTF-8", true);
-                                        System.out.print("\n接口返回结果：");
-                                        System.out.print("\n"+ JsonFormatter.format(result));
-                                        System.out.print("\n###################################################");
+
+                                        if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                                            System.out.print("\n接口返回结果：");
+                                            System.out.print("\n"+ JsonFormatter.format(result));
+                                            System.out.print("\n###################################################");
+                                        }
                                         listener.onResult(new CoreFuncReturn(true, "获取成功", result));
 //                                    bos.close();
                                         is.close();

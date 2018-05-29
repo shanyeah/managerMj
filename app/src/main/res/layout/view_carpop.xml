@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="#eeeeee"
     android:elevation="4dp"
+    android:maxHeight="400dp"
     android:orientation="vertical"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="@string/bottom_sheet_behavior">

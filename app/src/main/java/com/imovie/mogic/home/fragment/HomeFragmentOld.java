@@ -378,6 +378,7 @@ public class HomeFragmentOld extends Fragment {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
                 pull_content.endRefresh(true);
+                Utills.showShortToast("网络异常");
                 return false;
             }
 
@@ -407,7 +408,7 @@ public class HomeFragmentOld extends Fragment {
                                 }
                             }
                         }
-                    }else if(resultCode.equals("90006")){
+                    }else if(resultCode.equals("90006") || resultCode.equals("90024")|| resultCode.equals("90027")){
                         SharedPreferences.Editor editor = MyApplication.getInstance().mPref.edit();
                         editor.putString("phone","");
                         editor.putString("password","");
@@ -420,6 +421,7 @@ public class HomeFragmentOld extends Fragment {
                         startActivity(intent);
                         getActivity().finish();
                     }else{
+                        Utills.showShortToast(resultMsg);
                         llAuthCodeList.setVisibility(View.GONE);
                     }
 
@@ -431,11 +433,13 @@ public class HomeFragmentOld extends Fragment {
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
                 pull_content.endRefresh(true);
+                Utills.showShortToast("网络异常");
             }
 
             @Override
             public void onError(String errorMsg) {
                 pull_content.endRefresh(true);
+                Utills.showShortToast("网络异常");
             }
         });
     }

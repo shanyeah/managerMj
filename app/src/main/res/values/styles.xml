@@ -128,7 +128,10 @@
         <item name="android:textColor">@color/T5</item>
         <item name="android:textStyle">bold</item>
     </style>
-
+    <style name="text_12_T1">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/T1</item>
+    </style>
     <style name="text_12_T2">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/T2</item>

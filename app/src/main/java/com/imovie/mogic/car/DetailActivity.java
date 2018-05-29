@@ -44,6 +44,7 @@ import com.imovie.mogic.home.model.PackReplaceList;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.utills.DecimalUtil;
+import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
@@ -51,6 +52,7 @@ import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.HorizontalListView;
 import com.imovie.mogic.widget.NoScrollListView;
 import com.imovie.mogic.widget.PullToRefreshFrameLayout;
+import com.imovie.mogic.widget.SelectTagPopupWindow;
 import com.imovie.mogic.widget.TitleBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -72,6 +74,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	private CoordinatorLayout detail_main;
 	private PullToRefreshFrameLayout pull_content;
 	private FlexibleFrameLayout ff_list;
+	private LinearLayout ll_ad;
 //	private DetailHeaderBehavior dhb;
 	private View headerView;
 	public HorizontalListView lvGoodsTagList;
@@ -92,6 +95,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	public NoScrollListView lvCategorysList;
 	public CategorysAdapter categorysAdapter;
 	public List<CategorysModel.Categorys> categorys = new ArrayList<>();
+	public List<CategorysModel> goodsTagsList = new ArrayList<>();
 
 
 
@@ -129,8 +133,9 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				finish();
 			}
 		});
-		pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
-		ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
+//		pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
+//		ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
+//		ll_ad = (LinearLayout) findViewById(R.id.ll_ad);
 		headerView = findViewById(R.id.headerview);
 //		CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) headerView.getLayoutParams();
 //		dhb = (DetailHeaderBehavior) lp.getBehavior();
@@ -149,6 +154,29 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		lvGoodsTagList = (HorizontalListView) findViewById(R.id.lvGoodsTagList);
 		goodsPackList = (HorizontalListView) findViewById(R.id.goodsPackList);
 		adapter = new GoodsTagAdapter(DetailActivity.this,packsList);
+        adapter.setOnSelectListener(new GoodsTagAdapter.onSelectListener() {
+            @Override
+            public void onSelect(GoodTagList tag) {
+//				List<CategorysModel.Categorys> categorys = new ArrayList<>();
+				SelectTagPopupWindow popupWindow = new SelectTagPopupWindow(DetailActivity.this,goodsTagsList.get(0).categorys,tag);
+				popupWindow.showPopupWindow();
+				popupWindow.setOnSelectListener(new SelectTagPopupWindow.onSelectListener() {
+					@Override
+					public void onSelect(GoodTagList tag) {
+//						Utills.showShortToast(""+tag.tagsName);
+						for(int i=0;i<adapter.list.size();i++){
+							if(adapter.list.get(i).goodsId == tag.goodsId && adapter.list.get(i).selectId == tag.goodsId){
+								adapter.list.get(i).tagsName = tag.tagsName;
+								break;
+							}
+						}
+						foodBean.getGoodsPackList().clear();
+						foodBean.setGoodsPackList(adapter.list);
+					}
+				});
+            }
+
+        });
 		lvGoodsTagList.setAdapter(adapter);
 		if(foodBean.getGoodsPackList().size()>0){
 			detail_sale.setVisibility(View.VISIBLE);
@@ -171,7 +199,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		initShopCar();
 	}
 	private void setViews() {
-		setPullAndFlexListener();
+//		setPullAndFlexListener();
 
 		categorysAdapter = new CategorysAdapter(DetailActivity.this,categorys);
 		lvCategorysList.setAdapter(categorysAdapter);
@@ -262,19 +290,19 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 	private void setPullAndFlexListener(){
 //		ff_list.setFlexView(ll_ad);
-		ff_list.setFlexible(true);
-
-		ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
-			@Override
-			public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
-				if (isOnTop) {
-					pull_content.setPullEnable(true);
-				} else {
-					pull_content.setPullEnable(false);
-				}
-			}
-
-		});
+//		ff_list.setFlexible(true);
+//
+//		ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
+//			@Override
+//			public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
+//				if (isOnTop) {
+//					pull_content.setPullEnable(true);
+//				} else {
+//					pull_content.setPullEnable(false);
+//				}
+//			}
+//
+//		});
 		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -598,13 +626,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		HomeWebHelper.queryGoodsDetail(saleBillId,new IModelResultListener<GoodsModel>() {
 			@Override
 			public boolean onGetResultModel(HttpResultModel resultModel) {
-				pull_content.endRefresh(true);
+//				pull_content.endRefresh(true);
 				return false;
 			}
 
 			@Override
 			public void onSuccess(String resultCode, GoodsModel resultModel, List<GoodsModel> resultModelList, String resultMsg, String hint) {
-				pull_content.endRefresh(true);
+//				pull_content.endRefresh(true);
 				if(resultCode.equals("0")) {
 					if(resultModel.goodsPackList.size()>0){
 						detail_sale.setVisibility(View.VISIBLE);
@@ -638,11 +666,18 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						if(resultModel.goodsTagsList.size()>0){
 							lvCategorysList.setVisibility(View.VISIBLE);
 							categorysAdapter.list.clear();
+//							for(int k=0;k<resultModel.goodsTagsList.size();k++) {
+//								categorysAdapter.list.addAll(resultModel.goodsTagsList.get(k).categorys);
+//							}
 							categorysAdapter.list.addAll(resultModel.goodsTagsList.get(0).categorys);
 							categorysAdapter.notifyDataSetChanged();
 						}else{
 							lvCategorysList.setVisibility(View.GONE);
 						}
+					}
+					if(resultModel.goodsTagsList.size()>0) {
+						goodsTagsList.clear();
+						goodsTagsList.addAll(resultModel.goodsTagsList);
 					}
 
 //					Utills.showShortToast(""+resultModel.goodsTagsList.size());
@@ -673,13 +708,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			@Override
 			public void onFail(String resultCode, String resultMsg, String hint) {
 //                lvCard.finishLoading(true);
-				pull_content.endRefresh(true);
+//				pull_content.endRefresh(true);
 			}
 
 			@Override
 			public void onError(String errorMsg) {
 //                lvCard.finishLoading(true);
-				pull_content.endRefresh(true);
+//				pull_content.endRefresh(true);
 			}
 		});
 	}
@@ -749,6 +784,21 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
 								hasPack = true;
 								break;
+							}else{
+								String fbStr = fb.getGoodsPackList().get(j).getTagsName();
+								String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
+								Log.e("----222",fbStr + ":" + foobStr);
+								if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
+									hasPack = false;
+								}else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
+									hasPack = true;
+									break;
+								}else if(fbStr.equals(foobStr)){
+									hasPack = false;
+								}else{
+									hasPack = true;
+									break;
+								}
 							}
 						}
 						if(hasPack){
@@ -832,6 +882,21 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
 								hasPack = true;
 								break;
+							}else{
+								String fbStr = fb.getGoodsPackList().get(j).getTagsName();
+								String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
+								Utills.showShortToast(fbStr + ":" + foobStr);
+								if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
+									hasPack = false;
+								}else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
+									hasPack = true;
+									break;
+								}else if(fbStr.equals(foobStr)){
+									hasPack = false;
+								}else{
+									hasPack = true;
+									break;
+								}
 							}
 						}
 						if(hasPack){

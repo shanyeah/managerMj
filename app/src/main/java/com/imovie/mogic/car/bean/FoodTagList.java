@@ -24,6 +24,15 @@ public class FoodTagList implements Serializable {
     private String imageUrl;
     private int packGroupId;
     private long selectId = -1;
+    private String tagsName = "";
+
+    public String getTagsName() {
+        return tagsName;
+    }
+
+    public void setTagsName(String tagsName) {
+        this.tagsName = tagsName;
+    }
 
     public int getId() {
         return id;

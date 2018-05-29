@@ -19,14 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
         </com.imovie.mogic.widget.TitleBar>
-        <com.imovie.mogic.widget.PullToRefreshFrameLayout
-            android:id="@+id/pull_content"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.imovie.mogic.widget.FlexibleFrameLayout
-                android:id="@+id/ff_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +119,7 @@
                     <com.imovie.mogic.widget.HorizontalListView
                         android:id="@+id/lvGoodsTagList"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="135dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"/>
                     <LinearLayout
@@ -142,8 +138,7 @@
                             android:layout_marginTop="40dp"/>
                     </LinearLayout>
                 </LinearLayout>
-            </com.imovie.mogic.widget.FlexibleFrameLayout>
-        </com.imovie.mogic.widget.PullToRefreshFrameLayout>
+        </ScrollView>
     </LinearLayout>
 
     <TextView

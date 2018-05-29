@@ -458,6 +458,21 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                             if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
                                 hasPack = true;
                                 break;
+                            }else{
+                                String fbStr = fb.getGoodsPackList().get(j).getTagsName();
+                                String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
+                                Log.e("----22233",fbStr + ":" + foobStr);
+                                if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
+                                    hasPack = false;
+                                }else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
+                                    hasPack = true;
+                                    break;
+                                }else if(fbStr.equals(foobStr)){
+                                    hasPack = false;
+                                }else{
+                                    hasPack = true;
+                                    break;
+                                }
                             }
                         }
                         if(hasPack){
@@ -540,6 +555,20 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                             if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
                                 hasPack = true;
                                 break;
+                            }else{
+                                String fbStr = fb.getGoodsPackList().get(j).getTagsName();
+                                String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
+                                if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
+                                    hasPack = false;
+                                }else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
+                                    hasPack = true;
+                                    break;
+                                }else if(fbStr.equals(foobStr)){
+                                    hasPack = false;
+                                }else{
+                                    hasPack = true;
+                                    break;
+                                }
                             }
                         }
                         if(hasPack){

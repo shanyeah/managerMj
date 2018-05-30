@@ -742,7 +742,25 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			FoodBean fb = flist.get(i);
 			if (fb.getId() == foodBean.getId()) {
 				if(foodBean.getGoodsPackList().size()>0){
-					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
+					boolean bl = false;
+					if(foodBean.getGoodsPackList().size() == fb.getGoodsPackList().size()){
+						for(int k=0;k<fb.getGoodsPackList().size();k++){
+							String fbStr = fb.getGoodsPackList().get(k).getTagsName();
+							String foodBeanStr = foodBean.getGoodsPackList().get(k).getTagsName();
+							if(fb.getGoodsPackList().get(k).getGoodsId() != foodBean.getGoodsPackList().get(k).getGoodsId()){
+								bl = false;
+								break;
+							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foodBeanStr)){
+								bl = true;
+							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && !StringHelper.isEmpty(fbStr)
+									&& !StringHelper.isEmpty(foodBeanStr)&& fbStr.equals(foodBeanStr)){
+								bl = true;
+							}else{
+								bl = false;
+							}
+						}
+					}
+					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList()) || bl){
 						hasFood = true;
 						hasPack = true;
 						fb.setSelectCount(fb.getSelectCount()+1);

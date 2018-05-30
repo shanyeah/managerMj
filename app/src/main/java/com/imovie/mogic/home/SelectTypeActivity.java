@@ -31,6 +31,7 @@ import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.bean.TypeBean;
 import com.imovie.mogic.car.utils.ViewUtils;
 import com.imovie.mogic.car.view.AddWidget;
+import com.imovie.mogic.car.view.MaxHeightRecyclerView;
 import com.imovie.mogic.car.view.ShopCarView;
 import com.imovie.mogic.home.fragment.BuyGoodsFragment;
 import com.imovie.mogic.home.fragment.ChargeFragment;
@@ -328,7 +329,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         shopCarView = (ShopCarView) findViewById(R.id.car_mainfl);
         View blackView = findViewById(R.id.blackview);
         shopCarView.setBehavior(behavior, blackView);
-        RecyclerView carRecView = (RecyclerView) findViewById(R.id.car_recyclerview);
+        MaxHeightRecyclerView carRecView = (MaxHeightRecyclerView) findViewById(R.id.car_recyclerview);
 //		carRecView.setNestedScrollingEnabled(false);
         carRecView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         ((DefaultItemAnimator) carRecView.getItemAnimator()).setSupportsChangeAnimations(false);

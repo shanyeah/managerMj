@@ -47,7 +47,7 @@
             android:textColor="#666666"/>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.imovie.mogic.car.view.MaxHeightRecyclerView
         android:id="@+id/car_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.utils.ViewUtils;
 import com.imovie.mogic.car.view.AddWidget;
+import com.imovie.mogic.car.view.MaxHeightRecyclerView;
 import com.imovie.mogic.car.view.ShopCarView;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.SelectTypeActivity;
@@ -72,7 +74,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	private ShopCarView shopCarView;
 	private CarAdapter carAdapter;
 	private CoordinatorLayout detail_main;
-	private PullToRefreshFrameLayout pull_content;
+	private SwipeRefreshLayout pull_content;
 	private FlexibleFrameLayout ff_list;
 	private LinearLayout ll_ad;
 //	private DetailHeaderBehavior dhb;
@@ -133,7 +135,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				finish();
 			}
 		});
-//		pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
+		pull_content = (SwipeRefreshLayout) findViewById(R.id.pull_content);
 //		ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
 //		ll_ad = (LinearLayout) findViewById(R.id.ll_ad);
 		headerView = findViewById(R.id.headerview);
@@ -294,6 +296,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
                 ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
             }
         });
+
+		pull_content.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				queryGoodsDetail(foodBean.getId());
+			}
+		});
 	}
 
 	private void setPullAndFlexListener(){
@@ -311,12 +320,12 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 //			}
 //
 //		});
-		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
-			@Override
-			public void onRefresh() {
-				queryGoodsDetail(foodBean.getId());
-			}
-		});
+//		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+//			@Override
+//			public void onRefresh() {
+//				queryGoodsDetail(foodBean.getId());
+//			}
+//		});
 
 
 	}
@@ -378,7 +387,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			}
 		});
 		shopCarView.setBehavior(behavior);
-		RecyclerView carRecView = (RecyclerView) findViewById(R.id.car_recyclerview);
+		MaxHeightRecyclerView carRecView = (MaxHeightRecyclerView) findViewById(R.id.car_recyclerview);
 		carRecView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
 
 		carRecView.addOnItemTouchListener(new OnItemClickListener() {
@@ -634,13 +643,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		HomeWebHelper.queryGoodsDetail(saleBillId,new IModelResultListener<GoodsModel>() {
 			@Override
 			public boolean onGetResultModel(HttpResultModel resultModel) {
-//				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 				return false;
 			}
 
 			@Override
 			public void onSuccess(String resultCode, GoodsModel resultModel, List<GoodsModel> resultModelList, String resultMsg, String hint) {
-//				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 				if(resultCode.equals("0")) {
 					if(resultModel.goodsPackList.size()>0){
 						detail_sale.setVisibility(View.VISIBLE);
@@ -712,13 +721,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			@Override
 			public void onFail(String resultCode, String resultMsg, String hint) {
 //                lvCard.finishLoading(true);
-//				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 			}
 
 			@Override
 			public void onError(String errorMsg) {
 //                lvCard.finishLoading(true);
-//				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 			}
 		});
 	}

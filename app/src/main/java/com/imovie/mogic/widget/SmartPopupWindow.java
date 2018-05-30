@@ -3,6 +3,8 @@ package com.imovie.mogic.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,12 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imovie.mogic.R;
+import com.imovie.mogic.base.universal_loading.YSBLoadingDialog;
 import com.imovie.mogic.home.adater.CategorysAdapter;
 import com.imovie.mogic.home.model.CategorysModel;
 import com.imovie.mogic.home.model.GoodTagList;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +33,9 @@ public class SmartPopupWindow {
 
     private Context context;
     private View anchorView;
+    public PopupWindow popupWindow;
+    private static final int TIMEOUT_ACTION = 1000;
+    private static Handler mHandler;
 
 //    public SelectTagPopupWindow(Context context,List<CategorysModel.Categorys> list,GoodTagList tag) {
 //
@@ -40,11 +47,13 @@ public class SmartPopupWindow {
     public SmartPopupWindow(Context context,View anchorView) {
         this.context=context;
         this.anchorView = anchorView;
+        mHandler = new MyHandler();
     }
 
     public void showPopupWindow() {
 
         showPopup();
+        mHandler.sendEmptyMessageDelayed(TIMEOUT_ACTION,2000);
 
     }
 
@@ -52,7 +61,7 @@ public class SmartPopupWindow {
 
         if (!(context instanceof Activity))
             return;
-        PopupWindow popupView = initPopupView();
+        initPopupView();
     }
 
 
@@ -64,7 +73,7 @@ public class SmartPopupWindow {
         // 创建PopupWindow时候指定高宽时showAsDropDown能够自适应
         // 如果设置为wrap_content,showAsDropDown会认为下面空间一直很充足（我以认为这个Google的bug）
         // 备注如果PopupWindow里面有ListView,ScrollView时，一定要动态设置PopupWindow的大小
-        final PopupWindow popupWindow = new PopupWindow(contentView,
+        popupWindow = new PopupWindow(contentView,
                 contentView.getMeasuredWidth(), contentView.getMeasuredHeight(), false);
 
         contentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -118,6 +127,23 @@ public class SmartPopupWindow {
         upArrowParams.leftMargin = arrowLeftMargin;
         RelativeLayout.LayoutParams downArrowParams = (RelativeLayout.LayoutParams) downArrow.getLayoutParams();
         downArrowParams.leftMargin = arrowLeftMargin;
+    }
+
+    private class MyHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+//            YSBLoadingDialog target = mTarget.get();
+            switch (msg.what){
+                case TIMEOUT_ACTION:
+                    popupWindow.dismiss();
+                    break;
+                default:
+                    break;
+
+            }
+        }
     }
 
 }

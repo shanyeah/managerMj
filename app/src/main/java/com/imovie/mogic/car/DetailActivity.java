@@ -198,7 +198,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		detail_add = (AddWidget) findViewById(R.id.detail_add);
 //		detail_add.setAddButton(true);
 		detail_add.setState(foodBean.getSelectCount());
-		detail_add.setData((AddWidget.OnAddClick) this, foodBean);
+		detail_add.setData((AddWidget.OnAddClick) this, foodBean,3);
 
 
 //		initRecyclerView();
@@ -424,7 +424,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	}
 
 	@Override
-	public void onAddClick(View view, FoodBean fb) {
+	public void onAddClick(View view, FoodBean fb ,int type) {
 		try {
 			if(categorysAdapter.list.size()>0) {
     //			Utills.showShortToast(""+categorysAdapter.getTags()[1]);
@@ -449,7 +449,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	}
 
 	@Override
-	public void onSubClick(FoodBean fb) {
+	public void onSubClick(View view,FoodBean fb,int type) {
 //		dealCar(fb);
 		subOneCar(fb);
 	}

@@ -451,36 +451,16 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             FoodBean fb = flist.get(i);
             if (fb.getId() == foodBean.getId()) {
                 if(foodBean.getGoodsPackList().size()>0){
-                    if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-                        hasFood = false;
+                    if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
+                        hasFood = true;
+                        hasPack = true;
+                        fb.setSelectCount(fb.getSelectCount()+1);
+                        carAdapter.setData(i, fb);
                     }else{
-                        for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-                            if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-                                hasPack = true;
-                                break;
-                            }else{
-                                String fbStr = fb.getGoodsPackList().get(j).getTagsName();
-                                String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
-                                Log.e("----22233",fbStr + ":" + foobStr);
-                                if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
-                                    hasPack = false;
-                                }else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
-                                    hasPack = true;
-                                    break;
-                                }else if(fbStr.equals(foobStr)){
-                                    hasPack = false;
-                                }else{
-                                    hasPack = true;
-                                    break;
-                                }
-                            }
-                        }
                         if(hasPack){
-                            hasFood = false;
-                        }else{
                             hasFood = true;
-                            fb.setSelectCount(fb.getSelectCount()+1);
-                            carAdapter.setData(i, fb);
+                        }else{
+                            hasFood = false;
                         }
                     }
                 }else{
@@ -548,35 +528,16 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             FoodBean fb = flist.get(i);
             if (fb.getId() == foodBean.getId()) {
                 if(foodBean.getGoodsPackList().size()>0){
-                    if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-                        hasFood = false;
+                    if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
+                        hasFood = true;
+                        hasPack = true;
+                        fb.setSelectCount(fb.getSelectCount()-1);
+                        carAdapter.setData(i, fb);
                     }else{
-                        for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-                            if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-                                hasPack = true;
-                                break;
-                            }else{
-                                String fbStr = fb.getGoodsPackList().get(j).getTagsName();
-                                String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
-                                if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
-                                    hasPack = false;
-                                }else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
-                                    hasPack = true;
-                                    break;
-                                }else if(fbStr.equals(foobStr)){
-                                    hasPack = false;
-                                }else{
-                                    hasPack = true;
-                                    break;
-                                }
-                            }
-                        }
                         if(hasPack){
-                            hasFood = false;
-                        }else{
                             hasFood = true;
-                            fb.setSelectCount(fb.getSelectCount()-1);
-                            carAdapter.setData(i, fb);
+                        }else{
+                            hasFood = false;
                         }
                     }
                 }else{
@@ -584,7 +545,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                         hasFood = false;
                     }else {
                         hasFood = true;
-                        fb.setSelectCount(fb.getSelectCount() -1);
+                        fb.setSelectCount(fb.getSelectCount() - 1);
                         carAdapter.setData(i, fb);
                     }
                 }

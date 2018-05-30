@@ -91,15 +91,18 @@ public class GoodsTagAdapter extends BaseAdapter {
         }else{
             holder.tvChangeText.setVisibility(View.GONE);
         }
-
-        holder.tvSelectType.setTag(getItem(position));
-        holder.tvSelectType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onSelect((GoodTagList)view.getTag());
-            }
-        });
-
+        if(list.get(position).hasTag){
+            holder.tvSelectType.setVisibility(View.VISIBLE);
+            holder.tvSelectType.setTag(getItem(position));
+            holder.tvSelectType.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onSelect((GoodTagList)view.getTag());
+                }
+            });
+        }else{
+            holder.tvSelectType.setVisibility(View.GONE);
+        }
 
         try {
             ImageLoader.getInstance().displayImage(list.get(position).imageUrl,holder.ivGoodImge,mOption);

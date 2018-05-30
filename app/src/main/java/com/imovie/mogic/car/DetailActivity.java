@@ -157,8 +157,16 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
         adapter.setOnSelectListener(new GoodsTagAdapter.onSelectListener() {
             @Override
             public void onSelect(GoodTagList tag) {
-//				List<CategorysModel.Categorys> categorys = new ArrayList<>();
-				SelectTagPopupWindow popupWindow = new SelectTagPopupWindow(DetailActivity.this,goodsTagsList.get(0).categorys,tag);
+				List<CategorysModel.Categorys> categorys = new ArrayList<>();
+				if(goodsTagsList.size()>0){
+					for(int k=0;k<goodsTagsList.size();k++) {
+						if(tag.goodsId == goodsTagsList.get(k).goodsId){
+							categorys.addAll(goodsTagsList.get(k).categorys);
+						}
+					}
+
+				}
+				SelectTagPopupWindow popupWindow = new SelectTagPopupWindow(DetailActivity.this,categorys,tag);
 				popupWindow.showPopupWindow();
 				popupWindow.setOnSelectListener(new SelectTagPopupWindow.onSelectListener() {
 					@Override
@@ -641,7 +649,6 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 						if(resultModel.packReplaceList.size()>0) {
 							packReplaceLists.addAll(resultModel.packReplaceList);
-
 							for (int i = 0; i < resultModel.goodsPackList.size(); i++) {
 								for (int j = 0; j < packReplaceLists.size(); j++) {
 									if(resultModel.goodsPackList.get(i).packGroupId == packReplaceLists.get(j).packGroupId){
@@ -652,13 +659,23 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 							}
 						}
 
+						if(resultModel.goodsTagsList.size()>0){
+							goodsTagsList.clear();
+							goodsTagsList.addAll(resultModel.goodsTagsList);
+
+							for (int i = 0; i < resultModel.goodsPackList.size(); i++) {
+								for (int j = 0; j < resultModel.goodsTagsList.size(); j++) {
+									if(resultModel.goodsPackList.get(i).goodsId == resultModel.goodsTagsList.get(j).goodsId){
+										resultModel.goodsPackList.get(i).hasTag = true;
+										break;
+									}
+								}
+							}
+						}
+
 						adapter.list.clear();
 						adapter.list.addAll(resultModel.goodsPackList);
 						adapter.notifyDataSetChanged();
-//						if(foodBean.goodsPackList.size()>0) {
-//							foodBean.goodsPackList.clear();
-//							foodBean.goodsPackList.addAll(adapter.list);
-//						}
 					}else{
 						detail_sale.setVisibility(View.GONE);
 						lvGoodsTagList.setVisibility(View.GONE);
@@ -666,31 +683,18 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						if(resultModel.goodsTagsList.size()>0){
 							lvCategorysList.setVisibility(View.VISIBLE);
 							categorysAdapter.list.clear();
-//							for(int k=0;k<resultModel.goodsTagsList.size();k++) {
-//								categorysAdapter.list.addAll(resultModel.goodsTagsList.get(k).categorys);
-//							}
-							categorysAdapter.list.addAll(resultModel.goodsTagsList.get(0).categorys);
+							for(int k=0;k<resultModel.goodsTagsList.size();k++) {
+								if(resultModel.goodsId == resultModel.goodsTagsList.get(k).goodsId){
+									categorysAdapter.list.addAll(resultModel.goodsTagsList.get(k).categorys);
+								}
+							}
 							categorysAdapter.notifyDataSetChanged();
 						}else{
 							lvCategorysList.setVisibility(View.GONE);
 						}
 					}
-					if(resultModel.goodsTagsList.size()>0) {
-						goodsTagsList.clear();
-						goodsTagsList.addAll(resultModel.goodsTagsList);
-					}
 
-//					Utills.showShortToast(""+resultModel.goodsTagsList.size());
-//					payModelMember = resultModel;
-//					tv_sum_amount.setText("小计：¥" + payModel.payAmount);
-//					tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
-//					tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
-//					tv_amount.setText("总计: ¥"+resultModel.incomeAmount);
-//                    if(payType == 2){
-//                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
-//                    }else{
-//                        payGoodsOrder(resultModel.saleBillId , resultModel.saleBillId,"");
-//                    }
+
 					DisplayImageOptions mOption = new DisplayImageOptions.Builder()
 							.showImageOnLoading(R.drawable.food0)
 							.showImageOnFail(R.drawable.food0)
@@ -719,45 +723,6 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		});
 	}
 
-//	public List<GoodTagList> getPackListData(List<GoodTagList> packList){
-//		List<GoodTagList> goodsPackList = new ArrayList<>();
-//		for(int i=0;i<packList.size();i++){
-//			boolean have = true;
-//			for(int j=0;j<goodsPackList.size();j++){
-//				if(packList.get(i).packGroupId == goodsPackList.get(j).packGroupId){
-//					have = false;
-//					if(goodsPackList.get(j).packList.size()==0){
-//						goodsPackList.get(j).packList.add(changeGoodTag(goodsPackList.get(j)));
-//						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
-//					}else{
-//						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
-//					}
-//				}else{
-//					have = true;
-//				}
-//			}
-//			if(have)goodsPackList.add(packList.get(i));
-//		}
-//		return goodsPackList;
-//	}
-//
-//	public GoodTagList changeGoodTag(GoodTagList tag){
-//
-//		GoodTagList goodTag = new GoodTagList();
-//		goodTag.id = tag.id;
-//		goodTag.createTime = tag.createTime;
-//		goodTag.isSelect = tag.isSelect;
-//		goodTag.goodsId = tag.goodsId;
-//		goodTag.name = tag.name;
-//		goodTag.packPrice = tag.packPrice;
-//		goodTag.price = tag.price;
-//		goodTag.quantity = tag.quantity;
-//		goodTag.goodsTags = tag.goodsTags;
-//		goodTag.imageUrl = tag.imageUrl;
-//		goodTag.packGroupId = tag.packGroupId;
-//		return goodTag;
-//	}
-
 	private void addOneCar(FoodBean food) {
 		FoodBean foodBean = food.getFoodBean(food);
 		HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
@@ -777,36 +742,16 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			FoodBean fb = flist.get(i);
 			if (fb.getId() == foodBean.getId()) {
 				if(foodBean.getGoodsPackList().size()>0){
-					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-						hasFood = false;
+					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
+						hasFood = true;
+						hasPack = true;
+						fb.setSelectCount(fb.getSelectCount()+1);
+						carAdapter.setData(i, fb);
 					}else{
-						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-								hasPack = true;
-								break;
-							}else{
-								String fbStr = fb.getGoodsPackList().get(j).getTagsName();
-								String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
-								Log.e("----222",fbStr + ":" + foobStr);
-								if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
-									hasPack = false;
-								}else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
-									hasPack = true;
-									break;
-								}else if(fbStr.equals(foobStr)){
-									hasPack = false;
-								}else{
-									hasPack = true;
-									break;
-								}
-							}
-						}
 						if(hasPack){
-							hasFood = false;
-						}else{
 							hasFood = true;
-							fb.setSelectCount(fb.getSelectCount()+1);
-							carAdapter.setData(i, fb);
+						}else{
+							hasFood = false;
 						}
 					}
 				}else{
@@ -875,36 +820,16 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			FoodBean fb = flist.get(i);
 			if (fb.getId() == foodBean.getId()) {
 				if(foodBean.getGoodsPackList().size()>0){
-					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-						hasFood = false;
+					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
+						hasFood = true;
+						hasPack = true;
+						fb.setSelectCount(fb.getSelectCount()-1);
+						carAdapter.setData(i, fb);
 					}else{
-						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-								hasPack = true;
-								break;
-							}else{
-								String fbStr = fb.getGoodsPackList().get(j).getTagsName();
-								String foobStr = foodBean.getGoodsPackList().get(j).getTagsName();
-								Utills.showShortToast(fbStr + ":" + foobStr);
-								if(StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr)){
-									hasPack = false;
-								}else if((StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foobStr)) || (!StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foobStr))){
-									hasPack = true;
-									break;
-								}else if(fbStr.equals(foobStr)){
-									hasPack = false;
-								}else{
-									hasPack = true;
-									break;
-								}
-							}
-						}
 						if(hasPack){
-							hasFood = false;
-						}else{
 							hasFood = true;
-							fb.setSelectCount(fb.getSelectCount()-1);
-							carAdapter.setData(i, fb);
+						}else{
+							hasFood = false;
 						}
 					}
 				}else{
@@ -912,7 +837,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						hasFood = false;
 					}else {
 						hasFood = true;
-						fb.setSelectCount(fb.getSelectCount() -1);
+						fb.setSelectCount(fb.getSelectCount() - 1);
 						carAdapter.setData(i, fb);
 					}
 				}

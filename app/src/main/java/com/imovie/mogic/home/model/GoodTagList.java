@@ -25,6 +25,7 @@ public class GoodTagList extends BaseModel {
     public int packGroupId;
     public long selectId = -1;
     public boolean hasChild = false;
+    public boolean hasTag = false;
     public String tagsName;
 
 

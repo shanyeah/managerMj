@@ -43,6 +43,7 @@ import com.imovie.mogic.login.model.LoginModel;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.mine.MapActivity;
 import com.imovie.mogic.myRank.widget.SpinerPopWindow;
+import com.imovie.mogic.utills.ACache;
 import com.imovie.mogic.utills.DecimalUtil;
 import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
@@ -366,11 +367,9 @@ public class HomeFragmentOld extends Fragment {
     }
 
     public void refresh(){
-        organId = MyApplication.getInstance().mPref.getInt("organId",0);
+//        organId = MyApplication.getInstance().mPref.getInt("organId",0);
         getHomeDetail(organId);
-//        getHallDetail();
         getReviewList(organId);
-//        getAuthCodeList();
     }
 
     private void getHomeDetail(int organId){
@@ -523,21 +522,17 @@ public class HomeFragmentOld extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
             InternetBarModel internetBarModel = (InternetBarModel)mSpinerPopWindow.list.get(position);
-            tvHomeHall.setText(internetBarModel.name);
-//            titleBar.setTitle(internetBarModel.name);
-            organId = internetBarModel.id;
-            SharedPreferences.Editor editor = MyApplication.getInstance().mPref.edit();
-            editor.putInt("organId", organId);
-            editor.commit();
+            if(organId != internetBarModel.id) {
+                tvHomeHall.setText(internetBarModel.name);
+                organId = internetBarModel.id;
+                SharedPreferences.Editor editor = MyApplication.getInstance().mPref.edit();
+                editor.putInt("organId", organId);
+                editor.commit();
+                refresh();
+                ACache mCache = ACache.get(getContext());
+                mCache.clear();
+            }
             mSpinerPopWindow.dismiss();
-//            getHallDetail();
-//            getReviewList(organId);
-            refresh();
-
-//            cityId = "" + internetBarModel.id;
-//            if(cityId.equals("0")) cityId="";
-//            getHallList(orderType,cityId);
-//            Toast.makeText(MovieSelectActivity.this, "点击了:" + internetBarModel.id,Toast.LENGTH_SHORT).show();
         }
     };
 

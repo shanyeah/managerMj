@@ -233,6 +233,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 							tagAdapter.list.addAll(packReplaceLists.get(i).replaceList);
 							tagAdapter.setIndex();
 							tagAdapter.notifyDataSetChanged();
+							break;
 						}else{
 							goodsPackList.setVisibility(View.GONE);
 //					llPackListState.setVisibility(View.GONE);

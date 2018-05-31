@@ -756,18 +756,26 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						for(int k=0;k<fb.getGoodsPackList().size();k++){
 							String fbStr = fb.getGoodsPackList().get(k).getTagsName();
 							String foodBeanStr = foodBean.getGoodsPackList().get(k).getTagsName();
+//							Log.e("----222",fbStr + ":" +foodBeanStr);
 							if(fb.getGoodsPackList().get(k).getGoodsId() != foodBean.getGoodsPackList().get(k).getGoodsId()){
 								bl = false;
 								break;
 							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foodBeanStr)){
 								bl = true;
-							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && !StringHelper.isEmpty(fbStr)
-									&& !StringHelper.isEmpty(foodBeanStr)&& fbStr.equals(foodBeanStr)){
-								bl = true;
+							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && !StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foodBeanStr)){
+								if(!fbStr.equals(foodBeanStr)){
+									bl = false;
+									break;
+								}else{
+									bl = true;
+								}
+
 							}else{
 								bl = false;
+								break;
 							}
 						}
+
 					}
 					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList()) || bl){
 						hasFood = true;
@@ -799,8 +807,6 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				typeSelect.put(fb.getType(), fb.getSelectCount());
 			}
 			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
-
-
 		}
 		if (p >= 0) {
 			carAdapter.remove(p);

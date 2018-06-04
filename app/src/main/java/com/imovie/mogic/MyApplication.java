@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemor
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,6 +63,8 @@ public class MyApplication extends Application {
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL);
+
+        CrashReport.initCrashReport(getApplicationContext(), "3379ff1b92", true);
     }
 
 
@@ -88,6 +91,7 @@ public class MyApplication extends Application {
 //        }
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(builder.build());
+
 
         L.writeLogs(false);
     }

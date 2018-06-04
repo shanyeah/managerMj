@@ -67,6 +67,8 @@ public class CarPayActivity extends BaseActivity {
     private TextView tv_amount;
     private RelativeLayout rlScanPay;
     private RelativeLayout rlMemberPay;
+    private TextView tvMemberClass;
+    private TextView tvSeatNo;
     private ImageView ivScanPay;
     private ImageView ivMemberPay;
     private TextView car_limit;
@@ -135,6 +137,8 @@ public class CarPayActivity extends BaseActivity {
         llCarPayMember = (LinearLayout) findViewById(R.id.llCarPayMember);
         tvName=(TextView) findViewById(R.id.tv_name);
         tvNumber=(TextView) findViewById(R.id.tvNumber);
+        tvMemberClass=(TextView) findViewById(R.id.tvMemberClass);
+        tvSeatNo=(TextView) findViewById(R.id.tvSeatNo);
         tvBalance = (TextView) findViewById(R.id.tvBalance);
         tvCashBalance = (TextView) findViewById(R.id.tvCashBalance);
         tvPresentBalance = (TextView) findViewById(R.id.tvPresentBalance);
@@ -275,6 +279,8 @@ public class CarPayActivity extends BaseActivity {
         tvName.setText(""+userModel.name);
         tvNumber.setText("证件号：" + userModel.idNumber);
         tvPhone.setText("" + userModel.mobile);
+        tvMemberClass.setText(""+userModel.className);
+        tvSeatNo.setText("机座号：" + userModel.seatNo);
         tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.balance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>现金:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));

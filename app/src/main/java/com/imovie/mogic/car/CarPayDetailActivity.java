@@ -2,6 +2,7 @@ package com.imovie.mogic.car;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
@@ -47,8 +48,8 @@ public class CarPayDetailActivity extends BaseActivity {
     public static final int MSG_WXSEND = 601;
 
     private TitleBar titleBar;
-    private PullToRefreshFrameLayout pull_content;
-    private FlexibleFrameLayout ff_list;
+    private SwipeRefreshLayout pull_content;
+//    private FlexibleFrameLayout ff_list;
     private LinearLayout llCarPayMember;
     private TextView tvOrderId;
     private TextView tvName;
@@ -119,8 +120,8 @@ public class CarPayDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
-        ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
+        pull_content = (SwipeRefreshLayout) findViewById(R.id.pull_content);
+//        ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
         llCarPayMember = (LinearLayout) findViewById(R.id.llCarPayMember);
         tvOrderId=(TextView) findViewById(R.id.tvOrderId);
         tvName=(TextView) findViewById(R.id.tv_name);
@@ -151,20 +152,7 @@ public class CarPayDetailActivity extends BaseActivity {
 
     private void setPullAndFlexListener(){
 //		ff_list.setFlexView(ll_ad);
-        ff_list.setFlexible(true);
-
-        ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
-            @Override
-            public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
-                if (isOnTop) {
-                    pull_content.setPullEnable(true);
-                } else {
-                    pull_content.setPullEnable(false);
-                }
-            }
-
-        });
-        pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+        pull_content.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 queryGoodsBillDetail(getIntent().getStringExtra("saleBillId"));
@@ -223,13 +211,13 @@ public class CarPayDetailActivity extends BaseActivity {
         HomeWebHelper.queryGoodsBillDetail(saleBillId,new IModelResultListener<PayDetailModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
-                pull_content.endRefresh(true);
+                pull_content.setRefreshing(false);
                 return false;
             }
 
             @Override
             public void onSuccess(String resultCode, PayDetailModel resultModel, List<PayDetailModel> resultModelList, String resultMsg, String hint) {
-                pull_content.endRefresh(true);
+                pull_content.setRefreshing(false);
                 if(resultCode.equals("0")) {
 //                    payModel = resultModel;
                     tvOrderId.setText(resultModel.orderNo);
@@ -259,12 +247,12 @@ public class CarPayDetailActivity extends BaseActivity {
 
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
-                pull_content.endRefresh(true);
+                pull_content.setRefreshing(false);
             }
 
             @Override
             public void onError(String errorMsg) {
-                pull_content.endRefresh(true);
+                pull_content.setRefreshing(false);
             }
         });
     }

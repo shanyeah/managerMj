@@ -531,6 +531,7 @@ public class HomeFragmentOld extends Fragment {
                 refresh();
                 ACache mCache = ACache.get(getContext());
                 mCache.clear();
+                MyApplication.getInstance().getCarListData().clear();
             }
             mSpinerPopWindow.dismiss();
         }

@@ -73,9 +73,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/tv_name"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="10dp"
                             android:text="手机号："
                             style="@style/text_18_T1"/>
+
 
                         <TextView
                             android:id="@+id/tvNumber"
@@ -87,22 +88,31 @@
                             android:text="565223"
                             style="@style/text_14_T2" />
                         <TextView
-                            android:id="@+id/tvBalance"
+                            android:id="@+id/tvSeatNo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             android:layout_below="@+id/tvNumber"
                             android:text="5"
-                            style="@style/text_14_T5"/>
+                            style="@style/text_14_T2"/>
                         <TextView
-                            android:id="@+id/tvCashBalance"
+                            android:id="@+id/tvBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="35dp"
-                            android:layout_alignBaseline="@+id/tvBalance"
+                            android:layout_alignBaseline="@+id/tvSeatNo"
                             android:gravity="center_vertical"
+                            android:text="0"
+                            style="@style/text_14_T5" />
+                        <TextView
+                            android:id="@+id/tvCashBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvSeatNo"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
                             android:text="0"
                             style="@style/text_14_T5" />
                         <TextView
@@ -110,17 +120,28 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:layout_marginLeft="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="35dp"
                             android:layout_below="@+id/tvBalance"
                             android:text="5"
                             style="@style/text_14_T5"/>
 
                         <ImageView
+                            android:id="@+id/ivNextState"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/arrow_right_next"/>
+                        <TextView
+                            android:id="@+id/tvMemberClass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/tv_name"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="35dp"
+                            android:text=""
+                            style="@style/text_14_T2"/>
 
                     </RelativeLayout>
 

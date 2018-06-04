@@ -14,4 +14,6 @@ public class SearchUserModel extends BaseModel {
     public String mobile;
     public int status =0;
     public int needPayPass;
+    public String className;
+    public String seatNo = "";
 }

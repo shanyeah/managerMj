@@ -278,10 +278,10 @@ public class CarPayActivity extends BaseActivity {
         llCarPayMember.setVisibility(View.VISIBLE);
         tvName.setText(""+userModel.name);
         tvNumber.setText("证件号：" + userModel.idNumber);
-        tvPhone.setText("" + userModel.mobile);
+        tvPhone.setText("(" + userModel.mobile+")");
         tvMemberClass.setText(""+userModel.className);
         tvSeatNo.setText("机座号：" + userModel.seatNo);
-        if(!StringHelper.isEmpty(userModel.seatNo))etPayRemark.setText(userModel.seatNo);
+        if(!StringHelper.isEmpty(userModel.seatNo))etUserId.setText(userModel.seatNo);
         tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.balance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>现金:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));

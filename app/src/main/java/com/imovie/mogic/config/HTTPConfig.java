@@ -245,6 +245,7 @@ public class HTTPConfig {
         data.append("?token=" + MyApplication.getInstance().mPref.getString("token",""));
         data.append("&ver=12");
         data.append("&appId=10001");
+//        data.append("&token=" + MyApplication.getInstance().mPref.getString("userToken",""));
 //        data.append("&lat=" + MyApplication.getInstance().getCoordinate().latitude);
 //        data.append("&lng=" + MyApplication.getInstance().getCoordinate().longitude);
 //        data.append("&appver=1-" + AppConfig.getVersionName()+"-12");

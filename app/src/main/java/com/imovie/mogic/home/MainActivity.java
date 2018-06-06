@@ -280,7 +280,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 switchBottomMenu(4);
-
             }
         });
 

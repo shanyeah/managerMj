@@ -41,9 +41,9 @@ public class GoodTagDialog extends Dialog implements View.OnClickListener{
 		this.context = context;
 		this.view = v;
 		lvGoodsTagList = (ListView) findViewById(R.id.lvGoodsTagList);
-		adapter = new GoodsTagAdapter(context,list);
-		lvGoodsTagList.setAdapter(adapter);
-		lvGoodsTagList.setDivider(null);
+//		adapter = new GoodsTagAdapter(context,list);
+//		lvGoodsTagList.setAdapter(adapter);
+//		lvGoodsTagList.setDivider(null);
 		if(list.size()>0) {
 			adapter.setSelectIndex(0);
 			goodTagList = adapter.getItem(0);

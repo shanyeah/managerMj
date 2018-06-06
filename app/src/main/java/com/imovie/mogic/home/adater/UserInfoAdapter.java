@@ -54,6 +54,8 @@ public class UserInfoAdapter extends BaseAdapter {
             holder.tvBalance=(TextView) convertView.findViewById(R.id.tvBalance);
             holder.tvCashBalance=(TextView) convertView.findViewById(R.id.tvCashBalance);
             holder.tvPresentBalance=(TextView) convertView.findViewById(R.id.tvPresentBalance);
+            holder.tvMemeberClass=(TextView) convertView.findViewById(R.id.tvMemeberClass);
+            holder.tvSeatNo=(TextView) convertView.findViewById(R.id.tvSeatNo);
             convertView.setTag(holder);
          } else {
             holder = (ViewHolder) convertView.getTag();
@@ -62,8 +64,10 @@ public class UserInfoAdapter extends BaseAdapter {
         SearchUserModel internetBarModel = (SearchUserModel)getItem(position);
         holder.tvName.setText(internetBarModel.name+"("+ internetBarModel.mobile +")");
         holder.tvNumber.setText("证件号：" + internetBarModel.idNumber);
+        holder.tvMemeberClass.setText(internetBarModel.className);
+        holder.tvSeatNo.setText("机座号：" + internetBarModel.seatNo);
         holder.tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.balance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
-        holder.tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>充值:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
+        holder.tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>现金:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
         holder.tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(internetBarModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+context.getResources().getString(R.string.symbol_RMB)+"</font>"));
         return convertView;
     }
@@ -85,5 +89,7 @@ public class UserInfoAdapter extends BaseAdapter {
         private TextView tvBalance;
         private TextView tvCashBalance;
         private TextView tvPresentBalance;
+        private TextView tvMemeberClass;
+        private TextView tvSeatNo;
     }
 }

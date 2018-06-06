@@ -201,6 +201,7 @@ public class FoodBean implements Serializable{
 			foodTag.setImageUrl(tag.imageUrl);
 			foodTag.setPackGroupId(tag.packGroupId);
 			foodTag.setSelectId(tag.selectId);
+			foodTag.setTagsName(tag.tagsName);
 			list.add(foodTag);
 		}
 		this.goodsPackList = list;

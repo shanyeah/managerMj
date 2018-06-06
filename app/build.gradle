@@ -25,13 +25,13 @@ android {
         release {
             minifyEnabled false // 是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            manifestPlaceholders = [baidu_api_key: "a2glbTjs7qX1ydWPOqZQlkC3VQGX17pi"]
+            manifestPlaceholders = [baidu_api_key: "BSEpgfZqPzlqYRDeV3mwASNOccT27YpN"]
             //iVAigHm19EoML0Amow2rFNplSoW97Xm1  YgyolAcugIUUpqHGKz0Pn0bXGrBlGrKV
             signingConfig signingConfigs.android
         }
         debug {
-            manifestPlaceholders = [baidu_api_key: "a2glbTjs7qX1ydWPOqZQlkC3VQGX17pi"]
-            //ZXQ4ctLsy2cvw9XzEXK76oiHsZaC8yTs  5BWZTprd1cUdIN14GIQFHKk0Oz4FKy4W  YgyolAcugIUUpqHGKz0Pn0bXGrBlGrKV
+            manifestPlaceholders = [baidu_api_key: "BSEpgfZqPzlqYRDeV3mwASNOccT27YpN"]
+            //ZXQ4ctLsy2cvw9XzEXK76oiHsZaC8yTs  5BWZTprd1cUdIN14GIQFHKk0Oz4FKy4W  YgyolAcugIUUpqHGKz0Pn0bXGrBlGrKV a2glbTjs7qX1ydWPOqZQlkC3VQGX17pi
             signingConfig signingConfigs.android
         }
     }
@@ -102,4 +102,5 @@ dependencies {
     compile 'com.github.florent37:viewanimator:1.0.5'
     compile files('libs/BaiduLBS_Android.jar')
     implementation files('libs/fastjson-1.2.29.jar')
+    compile 'com.tencent.bugly:crashreport:latest.release'
 }

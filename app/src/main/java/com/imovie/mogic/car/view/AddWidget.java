@@ -29,12 +29,13 @@ public class AddWidget extends FrameLayout {
 	private boolean sub_anim, circle_anim;
 	private FoodBean foodBean;
 	private boolean btAdd = false;
+	private int type;
 
 	public interface OnAddClick {
 
-		void onAddClick(View view, FoodBean fb);
+		void onAddClick(View view, FoodBean fb,int type);
 
-		void onSubClick(FoodBean fb);
+		void onSubClick(View view,FoodBean fb,int type);
 	}
 
 	private OnAddClick onAddClick;
@@ -88,7 +89,7 @@ public class AddWidget extends FrameLayout {
 				if(!btAdd)tv_count.setText(count + "");
 				foodBean.setSelectCount(count);
 				if (onAddClick != null) {
-					onAddClick.onAddClick(addbutton, foodBean);
+					onAddClick.onAddClick(addbutton, foodBean,type);
 				}
 			}
 		});
@@ -101,11 +102,12 @@ public class AddWidget extends FrameLayout {
 				if (count == 1 && sub_anim) {
 					subAnim();
 				}
-				count--;
-				tv_count.setText(count == 0 ? "1" : count + "");
+//				count--;
+//				tv_count.setText(count == 0 ? "1" : count + "");
 //				foodBean.setSelectCount(count);
+				tv_count.setText(count + "");
 				if (onAddClick != null) {
-					onAddClick.onSubClick(foodBean);
+					onAddClick.onSubClick(v,foodBean,type);
 				}
 			}
 		});
@@ -139,8 +141,9 @@ public class AddWidget extends FrameLayout {
 		;
 	}
 
-	public void setData(OnAddClick onAddClick, FoodBean foodBean) {
+	public void setData(OnAddClick onAddClick, FoodBean foodBean,int type) {
 		this.foodBean = foodBean;
+		this.type = type;
 		this.onAddClick = onAddClick;
 		count = foodBean.getSelectCount();
         if(!btAdd) {

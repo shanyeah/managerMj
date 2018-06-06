@@ -13,6 +13,7 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.bean.TypeBean;
 import com.imovie.mogic.car.view.AddWidget;
+import com.imovie.mogic.utills.Utills;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -46,9 +47,10 @@ public class FoodAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 		;
 		AddWidget addWidget = helper.getView(R.id.addwidget);
 		TextView tv_summary = helper.getView(R.id.tv_summary);
+
 //		addWidget.setData(this, helper.getAdapterPosition(), onAddClick);
-		addWidget.setState(2);
-		addWidget.setData( onAddClick,item);
+//		addWidget.setState(2);
+		addWidget.setData( onAddClick,item,1);
 
 		if(item.getGoodsPackList().size()>0){
 			tv_summary.setVisibility(View.VISIBLE);

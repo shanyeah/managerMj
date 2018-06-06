@@ -82,6 +82,7 @@ public class LoginActivity extends BaseActivity {
         LoginWebHelper.getLogin(password,phone,new IModelResultListener<LoginModel>() {
             @Override
             public boolean onGetResultModel(HttpResultModel resultModel) {
+                Utills.showShortToast("网络异常");
                 return false;
             }
 
@@ -119,12 +120,12 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFail(String resultCode, String resultMsg, String hint) {
-
+                Utills.showShortToast("网络异常");
             }
 
             @Override
             public void onError(String errorMsg) {
-
+                Utills.showShortToast("网络异常");
             }
         });
     }

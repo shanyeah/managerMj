@@ -59,6 +59,7 @@ public class CarPayActivity extends BaseActivity {
     private TextView tvName;
     private TextView tvNumber;
     private TextView tvBalance;
+    private TextView tvCashBalance;
     private TextView tvPresentBalance;
     private TextView tvPhone;
     private TextView stgName;
@@ -66,6 +67,8 @@ public class CarPayActivity extends BaseActivity {
     private TextView tv_amount;
     private RelativeLayout rlScanPay;
     private RelativeLayout rlMemberPay;
+    private TextView tvMemberClass;
+    private TextView tvSeatNo;
     private ImageView ivScanPay;
     private ImageView ivMemberPay;
     private TextView car_limit;
@@ -134,7 +137,10 @@ public class CarPayActivity extends BaseActivity {
         llCarPayMember = (LinearLayout) findViewById(R.id.llCarPayMember);
         tvName=(TextView) findViewById(R.id.tv_name);
         tvNumber=(TextView) findViewById(R.id.tvNumber);
+        tvMemberClass=(TextView) findViewById(R.id.tvMemberClass);
+        tvSeatNo=(TextView) findViewById(R.id.tvSeatNo);
         tvBalance = (TextView) findViewById(R.id.tvBalance);
+        tvCashBalance = (TextView) findViewById(R.id.tvCashBalance);
         tvPresentBalance = (TextView) findViewById(R.id.tvPresentBalance);
         tvPhone=(TextView) findViewById(R.id.tvPhone);
         stgName = (TextView) findViewById(R.id.stgName);
@@ -273,7 +279,10 @@ public class CarPayActivity extends BaseActivity {
         tvName.setText(""+userModel.name);
         tvNumber.setText("证件号：" + userModel.idNumber);
         tvPhone.setText("" + userModel.mobile);
+        tvMemberClass.setText(""+userModel.className);
+        tvSeatNo.setText("机座号：" + userModel.seatNo);
         tvBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>余额:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.balance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
+        tvCashBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>现金:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.cashBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         tvPresentBalance.setText(Html.fromHtml("<font color='#565a5c' size=14>赠送:</font><font color=\'#fd5c02\' size=14>"+ DecimalUtil.FormatMoney(userModel.presentBalance) +"</font><font color=\'#565a5c\' size=14>"+getResources().getString(R.string.symbol_RMB)+"</font>"));
         try {
             billMemberPrice(userId,payModel.saleBillId);
@@ -314,6 +323,7 @@ public class CarPayActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String resultCode, PayResultModel resultModel, List<PayResultModel> resultModelList, String resultMsg, String hint) {
+                YSBLoadingDialog.dismissDialog();
                 if(resultCode.equals("0")) {
                     payModel = resultModel;
                     tv_sum_amount.setText("小计：¥" + payModel.payAmount);
@@ -386,7 +396,7 @@ public class CarPayActivity extends BaseActivity {
 
 
     public void payGoodsOrder(long saleBillId, long userId,String seatNo,int payType, long payCategoryId,double incomeAmount,String remark,String tn,String payPassword){
-        YSBLoadingDialog.showLoadingDialog(CarPayActivity.this, 2000, new YSBLoadingDialog.OnCancelListener() {
+        YSBLoadingDialog.showLoadingDialog(CarPayActivity.this, 6000, new YSBLoadingDialog.OnCancelListener() {
             @Override
             public void onTimeout() {
                 YSBLoadingDialog.dismissDialog();
@@ -405,7 +415,7 @@ public class CarPayActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String resultCode, TestModel resultModel, List<TestModel> resultModelList, String resultMsg, String hint) {
-
+                YSBLoadingDialog.dismissDialog();
                 if(resultCode.equals("0")) {
                     Utills.showShortToast(resultMsg);
                     sendBroadcast(new Intent(SelectTypeActivity.CLEARCAR_ACTION));

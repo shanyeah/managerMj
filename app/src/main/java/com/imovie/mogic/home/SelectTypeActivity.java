@@ -31,6 +31,7 @@ import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.bean.TypeBean;
 import com.imovie.mogic.car.utils.ViewUtils;
 import com.imovie.mogic.car.view.AddWidget;
+import com.imovie.mogic.car.view.MaxHeightRecyclerView;
 import com.imovie.mogic.car.view.ShopCarView;
 import com.imovie.mogic.home.fragment.BuyGoodsFragment;
 import com.imovie.mogic.home.fragment.ChargeFragment;
@@ -44,6 +45,7 @@ import com.imovie.mogic.mine.fragment.ClockFragment;
 import com.imovie.mogic.myRank.MinePraiseActivity;
 import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
+import com.imovie.mogic.widget.SmartPopupWindow;
 import com.imovie.mogic.widget.TitleBar;
 
 import java.io.Serializable;
@@ -104,17 +106,64 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
     }
 
     @Override
-    public void onAddClick(View view, FoodBean fb) {
+    public void onAddClick(View view, FoodBean fb,int type) {
 //        dealCar(fb);
-        addOneCar(fb);
-        ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), rootview);
+        if(type==2) {
+            addOneCar(fb ,false);
+            ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), rootview);
+        }else{
+            if(fb.getGoodsPackList().size()>0){
+                List<FoodBean> flist = carAdapter.getData();
+                long count=0;
+                for(int j=0;j<flist.size();j++){
+                    if(flist.get(j).getId() == fb.getId()) {
+                        count +=1;
+                    }
+                }
+                if(count==0){
+                    addOneCar(fb,false);
+                    ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), rootview);
+                }else if(count==1){
+                    addOneCar(fb,true);
+                }else{
+                    SmartPopupWindow popupWindow = new SmartPopupWindow(SelectTypeActivity.this,view);
+                    popupWindow.showPopupWindow();
+                }
+            }else{
+                addOneCar(fb ,false);
+                ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), rootview);
+            }
+
+//            Utills.showShortToast(""+type);
+        }
     }
 
 
     @Override
-    public void onSubClick(FoodBean fb) {
+    public void onSubClick(View view,FoodBean fb,int type) {
 //        dealCar(fb);
-        subOneCar(fb);
+
+        if (type == 2) {
+            subOneCar(fb,false);
+        } else {
+            if (fb.getGoodsPackList().size() > 0) {
+                List<FoodBean> flist = carAdapter.getData();
+                long count = 0;
+                for (int j = 0; j < flist.size(); j++) {
+                    if (flist.get(j).getId() == fb.getId()) {
+                        count += 1;
+                    }
+                }
+                if (count == 1) {
+                    subOneCar(fb,true);
+                } else {
+                    SmartPopupWindow popupWindow = new SmartPopupWindow(SelectTypeActivity.this,view);
+                    popupWindow.showPopupWindow();
+                }
+            } else {
+                subOneCar(fb,false);
+            }
+        }
     }
 
     private void dealCar(FoodBean food) {
@@ -280,7 +329,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         shopCarView = (ShopCarView) findViewById(R.id.car_mainfl);
         View blackView = findViewById(R.id.blackview);
         shopCarView.setBehavior(behavior, blackView);
-        RecyclerView carRecView = (RecyclerView) findViewById(R.id.car_recyclerview);
+        MaxHeightRecyclerView carRecView = (MaxHeightRecyclerView) findViewById(R.id.car_recyclerview);
 //		carRecView.setNestedScrollingEnabled(false);
         carRecView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         ((DefaultItemAnimator) carRecView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -403,7 +452,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                     break;
                 case SUB_ACTION:
                     FoodBean f= (FoodBean) intent.getSerializableExtra("foodbean");
-                    subOneCar(f);
+                    subOneCar(f,false);
                     break;
 
                 case CAR_REFRESH:
@@ -415,8 +464,16 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
 //                    FoodBean fb = foodBean;
                     for (int i = 0; i < buyGoodsFragment.getFoodAdapter().getItemCount(); i++) {
                         FoodBean fbean = buyGoodsFragment.getFoodAdapter().getItem(i);
-                        if (fbean.getId() == food.getId()) {
-                            fbean.setSelectCount(food.getSelectCount());
+                        if (fbean.getGoodsId() == food.getGoodsId()) {
+                            List<FoodBean> flist = carAdapter.getData();
+                            long count=0;
+                            for(int j=0;j<flist.size();j++){
+                                if(flist.get(j).getGoodsId() == food.getGoodsId()) {
+                                    count +=flist.get(j).getSelectCount();
+                                }
+                            }
+                            fbean.setSelectCount(count);
+                            food.setSelectCount(count);
                             buyGoodsFragment.getFoodAdapter().setData(i, food);
                             break;
                         }
@@ -435,7 +492,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
 
 
 
-    private void addOneCar(FoodBean food) {
+    private void addOneCar(FoodBean food,boolean bl) {
         FoodBean foodBean = food.getFoodBean(food);
         HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
         BigDecimal amount = new BigDecimal(0.0);
@@ -451,21 +508,23 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             FoodBean fb = flist.get(i);
             if (fb.getId() == foodBean.getId()) {
                 if(foodBean.getGoodsPackList().size()>0){
-                    if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-                        hasFood = false;
+                    if(bl){
+                        hasFood = true;
+                        hasPack = true;
+                        fb.setSelectCount(fb.getSelectCount()+1);
+                        carAdapter.setData(i, fb);
                     }else{
-                        for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-                            if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-                                hasPack = true;
-                                break;
-                            }
-                        }
-                        if(hasPack){
-                            hasFood = false;
-                        }else{
+                        if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
                             hasFood = true;
+                            hasPack = true;
                             fb.setSelectCount(fb.getSelectCount()+1);
                             carAdapter.setData(i, fb);
+                        }else{
+                            if(hasPack){
+                                hasFood = true;
+                            }else{
+                                hasFood = false;
+                            }
                         }
                     }
                 }else{
@@ -517,7 +576,7 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
         sendBroadcast(intent);
     }
 
-    private void subOneCar(FoodBean foodBean) {
+    private void subOneCar(FoodBean foodBean,boolean bl) {
 //        FoodBean foodBean = food.getFoodBean(food);
         HashMap<String, Long> typeSelect = new HashMap<>();//更新左侧类别badge用
         BigDecimal amount = new BigDecimal(0.0);
@@ -533,29 +592,32 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
             FoodBean fb = flist.get(i);
             if (fb.getId() == foodBean.getId()) {
                 if(foodBean.getGoodsPackList().size()>0){
-                    if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-                        hasFood = false;
+                    if(bl){
+                        hasFood = true;
+                        hasPack = true;
+                        fb.setSelectCount(fb.getSelectCount()-1);
+                        carAdapter.setData(i, fb);
                     }else{
-                        for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-                            if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-                                hasPack = true;
-                                break;
-                            }
-                        }
-                        if(hasPack){
-                            hasFood = false;
-                        }else{
+                        if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
                             hasFood = true;
+                            hasPack = true;
                             fb.setSelectCount(fb.getSelectCount()-1);
                             carAdapter.setData(i, fb);
+                        }else{
+                            if(hasPack){
+                                hasFood = true;
+                            }else{
+                                hasFood = false;
+                            }
                         }
                     }
+
                 }else{
                     if(!fb.getTagsName().equals(foodBean.getTagsName())){
                         hasFood = false;
                     }else {
                         hasFood = true;
-                        fb.setSelectCount(fb.getSelectCount() -1);
+                        fb.setSelectCount(fb.getSelectCount() - 1);
                         carAdapter.setData(i, fb);
                     }
                 }
@@ -651,6 +713,10 @@ public class SelectTypeActivity extends BaseActivity implements AddWidget.OnAddC
                         typeSelect.put(fb.getType(), fb.getSelectCount());
                     }
                     amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
+
+                    Intent intent = new Intent(SelectTypeActivity.LIST_ACTION);
+                    intent.putExtra("foodbean", fb);
+                    sendBroadcast(intent);
 
                 }
                 shopCarView.showBadge(total);

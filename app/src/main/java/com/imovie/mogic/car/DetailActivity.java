@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import com.imovie.mogic.car.adapters.CarAdapter;
 import com.imovie.mogic.car.bean.FoodBean;
 import com.imovie.mogic.car.utils.ViewUtils;
 import com.imovie.mogic.car.view.AddWidget;
+import com.imovie.mogic.car.view.MaxHeightRecyclerView;
 import com.imovie.mogic.car.view.ShopCarView;
 import com.imovie.mogic.home.BaseActivity;
 import com.imovie.mogic.home.SelectTypeActivity;
@@ -44,6 +46,7 @@ import com.imovie.mogic.home.model.PackReplaceList;
 import com.imovie.mogic.home.model.PayResultModel;
 import com.imovie.mogic.home.net.HomeWebHelper;
 import com.imovie.mogic.utills.DecimalUtil;
+import com.imovie.mogic.utills.StringHelper;
 import com.imovie.mogic.utills.Utills;
 import com.imovie.mogic.web.IModelResultListener;
 import com.imovie.mogic.web.model.HttpResultModel;
@@ -51,6 +54,7 @@ import com.imovie.mogic.widget.FlexibleFrameLayout;
 import com.imovie.mogic.widget.HorizontalListView;
 import com.imovie.mogic.widget.NoScrollListView;
 import com.imovie.mogic.widget.PullToRefreshFrameLayout;
+import com.imovie.mogic.widget.SelectTagPopupWindow;
 import com.imovie.mogic.widget.TitleBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -70,8 +74,9 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	private ShopCarView shopCarView;
 	private CarAdapter carAdapter;
 	private CoordinatorLayout detail_main;
-	private PullToRefreshFrameLayout pull_content;
+	private SwipeRefreshLayout pull_content;
 	private FlexibleFrameLayout ff_list;
+	private LinearLayout ll_ad;
 //	private DetailHeaderBehavior dhb;
 	private View headerView;
 	public HorizontalListView lvGoodsTagList;
@@ -92,6 +97,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	public NoScrollListView lvCategorysList;
 	public CategorysAdapter categorysAdapter;
 	public List<CategorysModel.Categorys> categorys = new ArrayList<>();
+	public List<CategorysModel> goodsTagsList = new ArrayList<>();
 
 
 
@@ -129,8 +135,9 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				finish();
 			}
 		});
-		pull_content = (PullToRefreshFrameLayout) findViewById(R.id.pull_content);
-		ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
+		pull_content = (SwipeRefreshLayout) findViewById(R.id.pull_content);
+//		ff_list = (FlexibleFrameLayout) findViewById(R.id.ff_list);
+//		ll_ad = (LinearLayout) findViewById(R.id.ll_ad);
 		headerView = findViewById(R.id.headerview);
 //		CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) headerView.getLayoutParams();
 //		dhb = (DetailHeaderBehavior) lp.getBehavior();
@@ -149,6 +156,37 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		lvGoodsTagList = (HorizontalListView) findViewById(R.id.lvGoodsTagList);
 		goodsPackList = (HorizontalListView) findViewById(R.id.goodsPackList);
 		adapter = new GoodsTagAdapter(DetailActivity.this,packsList);
+        adapter.setOnSelectListener(new GoodsTagAdapter.onSelectListener() {
+            @Override
+            public void onSelect(GoodTagList tag) {
+				List<CategorysModel.Categorys> categorys = new ArrayList<>();
+				if(goodsTagsList.size()>0){
+					for(int k=0;k<goodsTagsList.size();k++) {
+						if(tag.goodsId == goodsTagsList.get(k).goodsId){
+							categorys.addAll(goodsTagsList.get(k).categorys);
+						}
+					}
+
+				}
+				SelectTagPopupWindow popupWindow = new SelectTagPopupWindow(DetailActivity.this,categorys,tag);
+				popupWindow.showPopupWindow();
+				popupWindow.setOnSelectListener(new SelectTagPopupWindow.onSelectListener() {
+					@Override
+					public void onSelect(GoodTagList tag) {
+//						Utills.showShortToast(""+tag.tagsName);
+						for(int i=0;i<adapter.list.size();i++){
+							if(adapter.list.get(i).goodsId == tag.goodsId && adapter.list.get(i).selectId == tag.goodsId){
+								adapter.list.get(i).tagsName = tag.tagsName;
+								break;
+							}
+						}
+						foodBean.getGoodsPackList().clear();
+						foodBean.setGoodsPackList(adapter.list);
+					}
+				});
+            }
+
+        });
 		lvGoodsTagList.setAdapter(adapter);
 		if(foodBean.getGoodsPackList().size()>0){
 			detail_sale.setVisibility(View.VISIBLE);
@@ -162,7 +200,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		detail_add = (AddWidget) findViewById(R.id.detail_add);
 //		detail_add.setAddButton(true);
 		detail_add.setState(foodBean.getSelectCount());
-		detail_add.setData((AddWidget.OnAddClick) this, foodBean);
+		detail_add.setData((AddWidget.OnAddClick) this, foodBean,3);
 
 
 //		initRecyclerView();
@@ -171,7 +209,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		initShopCar();
 	}
 	private void setViews() {
-		setPullAndFlexListener();
+//		setPullAndFlexListener();
 
 		categorysAdapter = new CategorysAdapter(DetailActivity.this,categorys);
 		lvCategorysList.setAdapter(categorysAdapter);
@@ -195,6 +233,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 							tagAdapter.list.addAll(packReplaceLists.get(i).replaceList);
 							tagAdapter.setIndex();
 							tagAdapter.notifyDataSetChanged();
+							break;
 						}else{
 							goodsPackList.setVisibility(View.GONE);
 //					llPackListState.setVisibility(View.GONE);
@@ -258,29 +297,36 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
                 ViewUtils.addTvAnim(view, shopCarView.carLoc, getApplicationContext(), detail_main);
             }
         });
-	}
 
-	private void setPullAndFlexListener(){
-//		ff_list.setFlexView(ll_ad);
-		ff_list.setFlexible(true);
-
-		ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
-			@Override
-			public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
-				if (isOnTop) {
-					pull_content.setPullEnable(true);
-				} else {
-					pull_content.setPullEnable(false);
-				}
-			}
-
-		});
-		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+		pull_content.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				queryGoodsDetail(foodBean.getId());
 			}
 		});
+	}
+
+	private void setPullAndFlexListener(){
+//		ff_list.setFlexView(ll_ad);
+//		ff_list.setFlexible(true);
+//
+//		ff_list.setOnFlexChangeListener(new FlexibleFrameLayout.OnFlexChangeListener() {
+//			@Override
+//			public void onFlexChange(int flexHeight, int currentFlexHeight, boolean isOnTop) {
+//				if (isOnTop) {
+//					pull_content.setPullEnable(true);
+//				} else {
+//					pull_content.setPullEnable(false);
+//				}
+//			}
+//
+//		});
+//		pull_content.setOnPullToRefreshListener(new PullToRefreshFrameLayout.OnPullToRefreshListener() {
+//			@Override
+//			public void onRefresh() {
+//				queryGoodsDetail(foodBean.getId());
+//			}
+//		});
 
 
 	}
@@ -342,7 +388,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			}
 		});
 		shopCarView.setBehavior(behavior);
-		RecyclerView carRecView = (RecyclerView) findViewById(R.id.car_recyclerview);
+		MaxHeightRecyclerView carRecView = (MaxHeightRecyclerView) findViewById(R.id.car_recyclerview);
 		carRecView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
 
 		carRecView.addOnItemTouchListener(new OnItemClickListener() {
@@ -388,7 +434,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	}
 
 	@Override
-	public void onAddClick(View view, FoodBean fb) {
+	public void onAddClick(View view, FoodBean fb ,int type) {
 		try {
 			if(categorysAdapter.list.size()>0) {
     //			Utills.showShortToast(""+categorysAdapter.getTags()[1]);
@@ -413,7 +459,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 	}
 
 	@Override
-	public void onSubClick(FoodBean fb) {
+	public void onSubClick(View view,FoodBean fb,int type) {
 //		dealCar(fb);
 		subOneCar(fb);
 	}
@@ -598,13 +644,13 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 		HomeWebHelper.queryGoodsDetail(saleBillId,new IModelResultListener<GoodsModel>() {
 			@Override
 			public boolean onGetResultModel(HttpResultModel resultModel) {
-				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 				return false;
 			}
 
 			@Override
 			public void onSuccess(String resultCode, GoodsModel resultModel, List<GoodsModel> resultModelList, String resultMsg, String hint) {
-				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 				if(resultCode.equals("0")) {
 					if(resultModel.goodsPackList.size()>0){
 						detail_sale.setVisibility(View.VISIBLE);
@@ -613,7 +659,6 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 
 						if(resultModel.packReplaceList.size()>0) {
 							packReplaceLists.addAll(resultModel.packReplaceList);
-
 							for (int i = 0; i < resultModel.goodsPackList.size(); i++) {
 								for (int j = 0; j < packReplaceLists.size(); j++) {
 									if(resultModel.goodsPackList.get(i).packGroupId == packReplaceLists.get(j).packGroupId){
@@ -624,13 +669,23 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 							}
 						}
 
+						if(resultModel.goodsTagsList.size()>0){
+							goodsTagsList.clear();
+							goodsTagsList.addAll(resultModel.goodsTagsList);
+
+							for (int i = 0; i < resultModel.goodsPackList.size(); i++) {
+								for (int j = 0; j < resultModel.goodsTagsList.size(); j++) {
+									if(resultModel.goodsPackList.get(i).goodsId == resultModel.goodsTagsList.get(j).goodsId){
+										resultModel.goodsPackList.get(i).hasTag = true;
+										break;
+									}
+								}
+							}
+						}
+
 						adapter.list.clear();
 						adapter.list.addAll(resultModel.goodsPackList);
 						adapter.notifyDataSetChanged();
-//						if(foodBean.goodsPackList.size()>0) {
-//							foodBean.goodsPackList.clear();
-//							foodBean.goodsPackList.addAll(adapter.list);
-//						}
 					}else{
 						detail_sale.setVisibility(View.GONE);
 						lvGoodsTagList.setVisibility(View.GONE);
@@ -638,24 +693,18 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						if(resultModel.goodsTagsList.size()>0){
 							lvCategorysList.setVisibility(View.VISIBLE);
 							categorysAdapter.list.clear();
-							categorysAdapter.list.addAll(resultModel.goodsTagsList.get(0).categorys);
+							for(int k=0;k<resultModel.goodsTagsList.size();k++) {
+								if(resultModel.goodsId == resultModel.goodsTagsList.get(k).goodsId){
+									categorysAdapter.list.addAll(resultModel.goodsTagsList.get(k).categorys);
+								}
+							}
 							categorysAdapter.notifyDataSetChanged();
 						}else{
 							lvCategorysList.setVisibility(View.GONE);
 						}
 					}
 
-//					Utills.showShortToast(""+resultModel.goodsTagsList.size());
-//					payModelMember = resultModel;
-//					tv_sum_amount.setText("小计：¥" + payModel.payAmount);
-//					tvIncomeAmount.setText("应付金额：¥" + payModel.incomeAmount);
-//					tvDiscountAmount.setText("减免金额：¥" + payModel.discountAmount);
-//					tv_amount.setText("总计: ¥"+resultModel.incomeAmount);
-//                    if(payType == 2){
-//                        ScanPayManager.enterCaptureActivity(CarPayActivity.this,resultModel);
-//                    }else{
-//                        payGoodsOrder(resultModel.saleBillId , resultModel.saleBillId,"");
-//                    }
+
 					DisplayImageOptions mOption = new DisplayImageOptions.Builder()
 							.showImageOnLoading(R.drawable.food0)
 							.showImageOnFail(R.drawable.food0)
@@ -673,55 +722,16 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			@Override
 			public void onFail(String resultCode, String resultMsg, String hint) {
 //                lvCard.finishLoading(true);
-				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 			}
 
 			@Override
 			public void onError(String errorMsg) {
 //                lvCard.finishLoading(true);
-				pull_content.endRefresh(true);
+				pull_content.setRefreshing(false);
 			}
 		});
 	}
-
-//	public List<GoodTagList> getPackListData(List<GoodTagList> packList){
-//		List<GoodTagList> goodsPackList = new ArrayList<>();
-//		for(int i=0;i<packList.size();i++){
-//			boolean have = true;
-//			for(int j=0;j<goodsPackList.size();j++){
-//				if(packList.get(i).packGroupId == goodsPackList.get(j).packGroupId){
-//					have = false;
-//					if(goodsPackList.get(j).packList.size()==0){
-//						goodsPackList.get(j).packList.add(changeGoodTag(goodsPackList.get(j)));
-//						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
-//					}else{
-//						goodsPackList.get(j).packList.add(changeGoodTag(packList.get(i)));
-//					}
-//				}else{
-//					have = true;
-//				}
-//			}
-//			if(have)goodsPackList.add(packList.get(i));
-//		}
-//		return goodsPackList;
-//	}
-//
-//	public GoodTagList changeGoodTag(GoodTagList tag){
-//
-//		GoodTagList goodTag = new GoodTagList();
-//		goodTag.id = tag.id;
-//		goodTag.createTime = tag.createTime;
-//		goodTag.isSelect = tag.isSelect;
-//		goodTag.goodsId = tag.goodsId;
-//		goodTag.name = tag.name;
-//		goodTag.packPrice = tag.packPrice;
-//		goodTag.price = tag.price;
-//		goodTag.quantity = tag.quantity;
-//		goodTag.goodsTags = tag.goodsTags;
-//		goodTag.imageUrl = tag.imageUrl;
-//		goodTag.packGroupId = tag.packGroupId;
-//		return goodTag;
-//	}
 
 	private void addOneCar(FoodBean food) {
 		FoodBean foodBean = food.getFoodBean(food);
@@ -742,21 +752,42 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			FoodBean fb = flist.get(i);
 			if (fb.getId() == foodBean.getId()) {
 				if(foodBean.getGoodsPackList().size()>0){
-					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-						hasFood = false;
-					}else{
-						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-								hasPack = true;
+					boolean bl = false;
+					if(foodBean.getGoodsPackList().size() == fb.getGoodsPackList().size()){
+						for(int k=0;k<fb.getGoodsPackList().size();k++){
+							String fbStr = fb.getGoodsPackList().get(k).getTagsName();
+							String foodBeanStr = foodBean.getGoodsPackList().get(k).getTagsName();
+//							Log.e("----222",fbStr + ":" +foodBeanStr);
+							if(fb.getGoodsPackList().get(k).getGoodsId() != foodBean.getGoodsPackList().get(k).getGoodsId()){
+								bl = false;
+								break;
+							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && StringHelper.isEmpty(fbStr) && StringHelper.isEmpty(foodBeanStr)){
+								bl = true;
+							}else if(fb.getGoodsPackList().get(k).getGoodsId() == foodBean.getGoodsPackList().get(k).getGoodsId() && !StringHelper.isEmpty(fbStr) && !StringHelper.isEmpty(foodBeanStr)){
+								if(!fbStr.equals(foodBeanStr)){
+									bl = false;
+									break;
+								}else{
+									bl = true;
+								}
+
+							}else{
+								bl = false;
 								break;
 							}
 						}
+
+					}
+					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList()) || bl){
+						hasFood = true;
+						hasPack = true;
+						fb.setSelectCount(fb.getSelectCount()+1);
+						carAdapter.setData(i, fb);
+					}else{
 						if(hasPack){
-							hasFood = false;
-						}else{
 							hasFood = true;
-							fb.setSelectCount(fb.getSelectCount()+1);
-							carAdapter.setData(i, fb);
+						}else{
+							hasFood = false;
 						}
 					}
 				}else{
@@ -777,8 +808,6 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 				typeSelect.put(fb.getType(), fb.getSelectCount());
 			}
 			amount = amount.add(fb.getPrice().multiply(BigDecimal.valueOf(fb.getSelectCount())));
-
-
 		}
 		if (p >= 0) {
 			carAdapter.remove(p);
@@ -825,21 +854,16 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 			FoodBean fb = flist.get(i);
 			if (fb.getId() == foodBean.getId()) {
 				if(foodBean.getGoodsPackList().size()>0){
-					if(foodBean.getGoodsPackList().size()!=fb.getGoodsPackList().size()){
-						hasFood = false;
+					if(fb.getGoodsPackList().containsAll(foodBean.getGoodsPackList())){
+						hasFood = true;
+						hasPack = true;
+						fb.setSelectCount(fb.getSelectCount()-1);
+						carAdapter.setData(i, fb);
 					}else{
-						for(int j=0;j<foodBean.getGoodsPackList().size();j++){
-							if(foodBean.getGoodsPackList().get(j).getGoodsId()!=fb.getGoodsPackList().get(j).getGoodsId()){
-								hasPack = true;
-								break;
-							}
-						}
 						if(hasPack){
-							hasFood = false;
-						}else{
 							hasFood = true;
-							fb.setSelectCount(fb.getSelectCount()-1);
-							carAdapter.setData(i, fb);
+						}else{
+							hasFood = false;
 						}
 					}
 				}else{
@@ -847,7 +871,7 @@ public class DetailActivity extends BaseActivity implements AddWidget.OnAddClick
 						hasFood = false;
 					}else {
 						hasFood = true;
-						fb.setSelectCount(fb.getSelectCount() -1);
+						fb.setSelectCount(fb.getSelectCount() - 1);
 						carAdapter.setData(i, fb);
 					}
 				}

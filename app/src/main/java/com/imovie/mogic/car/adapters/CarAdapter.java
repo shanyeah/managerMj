@@ -35,7 +35,7 @@ public class CarAdapter extends BaseQuickAdapter<FoodBean, BaseViewHolder> {
 		AddWidget addWidget = helper.getView(R.id.car_addwidget);
 
 //		addWidget.setData(this, helper.getAdapterPosition(), onAddClick);
-		addWidget.setData(onAddClick,item);
+		addWidget.setData(onAddClick,item,2);
 		TextView car_tag_name = helper.getView(R.id.car_tag_name);
 		if(!StringHelper.isEmpty(item.getTagsName())) {
 			car_tag_name.setVisibility(View.VISIBLE);

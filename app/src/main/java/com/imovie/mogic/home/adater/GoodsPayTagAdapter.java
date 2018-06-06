@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.imovie.mogic.R;
 import com.imovie.mogic.car.bean.FoodTagList;
 import com.imovie.mogic.home.model.GoodTagList;
+import com.imovie.mogic.utills.StringHelper;
 
 import java.util.List;
 
@@ -48,12 +49,19 @@ public class GoodsPayTagAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.home_pay_tag_item, null);
             holder.tvGoodNum = (TextView) convertView.findViewById(R.id.tvGoodNum);
             holder.tvTypeName = (TextView) convertView.findViewById(R.id.tvTypeName);
+            holder.car_tag_name = (TextView) convertView.findViewById(R.id.car_tag_name);
 	  convertView.setTag(holder);
          } else {
             holder = (ViewHolder) convertView.getTag();
          }
-
         holder.tvTypeName.setText(list.get(position).getName());
+         if(StringHelper.isEmpty(list.get(position).getTagsName())){
+             holder.car_tag_name.setVisibility(View.INVISIBLE);
+         }else{
+             holder.car_tag_name.setVisibility(View.VISIBLE);
+             holder.car_tag_name.setText("("+list.get(position).getTagsName()+")");
+         }
+
         holder.tvGoodNum.setText("x"+list.get(position).getQuantity());
 //        if(list.get(position).isSelect){
 ////            holder.viewType.setVisibility(View.VISIBLE);
@@ -79,6 +87,7 @@ public class GoodsPayTagAdapter extends BaseAdapter {
     class ViewHolder {
         public TextView tvGoodNum;
         public TextView tvTypeName = null;
+        public TextView car_tag_name;
         public View viewType = null;
     }
 }

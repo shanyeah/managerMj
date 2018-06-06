@@ -195,6 +195,7 @@ public class MineFragment extends Fragment {
                         editor.commit();
                         Intent intent = new Intent(getActivity(),LoginActivity.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 });
                 dialog.show();

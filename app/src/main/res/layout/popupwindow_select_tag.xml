@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="380dp"
+              android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_line_bg1">
+        <ImageView
+            android:id="@+id/ivGoodImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:layout_centerVertical="true"
+            android:background="@drawable/food0"/>
+        <TextView
+            android:id="@+id/tvTagName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ivGoodImage"
+            android:padding="10dp"
+            android:text="选择口味"
+            android:textSize="16sp"
+            android:textColor="@color/T1"/>
+        <ImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/login_clear"/>
+    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            android:background="@drawable/bg_line_bg1">
+            <com.imovie.mogic.widget.NoScrollListView
+                android:id="@+id/lvCategorysList"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:visibility="visible"
+                android:divider="@null"/>
+            <Button
+                android:id="@+id/btOk"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:text="确定"
+                style="@style/text_16_white"
+                android:background="@drawable/select_bg11_bg1_r4"/>
+    </RelativeLayout>
+
+</LinearLayout>

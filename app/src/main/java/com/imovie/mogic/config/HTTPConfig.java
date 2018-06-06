@@ -243,7 +243,8 @@ public class HTTPConfig {
 //        data.append("&nonce=" + "265365");
 //        data.append("&sign=" + sign);
         data.append("?token=" + MyApplication.getInstance().mPref.getString("token",""));
-//        data.append("&token=" + MyApplication.getInstance().mPref.getString("userToken",""));
+        data.append("&ver=12");
+        data.append("&appId=10001");
 //        data.append("&lat=" + MyApplication.getInstance().getCoordinate().latitude);
 //        data.append("&lng=" + MyApplication.getInstance().getCoordinate().longitude);
 //        data.append("&appver=1-" + AppConfig.getVersionName()+"-12");

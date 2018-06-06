@@ -204,6 +204,9 @@
             android:name=".mine.attend.AttendMonthActivity"
             android:launchMode="singleTop"/>
         <activity
+            android:name=".mine.attend.AttendCalendarActivity"
+            android:launchMode="singleTop"/>
+        <activity
             android:name=".mine.attend.AttendAreaActivity"
             android:launchMode="singleTop"/>
         <activity

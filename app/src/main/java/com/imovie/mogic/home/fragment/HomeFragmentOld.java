@@ -42,6 +42,9 @@ import com.imovie.mogic.login.LoginActivity;
 import com.imovie.mogic.login.model.LoginModel;
 import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.mine.MapActivity;
+import com.imovie.mogic.mine.MyAttendActivity;
+import com.imovie.mogic.mine.attend.AttendCalendarActivity;
+import com.imovie.mogic.mine.attend.AttendMonthActivity;
 import com.imovie.mogic.myRank.widget.SpinerPopWindow;
 import com.imovie.mogic.utills.ACache;
 import com.imovie.mogic.utills.DecimalUtil;
@@ -347,10 +350,14 @@ public class HomeFragmentOld extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                if(classifyAdapter.getItem(position).code.equals("ATTEND_CARD")){
+                if(classifyAdapter.getItem(position).code.equals("ATTEND_CARD")){
 //                    Utills.showShortToast("暂未开放");
 //                    return;
-//                }
+                    Intent intent = new Intent(getContext(),AttendCalendarActivity.class);
+                    intent.putExtra("date","2018-06-06");
+                    startActivity(intent);
+                    return;
+                }
                 try {
                     Intent intent = new Intent(getContext(), SelectTypeActivity.class);
                     intent.putExtra("classifyModel", classifyAdapter.getItem(position));

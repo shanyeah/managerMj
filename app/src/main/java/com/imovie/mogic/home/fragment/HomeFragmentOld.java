@@ -345,13 +345,11 @@ public class HomeFragmentOld extends Fragment {
         gvClassification.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if(classifyAdapter.getItem(position).id==4){
-//                    WebViewManager.enterWebView(getContext(),classifyAdapter.getItem(position).url,false);
-//                }else {
-                if(classifyAdapter.getItem(position).code.equals("ATTEND_CARD")){
-                    Utills.showShortToast("暂未开放");
-                    return;
-                }
+
+//                if(classifyAdapter.getItem(position).code.equals("ATTEND_CARD")){
+//                    Utills.showShortToast("暂未开放");
+//                    return;
+//                }
                 try {
                     Intent intent = new Intent(getContext(), SelectTypeActivity.class);
                     intent.putExtra("classifyModel", classifyAdapter.getItem(position));

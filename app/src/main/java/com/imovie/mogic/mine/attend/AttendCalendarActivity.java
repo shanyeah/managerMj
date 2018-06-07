@@ -36,6 +36,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -147,19 +148,25 @@ public class AttendCalendarActivity extends AppCompatActivity implements OnCalen
         Button btBackDay  = (Button) findViewById(R.id.btBackDay);
         Button btNextDay  = (Button) findViewById(R.id.btNextDay);
         cl = Calendar.getInstance();
-        day = cl.get(Calendar.DATE);
+//        day = cl.get(Calendar.DATE);
         btBackDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utills.showShortToast(""+(day + 1));
-                cl.set(Calendar.DATE, day + 1);
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println("---当前日期："+sf.format(cl.getTime()));
+                cl.add(Calendar.DAY_OF_MONTH, -1);
+                System.out.println("---增加一天后日期 : "+sf.format(cl.getTime()));
+
             }
         });
 
         btNextDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utills.showShortToast("22");
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println("---当前日期："+sf.format(cl.getTime()));
+                cl.add(Calendar.DAY_OF_MONTH, 1);
+                System.out.println("---增加一天后日期 : "+sf.format(cl.getTime()));
             }
         });
 

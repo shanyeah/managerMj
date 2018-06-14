@@ -53,12 +53,12 @@ public class WeekCalendarView extends ViewPager implements OnWeekClickListener {
 
         @Override
         public void onPageSelected(final int position) {
-            WeekView weekView = mWeekAdapter.getViews().get(position);
-            if (weekView != null) {
+            WeeksView weeksView = mWeekAdapter.getViews().get(position);
+            if (weeksView != null) {
                 if (mOnCalendarClickListener != null) {
-                    mOnCalendarClickListener.onPageChange(weekView.getSelectYear(), weekView.getSelectMonth(), weekView.getSelectDay());
+                    mOnCalendarClickListener.onPageChange(weeksView.getSelectYear(), weeksView.getSelectMonth(), weeksView.getSelectDay());
                 }
-                weekView.clickThisWeek(weekView.getSelectYear(), weekView.getSelectMonth(), weekView.getSelectDay());
+                weeksView.clickThisWeek(weeksView.getSelectYear(), weeksView.getSelectMonth(), weeksView.getSelectDay());
             } else {
                 WeekCalendarView.this.postDelayed(new Runnable() {
                     @Override
@@ -83,7 +83,7 @@ public class WeekCalendarView extends ViewPager implements OnWeekClickListener {
         mOnCalendarClickListener = onCalendarClickListener;
     }
 
-    public SparseArray<WeekView> getWeekViews() {
+    public SparseArray<WeeksView> getWeekViews() {
         return mWeekAdapter.getViews();
     }
 
@@ -91,8 +91,16 @@ public class WeekCalendarView extends ViewPager implements OnWeekClickListener {
         return mWeekAdapter;
     }
 
-    public WeekView getCurrentWeekView() {
+    public WeeksView getCurrentWeekView() {
         return getWeekViews().get(getCurrentItem());
+    }
+
+    public void setCurrentWeekView(int year, int month, int day){
+        WeeksView weeksView = getCurrentWeekView();
+        weeksView.clickThisWeek(year,month,day);
+        if (mOnCalendarClickListener != null) {
+            mOnCalendarClickListener.onPageChange(year,month,day);
+        }
     }
 
 }

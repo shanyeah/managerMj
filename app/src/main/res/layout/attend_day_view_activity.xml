@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+
+    <TextView
+        android:id="@+id/tvClockTime"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:text="2018.06"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:maxEms="15"
+        android:gravity="center"
+        android:drawableRight="@drawable/icon_down"
+        android:drawablePadding="5dp"
+        style="@style/text_12_white"/>
+
+    <LinearLayout
+        android:id="@+id/ll_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:orientation="vertical">
+
+        <com.imovie.mogic.calendar.week.WeekHeaderView
+            android:id="@+id/mcvWeekCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:firstDayOfWeek2="sunday"
+            app:headerBackgroundColor="#ffffff"
+            app:headerDayLabelNormalTextColor="@color/T2"
+            app:headerDayLabelTextSize="20sp"
+            app:headerDayLabelTodayTextColor="@android:color/holo_red_dark"
+            app:headerFocusBackgroundColor="@color/BG7"
+            app:headerFocusSameDayBackgroundColor="@color/BG2"
+            app:headerFocusSameDayTextColor="@color/T7"
+            app:headerFocusTextColor="@color/T7"
+            app:headerPaddingTop="20dp"
+            app:headerRowGap="40dp"
+            app:headerWeekLabelTextColor="@color/T2"
+            app:headerWeekLabelTextSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/L1"/>
+
+        <com.imovie.mogic.calendar.week.WeekDayView
+            android:id="@+id/weekdayview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/weekheaderview"
+            android:visibility="visible"
+            app:columnGap="8dp"
+            app:dayBackgroundColor="#ffffffff"
+            app:eventTextColor="@android:color/white"
+            app:headerColumnBackground="#ffffffff"
+            app:headerColumnPadding="8dp"
+            app:headerColumnTextColor="#8f000000"
+            app:headerRowBackgroundColor="#465a65"
+            app:headerRowPadding="12dp"
+            app:hourHeight="60dp"
+            app:noOfVisibleDays="1"
+            app:textSize="12sp"
+            app:todayBackgroundColor="#1848adff"
+            app:todayHeaderTextColor="#2789e4" />
+
+    </LinearLayout>
+
+</RelativeLayout>

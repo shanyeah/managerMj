@@ -16,7 +16,7 @@ import org.joda.time.DateTime;
  */
 public class WeekAdapter extends PagerAdapter {
 
-    private SparseArray<WeekView> mViews;
+    private SparseArray<WeeksView> mViews;
     private Context mContext;
     private TypedArray mArray;
     private WeekCalendarView mWeekCalendarView;
@@ -63,7 +63,7 @@ public class WeekAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public SparseArray<WeekView> getViews() {
+    public SparseArray<WeeksView> getViews() {
         return mViews;
     }
 
@@ -71,14 +71,14 @@ public class WeekAdapter extends PagerAdapter {
         return mWeekCount;
     }
 
-    public WeekView instanceWeekView(int position) {
-        WeekView weekView = new WeekView(mContext, mArray, mStartDate.plusWeeks(position - mWeekCount / 2));
-        weekView.setId(position);
-        weekView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        weekView.setOnWeekClickListener(mWeekCalendarView);
-        weekView.invalidate();
-        mViews.put(position, weekView);
-        return weekView;
+    public WeeksView instanceWeekView(int position) {
+        WeeksView weeksView = new WeeksView(mContext, mArray, mStartDate.plusWeeks(position - mWeekCount / 2));
+        weeksView.setId(position);
+        weeksView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        weeksView.setOnWeekClickListener(mWeekCalendarView);
+        weeksView.invalidate();
+        mViews.put(position, weeksView);
+        return weeksView;
     }
 
 }

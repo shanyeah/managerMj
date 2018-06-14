@@ -18,7 +18,7 @@ import com.imovie.mogic.calendar.OnCalendarClickListener;
 import com.imovie.mogic.calendar.month.MonthCalendarView;
 import com.imovie.mogic.calendar.month.MonthView;
 import com.imovie.mogic.calendar.week.WeekCalendarView;
-import com.imovie.mogic.calendar.week.WeekView;
+import com.imovie.mogic.calendar.week.WeeksView;
 
 import org.joda.time.DateTime;
 
@@ -170,14 +170,14 @@ public class ScheduleLayout extends FrameLayout {
     }
 
     private void resetWeekView(int position) {
-        WeekView weekView = wcvCalendar.getCurrentWeekView();
-        if (weekView != null) {
-            weekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
-            weekView.invalidate();
+        WeeksView weeksView = wcvCalendar.getCurrentWeekView();
+        if (weeksView != null) {
+            weeksView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+            weeksView.invalidate();
         } else {
-            WeekView newWeekView = wcvCalendar.getWeekAdapter().instanceWeekView(position);
-            newWeekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
-            newWeekView.invalidate();
+            WeeksView newWeeksView = wcvCalendar.getWeekAdapter().instanceWeekView(position);
+            newWeeksView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+            newWeeksView.invalidate();
             wcvCalendar.setCurrentItem(position);
         }
         if (mOnCalendarClickListener != null) {
@@ -424,9 +424,9 @@ public class ScheduleLayout extends FrameLayout {
     }
 
     private void checkWeekCalendar() {
-        WeekView weekView = wcvCalendar.getCurrentWeekView();
-        DateTime start = weekView.getStartDate();
-        DateTime end = weekView.getEndDate();
+        WeeksView weeksView = wcvCalendar.getCurrentWeekView();
+        DateTime start = weeksView.getStartDate();
+        DateTime end = weeksView.getEndDate();
         DateTime current = new DateTime(mCurrentSelectYear, mCurrentSelectMonth + 1, mCurrentSelectDay, 23, 59, 59);
         int week = 0;
         while (current.getMillis() < start.getMillis()) {
@@ -446,9 +446,9 @@ public class ScheduleLayout extends FrameLayout {
                 wcvCalendar.getWeekViews().get(position).setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
                 wcvCalendar.getWeekViews().get(position).invalidate();
             } else {
-                WeekView newWeekView = wcvCalendar.getWeekAdapter().instanceWeekView(position);
-                newWeekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
-                newWeekView.invalidate();
+                WeeksView newWeeksView = wcvCalendar.getWeekAdapter().instanceWeekView(position);
+                newWeeksView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+                newWeeksView.invalidate();
             }
             wcvCalendar.setCurrentItem(position, false);
         }

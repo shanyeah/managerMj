@@ -17,6 +17,8 @@ import com.imovie.mogic.R;
 import com.imovie.mogic.calendar.OnCalendarClickListener;
 import com.imovie.mogic.calendar.month.MonthCalendarView;
 import com.imovie.mogic.calendar.month.MonthView;
+import com.imovie.mogic.calendar.week.WeekCalendarView;
+import com.imovie.mogic.calendar.week.WeekHeaderView;
 import com.imovie.mogic.mine.adapter.ClockAdapter;
 import com.imovie.mogic.mine.attend.model.AttendDatesModel;
 import com.imovie.mogic.mine.attend.model.MonthDayModel;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AttendCalendarActivity extends AppCompatActivity implements OnCalendarClickListener {
 
@@ -73,6 +76,7 @@ public class AttendCalendarActivity extends AppCompatActivity implements OnCalen
 
     public Calendar cl;
     public int day;
+    public WeekHeaderView mcvWeekCalendar;
 
 
     @Override
@@ -145,30 +149,8 @@ public class AttendCalendarActivity extends AppCompatActivity implements OnCalen
 
         ImageLoader.getInstance().displayImage(MyApplication.getInstance().mPref.getString("fackeImageUrl",""),profile,mOption);
 
-        Button btBackDay  = (Button) findViewById(R.id.btBackDay);
-        Button btNextDay  = (Button) findViewById(R.id.btNextDay);
-        cl = Calendar.getInstance();
-//        day = cl.get(Calendar.DATE);
-        btBackDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-                System.out.println("---当前日期："+sf.format(cl.getTime()));
-                cl.add(Calendar.DAY_OF_MONTH, -1);
-                System.out.println("---增加一天后日期 : "+sf.format(cl.getTime()));
 
-            }
-        });
 
-        btNextDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-                System.out.println("---当前日期："+sf.format(cl.getTime()));
-                cl.add(Calendar.DAY_OF_MONTH, 1);
-                System.out.println("---增加一天后日期 : "+sf.format(cl.getTime()));
-            }
-        });
 
     }
 
@@ -195,6 +177,8 @@ public class AttendCalendarActivity extends AppCompatActivity implements OnCalen
         }
 
     }
+
+
 
     @Override
     public void onClickDate(int year, int month, int day) {

@@ -1,0 +1,138 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:background="@color/white">
+    <com.imovie.mogic.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </com.imovie.mogic.widget.TitleBar>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/title_bar"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/etTitleName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/tvTitleState"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:hint="请输入事件标题"
+                    style="@style/text_16_T2" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1"/>
+                <EditText
+                    android:id="@+id/etRecordContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_toRightOf="@+id/tvTitleState"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:hint="请输入事件内容"
+                    style="@style/text_16_T2" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tvNameState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_centerVertical="true"
+                        android:text="开始时间"
+                        style="@style/text_16_T1" />
+                    <TextView
+                        android:id="@+id/tvStartTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="10dp"
+                        android:text="2018.06"
+                        android:padding="10dp"
+                        android:layout_alignParentRight="true"
+                        android:lines="1"
+                        android:ellipsize="end"
+                        android:maxEms="15"
+                        android:gravity="center"
+                        android:drawableRight="@drawable/icon_down"
+                        android:drawablePadding="5dp"
+                        style="@style/text_16_T2"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tvShortDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_centerVertical="true"
+                        android:text="结束时间"
+                        style="@style/text_16_T1" />
+                    <TextView
+                        android:id="@+id/tvEndTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="10dp"
+                        android:text="2018.06"
+                        android:padding="10dp"
+                        android:layout_alignParentRight="true"
+                        android:lines="1"
+                        android:ellipsize="end"
+                        android:maxEms="15"
+                        android:gravity="center"
+                        android:drawableRight="@drawable/icon_down"
+                        android:drawablePadding="5dp"
+                        style="@style/text_16_T2"/>
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/L1"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+                    <Button
+                        android:id="@+id/btCommitImage"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="25dp"
+                        android:background="@drawable/select_bg7_bg1_r15"
+                        android:text="提交"
+                        style="@style/text_16_white"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+</RelativeLayout>

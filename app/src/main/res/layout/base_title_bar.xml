@@ -57,8 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:padding="6dp"
-                style="@style/text_16_T2"/>
+                style="@style/text_16_white"/>
             <ImageView
                 android:id="@+id/ivNavRight"
                 android:layout_width="wrap_content"

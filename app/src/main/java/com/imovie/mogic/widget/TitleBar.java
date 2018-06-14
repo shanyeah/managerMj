@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.imovie.mogic.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 
 

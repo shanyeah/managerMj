@@ -44,6 +44,7 @@ import com.imovie.mogic.login.model.TestModel;
 import com.imovie.mogic.mine.MapActivity;
 import com.imovie.mogic.mine.MyAttendActivity;
 import com.imovie.mogic.mine.attend.AttendCalendarActivity;
+import com.imovie.mogic.mine.attend.AttendDayViewActivity;
 import com.imovie.mogic.mine.attend.AttendMonthActivity;
 import com.imovie.mogic.myRank.widget.SpinerPopWindow;
 import com.imovie.mogic.utills.ACache;
@@ -353,7 +354,7 @@ public class HomeFragmentOld extends Fragment {
                 if(classifyAdapter.getItem(position).code.equals("ATTEND_CARD")){
 //                    Utills.showShortToast("暂未开放");
 //                    return;
-                    Intent intent = new Intent(getContext(),AttendCalendarActivity.class);
+                    Intent intent = new Intent(getContext(),AttendDayViewActivity.class);
                     intent.putExtra("date","2018-06-06");
                     startActivity(intent);
                     return;

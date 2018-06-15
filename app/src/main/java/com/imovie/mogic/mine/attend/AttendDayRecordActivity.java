@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.base.universal_loading.YSBLoadingDialog;
+import com.imovie.mogic.calendar.week.WeekViewEvent;
 import com.imovie.mogic.config.AppConfig;
 import com.imovie.mogic.config.HTTPConfig;
 import com.imovie.mogic.home.BaseActivity;
@@ -71,11 +72,20 @@ public class AttendDayRecordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attend_day_record_activity);
-        long time = getIntent().getLongExtra("time",0);
-        startTime = DateUtil.TimeFormat(time,"yyyy-MM-dd HH:mm");
-        endTime = DateUtil.TimeFormat(time + 3600000,"yyyy-MM-dd HH:mm");
         initView();
         setView();
+        if(getIntent().getIntExtra("selectTime",0)==2){
+            long time = getIntent().getLongExtra("time", 0);
+            startTime = DateUtil.TimeFormat(time, "yyyy-MM-dd HH:mm");
+            endTime = DateUtil.TimeFormat(time + 3600000, "yyyy-MM-dd HH:mm");
+        }else{
+            WeekViewEvent event = (WeekViewEvent)getIntent().getSerializableExtra("event");
+            long stime = event.getStartTime().getTimeInMillis();
+            long etime = event.getEndTime().getTimeInMillis();
+            startTime = DateUtil.TimeFormat(stime, "yyyy-MM-dd HH:mm");
+            endTime = DateUtil.TimeFormat(etime, "yyyy-MM-dd HH:mm");
+            etTitleName.setText(event.getName());
+        }
         initDatePicker();
         initListener();
 

@@ -419,6 +419,10 @@ public class AttendDayViewActivity extends AppCompatActivity implements WeekDayV
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
 //        Toast.makeText(MainActivity.this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AttendDayViewActivity.this,AttendDayRecordActivity.class);
+        intent.putExtra("selectTime",1);
+        intent.putExtra("event",event);
+        startActivity(intent);
     }
 
     @Override
@@ -433,6 +437,7 @@ public class AttendDayViewActivity extends AppCompatActivity implements WeekDayV
         Intent intent = new Intent(AttendDayViewActivity.this,AttendDayRecordActivity.class);
 //        intent.putExtra("time",sf.format(cl.getTime()));
         intent.putExtra("time",time.getTimeInMillis());
+        intent.putExtra("selectTime",2);
         startActivity(intent);
 //        Toast.makeText(MainActivity.this, "Empty View clicked " + time.get(Calendar.YEAR) + "/" + time.get(Calendar.MONTH) + "/" + time.get(Calendar.DAY_OF_MONTH), Toast.LENGTH_LONG).show();
 

@@ -2,6 +2,7 @@ package com.imovie.mogic.web.http;
 
 import android.util.Log;
 
+import com.imovie.mogic.BuildConfig;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.dbbase.model.CoreFuncReturn;
@@ -139,7 +140,7 @@ public class HttpHelper extends BaseHttpHelper {
                                     httpURLConnection.setDoOutput(false);
                                     httpURLConnection.setRequestMethod(Constant.METHOD_GET);
                                     int respondCode = httpURLConnection.getResponseCode();
-                                    if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                                    if ("true".equals(BuildConfig.DEBUG_LOG)) {
                                         System.out.print("\n---接口返回respondCode：" + respondCode);
                                     }
                                     if (respondCode == HttpURLConnection.HTTP_OK) {
@@ -210,7 +211,7 @@ public class HttpHelper extends BaseHttpHelper {
                                     bufferedWriter.close();
                                     os.close();
                                     int respondCode = httpURLConnection.getResponseCode();
-                                    if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                                    if ("true".equals(BuildConfig.DEBUG_LOG)) {
                                         System.out.print("\n---接口返回respondCode：" + respondCode);
                                     }
                                     if (respondCode == HttpURLConnection.HTTP_OK) {
@@ -236,7 +237,7 @@ public class HttpHelper extends BaseHttpHelper {
                                         result = CompressUtil.deCompress(bos.toByteArray());
 //                           result = changeInputStream(is, "UTF-8", true);
 
-                                        if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                                        if ("true".equals(BuildConfig.DEBUG_LOG)) {
                                             System.out.print("\n接口返回结果：");
                                             System.out.print("\n"+ JsonFormatter.format(result));
                                             System.out.print("\n###################################################");

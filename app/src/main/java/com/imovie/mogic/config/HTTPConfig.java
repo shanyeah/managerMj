@@ -1,6 +1,7 @@
 package com.imovie.mogic.config;
 
 
+import com.imovie.mogic.BuildConfig;
 import com.imovie.mogic.MyApplication;
 
 /**
@@ -12,14 +13,14 @@ public class HTTPConfig {
 //    public final static String do_main = "http://api.liandaxia.com/";
     public final static String do_main1 = "http://api.liandaxia.com";
     /* 测试地址*/
-    public final static String do_main = "http://local.api.liandaxia.com/";
+//    public final static String do_main = "http://local.api.liandaxia.com/";
 //    public final static String do_main1 = "http://www.liandaxia.com";
 
     /* 正式地址*/
 //    public final static String do_main = "http://api.mjdj.cn/";
     /* 测试地址*/
 //    public final static String do_main = "http://local.imp.mjdj.cn/";
-
+    public final static String do_main = BuildConfig.API_URL;
 
     /* 登录*/
     public final static String url_login = do_main + "clerk/login.do";

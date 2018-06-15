@@ -3,6 +3,7 @@ package com.imovie.mogic.web;
 import android.os.Handler;
 import android.os.Message;
 
+import com.imovie.mogic.BuildConfig;
 import com.imovie.mogic.MyApplication;
 import com.imovie.mogic.R;
 import com.imovie.mogic.dbbase.model.BaseModel;
@@ -84,7 +85,7 @@ public abstract class BaseWebHelper extends BaseObject {
                 helper = new HttpHelper(Url, type);
             }
             helper.setRequestParam(paramMap);
-            if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+            if ("true".equals(BuildConfig.DEBUG_LOG)) {
                 logMsg("----调用接口URL是：" + Url + "。 参数是：" + paramMap.toString());
             }
 
@@ -92,7 +93,7 @@ public abstract class BaseWebHelper extends BaseObject {
                 @Override
                 public void onResult(CoreFuncReturn result) {
 //                    logMsg("调用接口URL是：" + Url + "。 返回结果：" + JsonFormatter.format(result.tag + ""));
-                    if ("true".equals(MyApplication.getInstance().getResources().getString(R.string.open_log))) {
+                    if ("true".equals(BuildConfig.DEBUG_LOG)) {
                     logMsg("---调用接口URL是：" + Url + "。 返回结果：" + result.tag + "");
                     }
                     if (result.isOK) {

@@ -13,16 +13,19 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.imovie.liandaxia"
+//        applicationId "com.imovie.liandaxia"
 //        applicationId "com.imovie.mogic"
 //        applicationId "com.imovie.mogicDingCan"
+
         minSdkVersion 19
         targetSdkVersion 26
         multiDexEnabled true
+        flavorDimensions "versionCode"
     }
 
     buildTypes {
         release {
+            buildConfigField("boolean", "DEBUG_LOG", "false")
             minifyEnabled false // 是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             manifestPlaceholders = [baidu_api_key: "BSEpgfZqPzlqYRDeV3mwASNOccT27YpN"]
@@ -30,11 +33,13 @@ android {
             signingConfig signingConfigs.android
         }
         debug {
+            buildConfigField("boolean", "DEBUG_LOG", "true")
             manifestPlaceholders = [baidu_api_key: "BSEpgfZqPzlqYRDeV3mwASNOccT27YpN"]
             //ZXQ4ctLsy2cvw9XzEXK76oiHsZaC8yTs  5BWZTprd1cUdIN14GIQFHKk0Oz4FKy4W  YgyolAcugIUUpqHGKz0Pn0bXGrBlGrKV a2glbTjs7qX1ydWPOqZQlkC3VQGX17pi
             signingConfig signingConfigs.android
         }
     }
+
 
     lintOptions {
         checkReleaseBuilds false
@@ -57,6 +62,20 @@ android {
             include 'armeabi-v7a'
             exclude 'x86', 'x86-64', "armeabi"
             universalApk true
+        }
+    }
+
+    productFlavors {
+        badu {
+            applicationId "com.imovie.liandaxia"
+            buildConfigField 'String', 'API_URL','"http://api.liandaxia.com/"'
+            resValue "string","app_name","链大侠管家"
+        }
+        qq {
+            applicationId "com.imovie.liandaxia.test"
+            buildConfigField 'String','API_URL', '"http://local.api.liandaxia.com/"'
+            resValue "string","app_name","链大侠测试"
+
         }
     }
 
